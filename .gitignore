@@ -1,0 +1,22 @@
+﻿# Secrets
+.env
+*.env
+**/.env
+**/*.env
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.pyc
+
+# Demo artifacts (keep structure, ignore noise)
+dropbox/*.txt
+dropbox/_processed/*
+AI_Employee_Vault/Inbox/*
+AI_Employee_Vault/Needs_Action/TASK_FILE_*
+AI_Employee_Vault/Done/SUMMARY_*

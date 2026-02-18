@@ -1,0 +1,117 @@
+
+import time
+import shutil
+from pathlib import Path
+from datetime import datetime, timezone
+
+from watchdog.observers import Observer
+from watchdog.events import FileSystemEventHandler
+
+
+def iso_utc_now() -> str:
+    return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+
+
+class DropHandler(FileSystemEventHandler):
+    def __init__(self, drop_dir: Path, needs_action_dir: Path, processed_dir: Path):
+        self.drop_dir = drop_dir
+        self.needs_action_dir = needs_action_dir
+        self.processed_dir = processed_dir
+
+    def on_created(self, event):
+        if event.is_directory:
+            return
+
+        src = Path(event.src_path)
+
+        # Ignore temp/partial files
+        if src.name.startswith("~") or src.suffix.lower() in [".tmp", ".part", ".crdownload"]:
+            return
+
+        # Wait briefly to ensure file write is complete
+        for _ in range(10):
+            try:
+                size1 = src.stat().st_size
+                time.sleep(0.2)
+                size2 = src.stat().st_size
+                if size1 == size2:
+                    break
+            except FileNotFoundError:
+                return
+
+        ts = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+        task_id = f"drop-{ts}"
+        safe_name = src.name.replace(" ", "_")
+
+        # Copy original into _processed (keeps dropbox clean + preserves artifact)
+        self.processed_dir.mkdir(parents=True, exist_ok=True)
+        copied = self.processed_dir / f"{ts}_{safe_name}"
+        shutil.copy2(src, copied)
+
+        # Create task markdown in Needs_Action
+        self.needs_action_dir.mkdir(parents=True, exist_ok=True)
+        task_file = self.needs_action_dir / f"TASK_{task_id}.md"
+
+        if task_file.exists():
+            # Deterministic: never overwrite
+            return
+
+        content = f"""---
+task_id: "{task_id}"
+source: "filesystem_drop"
+created_at: "{iso_utc_now()}"
+status: "needs_action"
+original_file: "{copied.as_posix()}"
+---
+
+# New file drop detected
+
+A file was dropped into the dropbox folder.
+
+## File
+- Name: {src.name}
+- Copied to: {copied.as_posix()}
+
+## Requested action
+- Review this file and decide next steps.
+"""
+        task_file.write_text(content, encoding="utf-8")
+
+
+def main():
+    project_root = Path(__file__).resolve().parents[1]
+    vault = project_root / "AI_Employee_Vault"
+
+    drop_dir = project_root / "dropbox"
+    processed_dir = drop_dir / "_processed"
+    needs_action_dir = vault / "Needs_Action"
+
+    # Guards
+    if not vault.exists():
+        raise SystemExit(f"STOP: AI_Employee_Vault missing at: {vault}")
+    drop_dir.mkdir(parents=True, exist_ok=True)
+    processed_dir.mkdir(parents=True, exist_ok=True)
+    needs_action_dir.mkdir(parents=True, exist_ok=True)
+
+    handler = DropHandler(drop_dir, needs_action_dir, processed_dir)
+    observer = Observer()
+    observer.schedule(handler, str(drop_dir), recursive=False)
+    observer.start()
+
+    print(f"[OK] Filesystem watcher running")
+    print(f"     watching: {drop_dir}")
+    print(f"     writes:   {needs_action_dir}")
+    print(f"     copies:   {processed_dir}")
+    print("Press Ctrl+C to stop.")
+
+    try:
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        observer.stop()
+
+    observer.join()
+
+
+if __name__ == "__main__":
+    main()

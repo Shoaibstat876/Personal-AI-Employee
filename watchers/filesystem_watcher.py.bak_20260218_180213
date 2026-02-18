@@ -1,0 +1,166 @@
+﻿from __future__ import annotations
+
+import os
+import shutil
+import time
+from datetime import datetime, timezone
+from pathlib import Path
+
+from watchdog.observers import Observer
+from watchdog.events import FileSystemEventHandler
+
+
+# =========================
+# SILVER FILESYSTEM WATCHER
+# =========================
+# Watches:   ./dropbox  (excluding ./dropbox/_processed)
+# Produces:  ./AI_Employee_Vault/Needs_Action/TASK_drop-<ts>Z.md
+# Archives:  ./dropbox/_processed/<ts>Z_<original_name>
+# Logs:      ./AI_Employee_Vault/Logs/watcher_filesystem_log.md (append-only)
+#
+# Non-interactive safe. No network. No MCP. No Claude.
+# Deterministic naming. Minimal surface area.
+
+
+def iso_utc_compact() -> str:
+    # Example: 20260218T121506Z
+    return datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+
+
+def iso_utc() -> str:
+    # Example: 2026-02-18T17:31:24Z
+    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def safe_name(name: str) -> str:
+    # Keep filename safe and stable
+    return "".join(c if c.isalnum() or c in ("-", "_", ".", " ") else "_" for c in name).strip()
+
+
+class DropHandler(FileSystemEventHandler):
+    def __init__(self, project_root: Path) -> None:
+        self.project_root = project_root
+
+        self.dropbox = self.project_root / "dropbox"
+        self.processed = self.dropbox / "_processed"
+
+        self.vault = self.project_root / "AI_Employee_Vault"
+        self.needs_action = self.vault / "Needs_Action"
+        self.logs = self.vault / "Logs"
+        self.log_file = self.logs / "watcher_filesystem_log.md"
+
+        # Ensure required folders exist (safe to create)
+        self.processed.mkdir(parents=True, exist_ok=True)
+        self.needs_action.mkdir(parents=True, exist_ok=True)
+        self.logs.mkdir(parents=True, exist_ok=True)
+        self.log_file.touch(exist_ok=True)
+
+    def log(self, msg: str) -> None:
+        line = f"{iso_utc()} | FILE_WATCHER | {msg}"
+        with self.log_file.open("a", encoding="utf-8") as f:
+            f.write(line + "\n")
+
+    def should_ignore(self, path: Path) -> bool:
+        # Ignore directories
+        if path.is_dir():
+            return True
+
+        # Ignore anything inside _processed
+        try:
+            path.resolve().relative_to(self.processed.resolve())
+            return True
+        except Exception:
+            pass
+
+        # Ignore temp/partial files
+        n = path.name.lower()
+        if n.endswith(".tmp") or n.endswith(".part") or n.endswith(".crdownload"):
+            return True
+
+        return False
+
+    def on_created(self, event):
+        src = Path(event.src_path)
+
+        if self.should_ignore(src):
+            return
+
+        # Only react to files created directly under dropbox (any depth is OK),
+        # but still ignore _processed subtree (already handled).
+        try:
+            src.resolve().relative_to(self.dropbox.resolve())
+        except Exception:
+            return
+
+        # Small delay so editors finish writing file
+        time.sleep(0.2)
+
+        # Timestamp used across both outputs to tie together
+        ts = iso_utc_compact()
+
+        original_name = safe_name(src.name)
+        archived_name = f"{ts}_{original_name}"
+
+        archived_path = self.processed / archived_name
+        task_name = f"TASK_drop-{ts}.md"
+        task_path = self.needs_action / task_name
+
+        # If already processed (rare race), do nothing
+        if archived_path.exists() or task_path.exists():
+            self.log(f"DEDUP_SKIP | src={src} archived={archived_path.name} task={task_name}")
+            return
+
+        # Archive file into _processed (copy + leave original as-is is safer during hackathon)
+        shutil.copy2(src, archived_path)
+
+        # Create task markdown in Needs_Action
+        task_md = f"""---
+type: file_drop
+source: dropbox
+source_file: "{original_name}"
+archived_file: "{archived_path.name}"
+created_at: "{iso_utc()}"
+status: needs_action
+---
+
+# New File Drop
+
+A new file was detected in `dropbox/`.
+
+## What arrived
+- Original: `{original_name}`
+- Archived: `dropbox/_processed/{archived_path.name}`
+
+## Next action (manual)
+- Review the file and decide next steps.
+"""
+
+        task_path.write_text(task_md, encoding="utf-8")
+
+        # Append-only proof log entry
+        self.log(f"PROOF | created {task_name} from dropbox\\{original_name} and archived to dropbox\\_processed\\{archived_path.name}")
+
+
+def main() -> None:
+    project_root = Path(__file__).resolve().parents[1]
+    handler = DropHandler(project_root)
+
+    watch_dir = handler.dropbox
+    handler.log(f"START | watching={watch_dir}")
+
+    observer = Observer()
+    observer.schedule(handler, str(watch_dir), recursive=True)
+    observer.start()
+
+    try:
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        handler.log("STOP | keyboard_interrupt")
+    finally:
+        observer.stop()
+        observer.join()
+
+
+if __name__ == "__main__":
+    main()

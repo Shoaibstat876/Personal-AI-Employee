@@ -1,0 +1,120 @@
+✅ Step-by-step “Teacher Proof” Script (use exactly)
+STEP 0 — Preflight (record screen)
+
+Goal: show folder structure + key files exist.
+
+cd "D:\Shoaib Project\Personal-AI-Employee"
+
+dir .\watchers
+dir .\dropbox
+dir .\dropbox\_processed
+dir .\AI_Employee_Vault
+dir .\AI_Employee_Vault\Needs_Action
+dir .\AI_Employee_Vault\Logs
+dir .\AI_Employee_Vault\Decisions
+
+Get-Content .\AI_Employee_Vault\Decisions\FILESYSTEM_WATCHER_DEDUP_CONTRACT.md
+
+
+📸 Evidence screenshot: terminal output + file exists.
+
+STEP 1 — Watcher Health Check (record screen)
+
+Goal: prove watchers are running (Task Scheduler).
+
+schtasks.exe /Query /TN "PersonalAIEmployee_Watcher_Filesystem" /V /FO LIST | findstr /i "TaskName Status Last Run Time Last Result Task To Run"
+schtasks.exe /Query /TN "PersonalAIEmployee_Watcher_VaultHealth" /V /FO LIST | findstr /i "TaskName Status Last Run Time Last Result Task To Run"
+
+
+📸 Evidence: both show Status: Running.
+
+STEP 2 — Functional Test: Drop → Task Created
+
+Goal: show end-to-end: dropbox → Needs_Action + archive.
+
+cd "D:\Shoaib Project\Personal-AI-Employee"
+
+"silver functional test" | Set-Content -Encoding UTF8 .\dropbox\video_proof_1.txt
+Start-Sleep -Seconds 2
+
+Get-ChildItem .\AI_Employee_Vault\Needs_Action -File | Sort-Object LastWriteTime -Descending | Select-Object -First 3 Name,LastWriteTime,Length
+Get-ChildItem .\dropbox\_processed -File | Sort-Object LastWriteTime -Descending | Select-Object -First 5 Name,LastWriteTime,Length
+Get-Content .\AI_Employee_Vault\Logs\watcher_filesystem_log.md -Tail 10
+
+
+📸 Evidence: new TASK_drop-*.md, new archived file, log shows PROCESSED.
+
+STEP 3 — Dedup Test: Same Content Twice
+
+Goal: prove SHA256 dedup works (only 1 task).
+
+cd "D:\Shoaib Project\Personal-AI-Employee"
+
+"DEDUP SAME CONTENT" | Set-Content -Encoding UTF8 .\dropbox\dedup_video_a.txt
+Start-Sleep -Seconds 2
+"DEDUP SAME CONTENT" | Set-Content -Encoding UTF8 .\dropbox\dedup_video_b.txt
+Start-Sleep -Seconds 2
+
+Get-Content .\AI_Employee_Vault\Logs\watcher_filesystem_log.md -Tail 20
+Get-Content .\AI_Employee_Vault\Logs\filesystem_watcher_state.json -Raw
+
+
+📸 Evidence: log shows one PROCESSED + one DEDUP_SKIP, and state json contains sha entry.
+
+STEP 4 — Vault Health Watcher Proof
+
+Goal: show watcher is enforcing vault contract.
+
+cd "D:\Shoaib Project\Personal-AI-Employee"
+Get-Content .\AI_Employee_Vault\Logs\watcher_vault_health_log.md -Tail 20
+
+
+📸 Evidence: repeated PASS | all_required_folders_present.
+
+STEP 5 — Show sample task file (human-in-loop)
+
+Goal: show the watcher output is readable and manual.
+
+cd "D:\Shoaib Project\Personal-AI-Employee"
+Get-ChildItem .\AI_Employee_Vault\Needs_Action -File | Sort-Object LastWriteTime -Descending | Select-Object -First 1 | ForEach-Object { Get-Content $_.FullName }
+
+
+📸 Evidence: show YAML header + “Next action (manual)” section.
+
+-------------------------------------------------------------------------------------
+Final Section:
+1) Capture evidence screenshots (teacher-proof)
+
+Take screenshots of these outputs (one by one):
+
+A) Branch + tag proof
+git branch --show-current
+git log -1 --oneline
+git tag
+
+B) Watchers running in Task Scheduler
+schtasks.exe /Query /TN "PersonalAIEmployee_Watcher_Filesystem" /V /FO LIST | findstr /i "TaskName Status Last Run Time Last Result Task To Run"
+schtasks.exe /Query /TN "PersonalAIEmployee_Watcher_VaultHealth" /V /FO LIST | findstr /i "TaskName Status Last Run Time Last Result Task To Run"
+
+C) Proof logs + dedup
+Get-Content ".\AI_Employee_Vault\Logs\watcher_filesystem_log.md" -Tail 30
+Get-Content ".\AI_Employee_Vault\Logs\filesystem_watcher_state.json" -Raw
+Get-Content ".\AI_Employee_Vault\Logs\watcher_vault_health_log.md" -Tail 20
+
+2) Make the README teacher-perfect (1 quick fix)
+
+Right now your repo has AI_Employee_Vault/Readme.md.
+Teachers usually expect root README.md.
+
+Do this:
+
+cd "D:\Shoaib Project\Personal-AI-Employee"
+
+Copy-Item ".\AI_Employee_Vault\Readme.md" ".\README.md" -Force
+
+git add README.md
+git commit -m "Add root README for teacher"
+git push
+git tag -f -a silver-v1 -m "Silver tier frozen: watchers + scheduling + dedup + logs (README at root)"
+git push --force --tags
+

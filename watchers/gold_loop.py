@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import Any, Dict
 
 from gold_stop_hook import should_stop
+from gold_scan import list_needs_action_tasks
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -35,7 +36,6 @@ def load_state() -> Dict[str, Any]:
             "last_scan_time": None,
             "updated_at": None,
         }
-    # tolerate BOM if present
     raw = STATE_FILE.read_text(encoding="utf-8-sig")
     return json.loads(raw)
 
@@ -52,11 +52,15 @@ def run_once() -> int:
         append_log("STOP_REQUESTED", {"reason": reason})
         return 0
 
+    # Deterministic scan-only step (no claiming, no moves, no execution)
+    tasks = list_needs_action_tasks()
+    append_log("SCAN_RESULT", {"count": len(tasks), "tasks": tasks})
+
     state = load_state()
     state["last_scan_time"] = now_iso()
     save_state(state)
 
-    append_log("CYCLE_IDLE", {"note": "skeleton run_once; no task scanning implemented"})
+    append_log("CYCLE_IDLE", {"note": "scan integrated; no claiming implemented"})
     return 0
 
 

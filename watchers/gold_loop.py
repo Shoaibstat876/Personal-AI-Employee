@@ -7,6 +7,7 @@ from typing import Any, Dict
 
 from gold_stop_hook import should_stop
 from gold_scan import list_needs_action_tasks
+from gold_lock import try_acquire_lock
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -52,17 +53,28 @@ def run_once() -> int:
         append_log("STOP_REQUESTED", {"reason": reason})
         return 0
 
-    # Deterministic scan-only step (no claiming, no moves, no execution)
     tasks = list_needs_action_tasks()
     append_log("SCAN_RESULT", {"count": len(tasks), "tasks": tasks})
+
+    # Claim first task only (deterministic). No moves. No execution.
+    if tasks:
+        task0 = tasks[0]
+        append_log("CLAIM_ATTEMPT", {"task": task0})
+        res = try_acquire_lock(task0, lock_id=now_iso())
+        if res.acquired:
+            append_log("CLAIM_ACQUIRED", {"task": task0, "lock_path": res.lock_path})
+        else:
+            append_log("CLAIM_SKIPPED_LOCK_EXISTS", {"task": task0, "reason": res.reason, "lock_path": res.lock_path})
 
     state = load_state()
     state["last_scan_time"] = now_iso()
     save_state(state)
 
-    append_log("CYCLE_IDLE", {"note": "scan integrated; no claiming implemented"})
+    append_log("CYCLE_IDLE", {"note": "claim integrated; no moves/execution"})
     return 0
 
 
 if __name__ == "__main__":
     raise SystemExit(run_once())
+
+

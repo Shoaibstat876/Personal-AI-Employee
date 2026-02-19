@@ -9,3 +9,4 @@ Rules:
 - Every loop event logged with timestamp + event type + details
 
 ---
+- 2026-02-19T16:09:23+05:00 | CYCLE_IDLE | {"note": "skeleton run_once; no task scanning implemented"}

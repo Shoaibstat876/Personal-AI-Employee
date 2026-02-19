@@ -20,3 +20,6 @@ dropbox/_processed/*
 AI_Employee_Vault/Inbox/*
 AI_Employee_Vault/Needs_Action/TASK_FILE_*
 AI_Employee_Vault/Done/SUMMARY_*
+# Gold runtime artifacts (mutable per run)
+AI_Employee_Vault/Logs/gold_loop.log.md
+AI_Employee_Vault/Logs/gold_runtime_state.json

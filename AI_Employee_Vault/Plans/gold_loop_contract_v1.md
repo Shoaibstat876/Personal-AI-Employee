@@ -12,6 +12,8 @@ MAX_RUNTIME_SECONDS = 300
 STOP_CONDITION = (no eligible tasks found for 3 consecutive scans) OR (manual stop triggered)
 FAILURE_EXIT = abort loop immediately, log FAILURE_REASON, exit non-zero
 MANUAL_KILL_SWITCH = create file AI_Employee_Vault/STOP
+Definition: One iteration = one full scan cycle of eligible tasks.
+
 
 ## 2) Ralph Wiggum Stop Hook (Hard Abort)
 Stop triggers (ANY true):

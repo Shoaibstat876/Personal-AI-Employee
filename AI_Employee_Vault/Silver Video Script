@@ -87,19 +87,39 @@ Final Section:
 
 Take screenshots of these outputs (one by one):
 
-A) Branch + tag proof
+cd "D:\Shoaib Project\Personal-AI-Employee"
+
+Write-Host ""
+Write-Host "================ A) BRANCH + TAG PROOF ================" -ForegroundColor Cyan
 git branch --show-current
 git log -1 --oneline
 git tag
 
-B) Watchers running in Task Scheduler
+Write-Host ""
+Write-Host "================ B) TASK SCHEDULER WATCHERS ================" -ForegroundColor Cyan
+Write-Host "--- Filesystem Watcher ---" -ForegroundColor Yellow
 schtasks.exe /Query /TN "PersonalAIEmployee_Watcher_Filesystem" /V /FO LIST | findstr /i "TaskName Status Last Run Time Last Result Task To Run"
+
+Write-Host ""
+Write-Host "--- Vault Health Watcher ---" -ForegroundColor Yellow
 schtasks.exe /Query /TN "PersonalAIEmployee_Watcher_VaultHealth" /V /FO LIST | findstr /i "TaskName Status Last Run Time Last Result Task To Run"
 
-C) Proof logs + dedup
+Write-Host ""
+Write-Host "================ C) PROOF LOGS + DEDUP ================" -ForegroundColor Cyan
+Write-Host "--- Filesystem Log (Last 30 Lines) ---" -ForegroundColor Yellow
 Get-Content ".\AI_Employee_Vault\Logs\watcher_filesystem_log.md" -Tail 30
+
+Write-Host ""
+Write-Host "--- Filesystem State (Dedup Proof) ---" -ForegroundColor Yellow
 Get-Content ".\AI_Employee_Vault\Logs\filesystem_watcher_state.json" -Raw
+
+Write-Host ""
+Write-Host "--- Vault Health Log (Last 20 Lines) ---" -ForegroundColor Yellow
 Get-Content ".\AI_Employee_Vault\Logs\watcher_vault_health_log.md" -Tail 20
+
+Write-Host ""
+Write-Host "================ END OF FULL PROOF ================" -ForegroundColor Green
+
 
 2) Make the README teacher-perfect (1 quick fix)
 
@@ -118,3 +138,58 @@ git push
 git tag -f -a silver-v1 -m "Silver tier frozen: watchers + scheduling + dedup + logs (README at root)"
 git push --force --tags
 
+# disable everything
+
+# Freeze Silver and stop noisy/failing scheduled tasks (safety)
+schtasks.exe /Change /TN "PersonalAIEmployee_Watcher_Filesystem" /DISABLE
+schtasks.exe /Change /TN "PersonalAIEmployee_Watcher_VaultHealth" /DISABLE
+
+schtasks.exe /Query /TN "PersonalAIEmployee_Watcher_Filesystem" /V /FO LIST | findstr /i "TaskName Status Scheduled Task State Last Run Time Last Result Task To Run"
+schtasks.exe /Query /TN "PersonalAIEmployee_Watcher_VaultHealth" /V /FO LIST | findstr /i "TaskName Status Scheduled Task State Last Run Time Last Result Task To Run"
+
+# if its failed 
+STEP A — Open PowerShell as Administrator (required)
+
+Do this on Windows:
+
+Start Menu → type PowerShell
+
+Right-click → Run as administrator
+
+Then run only this verification block (no changes yet):
+
+whoami
+whoami /groups | findstr /i "S-1-5-32-544"
+
+Expected output
+
+BUILTIN\Administrators ... Enabled
+
+STOP condition
+
+If the Administrators group line does not show → STOP and paste output (you’re not elevated).
+
+STEP B — Disable both tasks (admin terminal only)
+
+After Step A proves admin, run:
+
+schtasks.exe /Change /TN "PersonalAIEmployee_Watcher_Filesystem" /DISABLE
+schtasks.exe /Change /TN "PersonalAIEmployee_Watcher_VaultHealth" /DISABLE
+
+STOP condition
+
+Any ERROR → paste output and STOP.
+
+STEP C — Confirm they’re disabled
+
+Run:
+
+schtasks.exe /Query /TN "PersonalAIEmployee_Watcher_Filesystem" /V /FO LIST | findstr /i "TaskName Status Scheduled Task State Last Run Time Last Result Task To Run"
+schtasks.exe /Query /TN "PersonalAIEmployee_Watcher_VaultHealth" /V /FO LIST | findstr /i "TaskName Status Scheduled Task State Last Run Time Last Result Task To Run"
+
+
+Expected:
+
+Status: Disabled
+
+Scheduled Task State: Disabled

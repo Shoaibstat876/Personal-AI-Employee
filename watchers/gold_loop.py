@@ -70,6 +70,25 @@ def run_once() -> int:
         append_log("STOP_REQUESTED", {"reason": reason})
         return 0
 
+    # Crash-safe resume guard (minimal, deterministic, zero-guessing)
+    prev = load_state()
+    prev_step = prev.get("inflight_step")
+    prev_task = prev.get("inflight_task_id")
+    if prev_step and prev_task and prev_step not in ("MOVED_TO_IN_PROGRESS", "RESUME_CONFIRMED_IN_PROGRESS"):
+        append_log("RESUME_DETECTED", {"prev_step": prev_step, "task": prev_task})
+        in_prog = (VAULT_ROOT / "In_Progress" / "gold" / str(prev_task)).exists()
+        prev["run_id"] = RUN_ID
+        prev["inflight_task_id"] = prev_task
+        if in_prog:
+            prev["inflight_step"] = "RESUME_CONFIRMED_IN_PROGRESS"
+            append_log("RESUME_OK_TASK_IN_PROGRESS", {"task": prev_task})
+            save_state(prev)
+        else:
+            prev["inflight_step"] = "RESUME_REQUIRED_TASK_NOT_IN_PROGRESS"
+            append_log("RESUME_STOP_TASK_NOT_IN_PROGRESS", {"task": prev_task})
+            save_state(prev)
+            return 0
+
     tasks = list_needs_action_tasks()
 
     # Idempotency guard: exclude tasks already present in In_Progress/gold
@@ -182,3 +201,4 @@ def run_once() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(run_once())
+

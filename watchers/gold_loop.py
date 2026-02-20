@@ -104,6 +104,11 @@ def run_once() -> int:
     state = load_state()
     state["run_id"] = RUN_ID
     state["last_scan_time"] = now_iso()
+
+    # If there are no tasks, mark idle without erasing forensic inflight fields.
+    if not tasks:
+        state["inflight_step"] = "IDLE_NO_TASKS"
+
     save_state(state)
 
     # Claim first task only (deterministic). Move is allowed (audit only).
@@ -201,5 +206,7 @@ def run_once() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(run_once())
+
+
 
 

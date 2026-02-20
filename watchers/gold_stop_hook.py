@@ -2,7 +2,7 @@
 
 import json
 from pathlib import Path
-from typing import Tuple, Optional
+from typing import Tuple
 
 
 VAULT_ROOT = Path(__file__).resolve().parents[1] / "AI_Employee_Vault"
@@ -22,17 +22,29 @@ def should_stop() -> Tuple[bool, str]:
       (True, reason) if stop requested
       (False, "") otherwise
     """
+
+    # 1️⃣ STOP file has highest priority
     if STOP_FILE.exists():
         return True, "STOP_FILE_PRESENT"
 
+    # 2️⃣ Runtime flags (explicit stop only)
     if RUNTIME_FLAGS.exists():
         try:
-            data = json.loads(RUNTIME_FLAGS.read_text(encoding="utf-8-sig"))
+            text = RUNTIME_FLAGS.read_text(encoding="utf-8-sig").strip()
+
+            # Ignore empty / partially written file
+            if not text:
+                return False, ""
+
+            data = json.loads(text)
+
             if isinstance(data, dict) and data.get("stop") is True:
                 return True, "RUNTIME_FLAGS_STOP_TRUE"
+
         except Exception:
-            # Corrupt flags file is a safety risk; stop immediately.
-            return True, "RUNTIME_FLAGS_CORRUPT"
+            # If file is corrupt or partially written,
+            # ignore it instead of forcing STOP.
+            return False, ""
 
     return False, ""
 
@@ -40,4 +52,3 @@ def should_stop() -> Tuple[bool, str]:
 if __name__ == "__main__":
     stop, reason = should_stop()
     print(json.dumps({"stop": stop, "reason": reason}, ensure_ascii=False))
-

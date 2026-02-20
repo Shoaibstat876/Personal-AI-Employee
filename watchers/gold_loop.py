@@ -100,14 +100,22 @@ def run_once() -> int:
     tasks = filtered
     append_log("SCAN_RESULT", {"count": len(tasks), "tasks": tasks})
 
+    # Mid-cycle STOP hook: if STOP toggled during scan, exit safely.
+    stop2, reason2 = should_stop()
+    if stop2:
+        append_log("STOP_REQUESTED", {"reason": reason2, "where": "AFTER_SCAN"})
+        return 0
+
     # State update after scan
     state = load_state()
     state["run_id"] = RUN_ID
     state["last_scan_time"] = now_iso()
 
-    # If there are no tasks, mark idle without erasing forensic inflight fields.
+    # If there are no tasks, truly idle: clear inflight pointers to avoid phantom resume.
     if not tasks:
         state["inflight_step"] = "IDLE_NO_TASKS"
+        state["inflight_task_id"] = None
+        state["inflight_lock_id"] = None
 
     save_state(state)
 
@@ -158,6 +166,12 @@ def run_once() -> int:
             state["inflight_step"] = "MOVE_ATTEMPT"
             save_state(state)
 
+            # Mid-cycle STOP hook: if STOP toggled after claim, do not move anything.
+            stop3, reason3 = should_stop()
+            if stop3:
+                append_log("STOP_REQUESTED", {"reason": reason3, "where": "BEFORE_MOVE", "task": task0})
+                return 0
+
             append_log("TASK_MOVE_ATTEMPT", {"task": task0, "from": str(src_path), "to": str(dst_path)})
 
             if dst_path.exists():
@@ -206,7 +220,3 @@ def run_once() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(run_once())
-
-
-
-

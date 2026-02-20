@@ -138,7 +138,7 @@ def run_once() -> int:
         state["run_id"] = RUN_ID
         state["inflight_task_id"] = task0
         state["inflight_step"] = "CLAIM_RESULT"
-        state["inflight_lock_id"] = str(res.lock_path) if getattr(res, "lock_path", None) else None
+        state["inflight_lock_id"] = RUN_ID if res.acquired else None
         save_state(state)
 
         # Move claimed task into In_Progress/gold (no execution; audit only)
@@ -201,4 +201,5 @@ def run_once() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(run_once())
+
 

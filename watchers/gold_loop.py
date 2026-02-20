@@ -54,6 +54,14 @@ def run_once() -> int:
         return 0
 
     tasks = list_needs_action_tasks()
+
+    # Idempotency guard: exclude tasks already present in In_Progress/gold
+    filtered = []
+    for t in tasks:
+        if not (VAULT_ROOT / "In_Progress" / "gold" / t).exists():
+            filtered.append(t)
+
+    tasks = filtered
     append_log("SCAN_RESULT", {"count": len(tasks), "tasks": tasks})
 
     # Claim first task only (deterministic). No moves. No execution.
@@ -97,6 +105,7 @@ def run_once() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(run_once())
+
 
 
 

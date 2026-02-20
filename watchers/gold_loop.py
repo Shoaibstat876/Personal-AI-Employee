@@ -1,6 +1,7 @@
 ﻿from __future__ import annotations
 
 import json
+import os
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict
@@ -29,16 +30,29 @@ def append_log(event: str, details: Dict[str, Any] | None = None) -> None:
 
 
 def load_state() -> Dict[str, Any]:
+    # Always return a state dict containing the required schema keys.
+    default: Dict[str, Any] = {
+        "run_id": None,
+        "inflight_task_id": None,
+        "inflight_step": None,
+        "inflight_lock_id": None,
+        "last_scan_time": None,
+        "updated_at": None,
+    }
+
     if not STATE_FILE.exists():
-        return {
-            "inflight_task_id": None,
-            "inflight_step": None,
-            "inflight_lock_id": None,
-            "last_scan_time": None,
-            "updated_at": None,
-        }
+        return default
+
     raw = STATE_FILE.read_text(encoding="utf-8-sig")
-    return json.loads(raw)
+    data = json.loads(raw)
+
+    # Merge defaults so missing keys are safely added without deleting existing keys.
+    if isinstance(data, dict):
+        merged = {**default, **data}
+        return merged
+
+    # If file is corrupted/unexpected structure, fall back to default.
+    return default
 
 
 def save_state(state: Dict[str, Any]) -> None:
@@ -48,6 +62,9 @@ def save_state(state: Dict[str, Any]) -> None:
 
 
 def run_once() -> int:
+    # Stable RUN_ID per run_once() for crash-safe forensic + idempotent locking.
+    RUN_ID = now_iso() + "|" + str(os.getpid())
+
     stop, reason = should_stop()
     if stop:
         append_log("STOP_REQUESTED", {"reason": reason})
@@ -64,49 +81,104 @@ def run_once() -> int:
     tasks = filtered
     append_log("SCAN_RESULT", {"count": len(tasks), "tasks": tasks})
 
-    # Claim first task only (deterministic). No moves. No execution.
+    # State update after scan
+    state = load_state()
+    state["run_id"] = RUN_ID
+    state["last_scan_time"] = now_iso()
+    save_state(state)
+
+    # Claim first task only (deterministic). Move is allowed (audit only).
     if tasks:
         task0 = tasks[0]
+
+        # Before claim attempt: inflight mark
+        state = load_state()
+        state["run_id"] = RUN_ID
+        state["inflight_task_id"] = task0
+        state["inflight_step"] = "CLAIM_ATTEMPT"
+        state["inflight_lock_id"] = None
+        save_state(state)
+
         append_log("CLAIM_ATTEMPT", {"task": task0})
-        res = try_acquire_lock(task0, lock_id=now_iso())
-        append_log("CLAIM_RESULT", {
-            "task": task0,
-            "acquired": res.acquired,
-            "reason": res.reason,
-            "lock_path": res.lock_path
-        })
+
+        # Use stable RUN_ID as lock_id (not time-based per attempt)
+        res = try_acquire_lock(task0, lock_id=RUN_ID)
+
+        append_log(
+            "CLAIM_RESULT",
+            {
+                "task": task0,
+                "acquired": res.acquired,
+                "reason": res.reason,
+                "lock_path": res.lock_path,
+            },
+        )
+
+        # After claim result: write inflight lock + step
+        state = load_state()
+        state["run_id"] = RUN_ID
+        state["inflight_task_id"] = task0
+        state["inflight_step"] = "CLAIM_RESULT"
+        state["inflight_lock_id"] = str(res.lock_path) if getattr(res, "lock_path", None) else None
+        save_state(state)
 
         # Move claimed task into In_Progress/gold (no execution; audit only)
         if res.acquired:
             src_path = VAULT_ROOT / "Needs_Action" / task0
             dst_path = VAULT_ROOT / "In_Progress" / "gold" / task0
 
+            # Before move attempt
+            state = load_state()
+            state["run_id"] = RUN_ID
+            state["inflight_task_id"] = task0
+            state["inflight_step"] = "MOVE_ATTEMPT"
+            save_state(state)
+
             append_log("TASK_MOVE_ATTEMPT", {"task": task0, "from": str(src_path), "to": str(dst_path)})
 
             if dst_path.exists():
                 append_log("TASK_MOVE_SKIPPED_ALREADY_IN_PROGRESS", {"task": task0})
+                # Forensic step marker (safe variant)
+                state = load_state()
+                state["run_id"] = RUN_ID
+                state["inflight_task_id"] = task0
+                state["inflight_step"] = "MOVE_SKIPPED_ALREADY_IN_PROGRESS"
+                save_state(state)
+
             elif not src_path.exists():
                 append_log("TASK_MOVE_FAILED_SOURCE_MISSING", {"task": task0, "from": str(src_path)})
+                # Forensic step marker (safe variant)
+                state = load_state()
+                state["run_id"] = RUN_ID
+                state["inflight_task_id"] = task0
+                state["inflight_step"] = "MOVE_FAILED_SOURCE_MISSING"
+                save_state(state)
+
             else:
                 dst_path.parent.mkdir(parents=True, exist_ok=True)
                 try:
                     src_path.replace(dst_path)
                     append_log("TASK_MOVED_TO_IN_PROGRESS", {"task": task0, "to": str(dst_path)})
+
+                    # After move success: required contract marker
+                    state = load_state()
+                    state["run_id"] = RUN_ID
+                    state["inflight_task_id"] = task0
+                    state["inflight_step"] = "MOVED_TO_IN_PROGRESS"
+                    save_state(state)
+
                 except Exception as e:
                     append_log("TASK_MOVE_FAILED_EXCEPTION", {"task": task0, "error": type(e).__name__})
+                    # Forensic step marker (safe variant)
+                    state = load_state()
+                    state["run_id"] = RUN_ID
+                    state["inflight_task_id"] = task0
+                    state["inflight_step"] = "MOVE_FAILED_EXCEPTION"
+                    save_state(state)
 
-    state = load_state()
-    state["last_scan_time"] = now_iso()
-    save_state(state)
-
-    append_log("CYCLE_IDLE", {"note": "claim integrated; no moves/execution"})
+    append_log("CYCLE_IDLE", {"note": "scan/claim/move completed; no execution"})
     return 0
 
 
 if __name__ == "__main__":
     raise SystemExit(run_once())
-
-
-
-
-

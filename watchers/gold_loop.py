@@ -68,6 +68,25 @@ def run_once() -> int:
             "lock_path": res.lock_path
         })
 
+        # Move claimed task into In_Progress/gold (no execution; audit only)
+        if res.acquired:
+            src_path = VAULT_ROOT / "Needs_Action" / task0
+            dst_path = VAULT_ROOT / "In_Progress" / "gold" / task0
+
+            append_log("TASK_MOVE_ATTEMPT", {"task": task0, "from": str(src_path), "to": str(dst_path)})
+
+            if dst_path.exists():
+                append_log("TASK_MOVE_SKIPPED_ALREADY_IN_PROGRESS", {"task": task0})
+            elif not src_path.exists():
+                append_log("TASK_MOVE_FAILED_SOURCE_MISSING", {"task": task0, "from": str(src_path)})
+            else:
+                dst_path.parent.mkdir(parents=True, exist_ok=True)
+                try:
+                    src_path.replace(dst_path)
+                    append_log("TASK_MOVED_TO_IN_PROGRESS", {"task": task0, "to": str(dst_path)})
+                except Exception as e:
+                    append_log("TASK_MOVE_FAILED_EXCEPTION", {"task": task0, "error": type(e).__name__})
+
     state = load_state()
     state["last_scan_time"] = now_iso()
     save_state(state)
@@ -78,6 +97,7 @@ def run_once() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(run_once())
+
 
 
 

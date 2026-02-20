@@ -61,10 +61,12 @@ def run_once() -> int:
         task0 = tasks[0]
         append_log("CLAIM_ATTEMPT", {"task": task0})
         res = try_acquire_lock(task0, lock_id=now_iso())
-        if res.acquired:
-            append_log("CLAIM_ACQUIRED", {"task": task0, "lock_path": res.lock_path})
-        else:
-            append_log("CLAIM_SKIPPED_LOCK_EXISTS", {"task": task0, "reason": res.reason, "lock_path": res.lock_path})
+        append_log("CLAIM_RESULT", {
+            "task": task0,
+            "acquired": res.acquired,
+            "reason": res.reason,
+            "lock_path": res.lock_path
+        })
 
     state = load_state()
     state["last_scan_time"] = now_iso()
@@ -76,5 +78,6 @@ def run_once() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(run_once())
+
 
 

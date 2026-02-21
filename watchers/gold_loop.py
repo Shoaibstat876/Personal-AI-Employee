@@ -10,7 +10,6 @@ from gold_stop_hook import should_stop
 from gold_scan import list_needs_action_tasks
 from gold_lock import try_acquire_lock
 
-
 REPO_ROOT = Path(__file__).resolve().parents[1]
 VAULT_ROOT = REPO_ROOT / "AI_Employee_Vault"
 LOG_FILE = VAULT_ROOT / "Logs" / "gold_loop.log.md"
@@ -58,23 +57,53 @@ def load_state() -> Dict[str, Any]:
 def save_state(state: Dict[str, Any]) -> None:
     state["updated_at"] = now_iso()
     STATE_FILE.parent.mkdir(parents=True, exist_ok=True)
-    STATE_FILE.write_text(json.dumps(state, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    STATE_FILE.write_text(
+        json.dumps(state, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
+
+
+def _stop_if_requested(
+    *,
+    run_id: str,
+    where: str,
+    task: str | None = None,
+) -> bool:
+    stop, reason = should_stop()
+    if not stop:
+        return False
+
+    payload: Dict[str, Any] = {"reason": reason, "where": where}
+    if task is not None:
+        payload["task"] = task
+
+    append_log("STOP_REQUESTED", payload)
+
+    # Persist forensic marker so proofs are deterministic.
+    st = load_state()
+    st["run_id"] = run_id
+    st["inflight_step"] = "STOP_REQUESTED"
+    if task is not None:
+        st["inflight_task_id"] = task
+    save_state(st)
+    return True
 
 
 def run_once() -> int:
     # Stable RUN_ID per run_once() for crash-safe forensic + idempotent locking.
     RUN_ID = now_iso() + "|" + str(os.getpid())
 
-    stop, reason = should_stop()
-    if stop:
-        append_log("STOP_REQUESTED", {"reason": reason})
+    # STOP at start
+    if _stop_if_requested(run_id=RUN_ID, where="START"):
         return 0
 
     # Crash-safe resume guard (minimal, deterministic, zero-guessing)
     prev = load_state()
     prev_step = prev.get("inflight_step")
     prev_task = prev.get("inflight_task_id")
-    if prev_step and prev_task and prev_step not in ("MOVED_TO_IN_PROGRESS", "RESUME_CONFIRMED_IN_PROGRESS"):
+    if prev_step and prev_task and prev_step not in (
+        "MOVED_TO_IN_PROGRESS",
+        "RESUME_CONFIRMED_IN_PROGRESS",
+    ):
         append_log("RESUME_DETECTED", {"prev_step": prev_step, "task": prev_task})
         in_prog = (VAULT_ROOT / "In_Progress" / "gold" / str(prev_task)).exists()
         prev["run_id"] = RUN_ID
@@ -96,14 +125,12 @@ def run_once() -> int:
     for t in tasks:
         if not (VAULT_ROOT / "In_Progress" / "gold" / t).exists():
             filtered.append(t)
-
     tasks = filtered
+
     append_log("SCAN_RESULT", {"count": len(tasks), "tasks": tasks})
 
     # Mid-cycle STOP hook: if STOP toggled during scan, exit safely.
-    stop2, reason2 = should_stop()
-    if stop2:
-        append_log("STOP_REQUESTED", {"reason": reason2, "where": "AFTER_SCAN"})
+    if _stop_if_requested(run_id=RUN_ID, where="AFTER_SCAN"):
         return 0
 
     # State update after scan
@@ -123,6 +150,10 @@ def run_once() -> int:
     if tasks:
         task0 = tasks[0]
 
+        # IMPORTANT: STOP check before claim attempt (this is what your proof needed)
+        if _stop_if_requested(run_id=RUN_ID, where="BEFORE_CLAIM", task=task0):
+            return 0
+
         # Before claim attempt: inflight mark
         state = load_state()
         state["run_id"] = RUN_ID
@@ -132,6 +163,10 @@ def run_once() -> int:
         save_state(state)
 
         append_log("CLAIM_ATTEMPT", {"task": task0})
+
+        # Extra STOP checkpoint just before lock acquire (race-proof, still minimal)
+        if _stop_if_requested(run_id=RUN_ID, where="BEFORE_LOCK", task=task0):
+            return 0
 
         # Use stable RUN_ID as lock_id (not time-based per attempt)
         res = try_acquire_lock(task0, lock_id=RUN_ID)
@@ -167,16 +202,13 @@ def run_once() -> int:
             save_state(state)
 
             # Mid-cycle STOP hook: if STOP toggled after claim, do not move anything.
-            stop3, reason3 = should_stop()
-            if stop3:
-                append_log("STOP_REQUESTED", {"reason": reason3, "where": "BEFORE_MOVE", "task": task0})
+            if _stop_if_requested(run_id=RUN_ID, where="BEFORE_MOVE", task=task0):
                 return 0
 
             append_log("TASK_MOVE_ATTEMPT", {"task": task0, "from": str(src_path), "to": str(dst_path)})
 
             if dst_path.exists():
                 append_log("TASK_MOVE_SKIPPED_ALREADY_IN_PROGRESS", {"task": task0})
-                # Forensic step marker (safe variant)
                 state = load_state()
                 state["run_id"] = RUN_ID
                 state["inflight_task_id"] = task0
@@ -185,7 +217,6 @@ def run_once() -> int:
 
             elif not src_path.exists():
                 append_log("TASK_MOVE_FAILED_SOURCE_MISSING", {"task": task0, "from": str(src_path)})
-                # Forensic step marker (safe variant)
                 state = load_state()
                 state["run_id"] = RUN_ID
                 state["inflight_task_id"] = task0
@@ -207,7 +238,6 @@ def run_once() -> int:
 
                 except Exception as e:
                     append_log("TASK_MOVE_FAILED_EXCEPTION", {"task": task0, "error": type(e).__name__})
-                    # Forensic step marker (safe variant)
                     state = load_state()
                     state["run_id"] = RUN_ID
                     state["inflight_task_id"] = task0

@@ -31,3 +31,9 @@ AI_Employee_Vault/Approved/
 AI_Employee_Vault/Rejected/
 AI_Employee_Vault/Done/
 AI_Employee_Vault/Logs/
+
+# Local evidence packs (judge artifacts / logs) — do not commit
+AI_Employee_Vault/Heckathon 0 evidence/
+AI_Employee_Vault/**/freeze/
+AI_Employee_Vault/**/evidence/
+

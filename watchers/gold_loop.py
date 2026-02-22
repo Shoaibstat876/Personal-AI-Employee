@@ -29,7 +29,6 @@ def append_log(event: str, details: Dict[str, Any] | None = None) -> None:
 
 
 def load_state() -> Dict[str, Any]:
-    # Always return a state dict containing the required schema keys.
     default: Dict[str, Any] = {
         "run_id": None,
         "inflight_task_id": None,
@@ -45,12 +44,9 @@ def load_state() -> Dict[str, Any]:
     raw = STATE_FILE.read_text(encoding="utf-8-sig")
     data = json.loads(raw)
 
-    # Merge defaults so missing keys are safely added without deleting existing keys.
     if isinstance(data, dict):
-        merged = {**default, **data}
-        return merged
+        return {**default, **data}
 
-    # If file is corrupted/unexpected structure, fall back to default.
     return default
 
 
@@ -58,7 +54,8 @@ def save_state(state: Dict[str, Any]) -> None:
     state["updated_at"] = now_iso()
     STATE_FILE.parent.mkdir(parents=True, exist_ok=True)
     STATE_FILE.write_text(
-        json.dumps(state, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+        json.dumps(state, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
     )
 
 
@@ -78,36 +75,38 @@ def _stop_if_requested(
 
     append_log("STOP_REQUESTED", payload)
 
-    # Persist forensic marker so proofs are deterministic.
     st = load_state()
     st["run_id"] = run_id
     st["inflight_step"] = "STOP_REQUESTED"
     if task is not None:
         st["inflight_task_id"] = task
     save_state(st)
+
     return True
 
 
 def run_once() -> int:
-    # Stable RUN_ID per run_once() for crash-safe forensic + idempotent locking.
     RUN_ID = now_iso() + "|" + str(os.getpid())
 
     # STOP at start
     if _stop_if_requested(run_id=RUN_ID, where="START"):
         return 0
 
-    # Crash-safe resume guard (minimal, deterministic, zero-guessing)
+    # Resume guard
     prev = load_state()
     prev_step = prev.get("inflight_step")
     prev_task = prev.get("inflight_task_id")
+
     if prev_step and prev_task and prev_step not in (
         "MOVED_TO_IN_PROGRESS",
         "RESUME_CONFIRMED_IN_PROGRESS",
     ):
         append_log("RESUME_DETECTED", {"prev_step": prev_step, "task": prev_task})
         in_prog = (VAULT_ROOT / "In_Progress" / "gold" / str(prev_task)).exists()
+
         prev["run_id"] = RUN_ID
         prev["inflight_task_id"] = prev_task
+
         if in_prog:
             prev["inflight_step"] = "RESUME_CONFIRMED_IN_PROGRESS"
             append_log("RESUME_OK_TASK_IN_PROGRESS", {"task": prev_task})
@@ -120,25 +119,22 @@ def run_once() -> int:
 
     tasks = list_needs_action_tasks()
 
-    # Idempotency guard: exclude tasks already present in In_Progress/gold
-    filtered = []
-    for t in tasks:
-        if not (VAULT_ROOT / "In_Progress" / "gold" / t).exists():
-            filtered.append(t)
+    filtered = [
+        t for t in tasks
+        if not (VAULT_ROOT / "In_Progress" / "gold" / t).exists()
+    ]
+
     tasks = filtered
 
     append_log("SCAN_RESULT", {"count": len(tasks), "tasks": tasks})
 
-    # Mid-cycle STOP hook: if STOP toggled during scan, exit safely.
     if _stop_if_requested(run_id=RUN_ID, where="AFTER_SCAN"):
         return 0
 
-    # State update after scan
     state = load_state()
     state["run_id"] = RUN_ID
     state["last_scan_time"] = now_iso()
 
-    # If there are no tasks, truly idle: clear inflight pointers to avoid phantom resume.
     if not tasks:
         state["inflight_step"] = "IDLE_NO_TASKS"
         state["inflight_task_id"] = None
@@ -146,15 +142,12 @@ def run_once() -> int:
 
     save_state(state)
 
-    # Claim first task only (deterministic). Move is allowed (audit only).
     if tasks:
         task0 = tasks[0]
 
-        # IMPORTANT: STOP check before claim attempt (this is what your proof needed)
         if _stop_if_requested(run_id=RUN_ID, where="BEFORE_CLAIM", task=task0):
             return 0
 
-        # Before claim attempt: inflight mark
         state = load_state()
         state["run_id"] = RUN_ID
         state["inflight_task_id"] = task0
@@ -164,11 +157,9 @@ def run_once() -> int:
 
         append_log("CLAIM_ATTEMPT", {"task": task0})
 
-        # Extra STOP checkpoint just before lock acquire (race-proof, still minimal)
         if _stop_if_requested(run_id=RUN_ID, where="BEFORE_LOCK", task=task0):
             return 0
 
-        # Use stable RUN_ID as lock_id (not time-based per attempt)
         res = try_acquire_lock(task0, lock_id=RUN_ID)
 
         append_log(
@@ -181,34 +172,37 @@ def run_once() -> int:
             },
         )
 
-        # After claim result: write inflight lock + step
+        # ✅ FIXED: persist actual lock_path
         state = load_state()
         state["run_id"] = RUN_ID
         state["inflight_task_id"] = task0
         state["inflight_step"] = "CLAIM_RESULT"
-        state["inflight_lock_id"] = RUN_ID if res.acquired else None
+        state["inflight_lock_id"] = res.lock_path if res.acquired else None
         save_state(state)
 
-        # Move claimed task into In_Progress/gold (no execution; audit only)
         if res.acquired:
             src_path = VAULT_ROOT / "Needs_Action" / task0
             dst_path = VAULT_ROOT / "In_Progress" / "gold" / task0
 
-            # Before move attempt
             state = load_state()
             state["run_id"] = RUN_ID
             state["inflight_task_id"] = task0
             state["inflight_step"] = "MOVE_ATTEMPT"
             save_state(state)
 
-            # Mid-cycle STOP hook: if STOP toggled after claim, do not move anything.
             if _stop_if_requested(run_id=RUN_ID, where="BEFORE_MOVE", task=task0):
                 return 0
 
-            append_log("TASK_MOVE_ATTEMPT", {"task": task0, "from": str(src_path), "to": str(dst_path)})
+            append_log(
+                "TASK_MOVE_ATTEMPT",
+                {"task": task0, "from": str(src_path), "to": str(dst_path)},
+            )
 
             if dst_path.exists():
-                append_log("TASK_MOVE_SKIPPED_ALREADY_IN_PROGRESS", {"task": task0})
+                append_log(
+                    "TASK_MOVE_SKIPPED_ALREADY_IN_PROGRESS",
+                    {"task": task0},
+                )
                 state = load_state()
                 state["run_id"] = RUN_ID
                 state["inflight_task_id"] = task0
@@ -216,7 +210,10 @@ def run_once() -> int:
                 save_state(state)
 
             elif not src_path.exists():
-                append_log("TASK_MOVE_FAILED_SOURCE_MISSING", {"task": task0, "from": str(src_path)})
+                append_log(
+                    "TASK_MOVE_FAILED_SOURCE_MISSING",
+                    {"task": task0, "from": str(src_path)},
+                )
                 state = load_state()
                 state["run_id"] = RUN_ID
                 state["inflight_task_id"] = task0
@@ -227,9 +224,11 @@ def run_once() -> int:
                 dst_path.parent.mkdir(parents=True, exist_ok=True)
                 try:
                     src_path.replace(dst_path)
-                    append_log("TASK_MOVED_TO_IN_PROGRESS", {"task": task0, "to": str(dst_path)})
+                    append_log(
+                        "TASK_MOVED_TO_IN_PROGRESS",
+                        {"task": task0, "to": str(dst_path)},
+                    )
 
-                    # After move success: required contract marker
                     state = load_state()
                     state["run_id"] = RUN_ID
                     state["inflight_task_id"] = task0
@@ -237,7 +236,10 @@ def run_once() -> int:
                     save_state(state)
 
                 except Exception as e:
-                    append_log("TASK_MOVE_FAILED_EXCEPTION", {"task": task0, "error": type(e).__name__})
+                    append_log(
+                        "TASK_MOVE_FAILED_EXCEPTION",
+                        {"task": task0, "error": type(e).__name__},
+                    )
                     state = load_state()
                     state["run_id"] = RUN_ID
                     state["inflight_task_id"] = task0

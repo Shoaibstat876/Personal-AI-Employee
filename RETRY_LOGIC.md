@@ -12,3 +12,7 @@ Preferred:
 
 Also supported:
 - python scripts/retry_demo.py
+
+Expected output:
+- retry_demo_result= OK
+- retry_demo_attempts= 3

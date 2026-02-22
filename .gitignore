@@ -37,3 +37,12 @@ AI_Employee_Vault/Heckathon 0 evidence/
 AI_Employee_Vault/**/freeze/
 AI_Employee_Vault/**/evidence/
 
+
+# Vault operational folders (local runtime + templates)  do not commit
+AI_Employee_Vault/Briefings/
+AI_Employee_Vault/Plans/
+AI_Employee_Vault/Pending_Approval/
+AI_Employee_Vault/Approved/
+AI_Employee_Vault/Rejected/
+AI_Employee_Vault/Logs/
+

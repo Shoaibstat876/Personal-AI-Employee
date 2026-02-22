@@ -46,3 +46,7 @@ AI_Employee_Vault/Approved/
 AI_Employee_Vault/Rejected/
 AI_Employee_Vault/Logs/
 
+
+# Vault local accounting mock/runtime (do not commit)
+AI_Employee_Vault/Accounting/
+

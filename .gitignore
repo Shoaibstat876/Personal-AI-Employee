@@ -50,3 +50,6 @@ AI_Employee_Vault/Logs/
 # Vault local accounting mock/runtime (do not commit)
 AI_Employee_Vault/Accounting/
 
+
+# Playwright MCP local cache (do not commit)
+.playwright-mcp/

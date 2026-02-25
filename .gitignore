@@ -53,3 +53,8 @@ AI_Employee_Vault/Accounting/
 
 # Playwright MCP local cache (do not commit)
 .playwright-mcp/
+# Tools MCP folders (do not commit node_modules)
+tools/**/node_modules/
+tools/**/.cache/
+tools/**/.npm/
+tools/**/npm-debug.log*

@@ -20,3 +20,16 @@ dropbox/_processed/*
 AI_Employee_Vault/Inbox/*
 AI_Employee_Vault/Needs_Action/TASK_FILE_*
 AI_Employee_Vault/Done/SUMMARY_*
+# --- Local runtime artifacts (never commit) ---
+.playwright-mcp/
+tools/
+AI_Employee_Vault/Logs/
+AI_Employee_Vault/Done/
+AI_Employee_Vault/In_Progress/
+AI_Employee_Vault/Approved/
+AI_Employee_Vault/Rejected/
+AI_Employee_Vault/Pending_Approval/
+AI_Employee_Vault/Needs_Action/
+AI_Employee_Vault/Briefings/
+AI_Employee_Vault/Accounting/
+AI_Employee_Vault/Heckathon 0 evidence/

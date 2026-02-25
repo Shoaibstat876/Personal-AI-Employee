@@ -58,3 +58,9 @@ tools/**/node_modules/
 tools/**/.cache/
 tools/**/.npm/
 tools/**/npm-debug.log*
+# Calendar MCP secrets (never commit)
+tools/mcp-calendar/gcp-oauth.keys.json
+tools/mcp-calendar/*.keys.json
+tools/mcp-calendar/*.token.json
+tools/mcp-calendar/.env
+tools/mcp-calendar/.env.*

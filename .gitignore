@@ -100,3 +100,7 @@ AI_Employee_Vault/**/evidence/
 !AI_Employee_Vault/Approved/
 !AI_Employee_Vault/Rejected/
 
+
+# Ignore vault backups (local safety)
+AI_Employee_Vault/*.bak.*
+

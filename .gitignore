@@ -104,3 +104,7 @@ AI_Employee_Vault/**/evidence/
 # Ignore vault backups (local safety)
 AI_Employee_Vault/*.bak.*
 
+
+# Ignore log/state backups (local safety)
+AI_Employee_Vault/Logs/*.bak.*
+

@@ -64,3 +64,39 @@ tools/mcp-calendar/*.keys.json
 tools/mcp-calendar/*.token.json
 tools/mcp-calendar/.env
 tools/mcp-calendar/.env.*
+
+# ==============================
+# GOLD SAFE POLICY (DO NOT EDIT)
+# ==============================
+
+# Secrets / tokens (never commit)
+**/*token*
+**/*tokens*
+**/*oauth*
+**/*credentials*
+**/*.key
+**/*.keys.json
+
+# Noisy runtime (never commit)
+.playwright-mcp/
+tools/**/node_modules/
+tools/
+
+# Vault runtime folders (never commit)
+AI_Employee_Vault/Inbox/*
+AI_Employee_Vault/In_Progress/
+AI_Employee_Vault/Needs_Action/
+AI_Employee_Vault/Done/
+AI_Employee_Vault/Accounting/
+AI_Employee_Vault/Heckathon 0 evidence/
+AI_Employee_Vault/**/freeze/
+AI_Employee_Vault/**/evidence/
+
+# BUT allow judge-safe proof folders (ONLY committed content you write manually)
+!AI_Employee_Vault/Logs/
+!AI_Employee_Vault/Briefings/
+!AI_Employee_Vault/Plans/
+!AI_Employee_Vault/Pending_Approval/
+!AI_Employee_Vault/Approved/
+!AI_Employee_Vault/Rejected/
+

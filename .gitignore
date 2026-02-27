@@ -108,3 +108,7 @@ AI_Employee_Vault/*.bak.*
 # Ignore log/state backups (local safety)
 AI_Employee_Vault/Logs/*.bak.*
 
+
+# Ignore daily runtime action logs (commit snapshots in evidence/)
+AI_Employee_Vault/Logs/action_log_*.jsonl
+

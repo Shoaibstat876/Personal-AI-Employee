@@ -1,0 +1,53 @@
+﻿# gold_loop.log.md
+
+Created: 2026-02-26T22:54:49+05:00
+
+Append-only log for deterministic gold loop runs.
+- 2026-02-27T03:10:30+05:00 | SCAN_RESULT | {"count": 0, "tasks": []}
+- 2026-02-27T03:10:30+05:00 | CYCLE_IDLE | {"note": "scan/claim/move completed; no execution"}
+- 2026-02-28T04:13:28+05:00 | SCAN_RESULT | {"count": 0, "tasks": []}
+- 2026-02-28T04:13:28+05:00 | CYCLE_IDLE | {"note": "scan/claim/move completed; no execution"}
+- 2026-02-28T04:16:23+05:00 | SCAN_RESULT | {"count": 1, "tasks": ["DEMO_FAIL_SOURCE_MISSING_2026-02-28_04-16-10.md"]}
+- 2026-02-28T04:16:23+05:00 | CLAIM_ATTEMPT | {"task": "DEMO_FAIL_SOURCE_MISSING_2026-02-28_04-16-10.md"}
+- 2026-02-28T04:16:23+05:00 | CLAIM_RESULT | {"task": "DEMO_FAIL_SOURCE_MISSING_2026-02-28_04-16-10.md", "acquired": true, "reason": "LOCK_ACQUIRED", "lock_path": "D:\\Shoaib Project\\Personal-AI-Employee\\AI_Employee_Vault\\In_Progress\\gold\\DEMO_FAIL_SOURCE_MISSING_2026-02-28_04-16-10.md.lock.json"}
+- 2026-02-28T04:16:23+05:00 | TASK_MOVE_ATTEMPT | {"task": "DEMO_FAIL_SOURCE_MISSING_2026-02-28_04-16-10.md", "from": "D:\\Shoaib Project\\Personal-AI-Employee\\AI_Employee_Vault\\Needs_Action\\DEMO_FAIL_SOURCE_MISSING_2026-02-28_04-16-10.md", "to": "D:\\Shoaib Project\\Personal-AI-Employee\\AI_Employee_Vault\\In_Progress\\gold\\DEMO_FAIL_SOURCE_MISSING_2026-02-28_04-16-10.md"}
+- 2026-02-28T04:16:23+05:00 | TASK_MOVED_TO_IN_PROGRESS | {"task": "DEMO_FAIL_SOURCE_MISSING_2026-02-28_04-16-10.md", "to": "D:\\Shoaib Project\\Personal-AI-Employee\\AI_Employee_Vault\\In_Progress\\gold\\DEMO_FAIL_SOURCE_MISSING_2026-02-28_04-16-10.md"}
+- 2026-02-28T04:16:23+05:00 | CYCLE_IDLE | {"note": "scan/claim/move completed; no execution"}
+- 2026-02-28T04:26:34+05:00 | SCAN_RESULT | {"count": 1, "tasks": ["DEMO_FAIL_SOURCE_MISSING_MANUAL.md"]}
+- 2026-02-28T04:26:34+05:00 | CLAIM_ATTEMPT | {"task": "DEMO_FAIL_SOURCE_MISSING_MANUAL.md"}
+- 2026-02-28T04:26:34+05:00 | CLAIM_RESULT | {"task": "DEMO_FAIL_SOURCE_MISSING_MANUAL.md", "acquired": true, "reason": "LOCK_ACQUIRED", "lock_path": "D:\\Shoaib Project\\Personal-AI-Employee\\AI_Employee_Vault\\In_Progress\\gold\\DEMO_FAIL_SOURCE_MISSING_MANUAL.md.lock.json"}
+- 2026-02-28T04:26:34+05:00 | TASK_MOVE_ATTEMPT | {"task": "DEMO_FAIL_SOURCE_MISSING_MANUAL.md", "from": "D:\\Shoaib Project\\Personal-AI-Employee\\AI_Employee_Vault\\Needs_Action\\DEMO_FAIL_SOURCE_MISSING_MANUAL.md", "to": "D:\\Shoaib Project\\Personal-AI-Employee\\AI_Employee_Vault\\In_Progress\\gold\\DEMO_FAIL_SOURCE_MISSING_MANUAL.md"}
+- 2026-02-28T04:26:34+05:00 | TASK_MOVED_TO_IN_PROGRESS | {"task": "DEMO_FAIL_SOURCE_MISSING_MANUAL.md", "to": "D:\\Shoaib Project\\Personal-AI-Employee\\AI_Employee_Vault\\In_Progress\\gold\\DEMO_FAIL_SOURCE_MISSING_MANUAL.md"}
+- 2026-02-28T04:26:34+05:00 | CYCLE_IDLE | {"note": "scan/claim/move completed; no execution"}
+- 2026-02-28T04:38:21+05:00 | SCAN_RESULT | {"count": 1, "tasks": ["DEMO_FAIL_MOVE_LOCKED_2026-02-28_04-37-58.md"]}
+- 2026-02-28T04:38:21+05:00 | CLAIM_ATTEMPT | {"task": "DEMO_FAIL_MOVE_LOCKED_2026-02-28_04-37-58.md"}
+- 2026-02-28T04:38:21+05:00 | CLAIM_RESULT | {"task": "DEMO_FAIL_MOVE_LOCKED_2026-02-28_04-37-58.md", "acquired": true, "reason": "LOCK_ACQUIRED", "lock_path": "D:\\Shoaib Project\\Personal-AI-Employee\\AI_Employee_Vault\\In_Progress\\gold\\DEMO_FAIL_MOVE_LOCKED_2026-02-28_04-37-58.md.lock.json"}
+- 2026-02-28T04:38:21+05:00 | TASK_MOVE_ATTEMPT | {"task": "DEMO_FAIL_MOVE_LOCKED_2026-02-28_04-37-58.md", "from": "D:\\Shoaib Project\\Personal-AI-Employee\\AI_Employee_Vault\\Needs_Action\\DEMO_FAIL_MOVE_LOCKED_2026-02-28_04-37-58.md", "to": "D:\\Shoaib Project\\Personal-AI-Employee\\AI_Employee_Vault\\In_Progress\\gold\\DEMO_FAIL_MOVE_LOCKED_2026-02-28_04-37-58.md"}
+- 2026-02-28T04:38:21+05:00 | TASK_MOVED_TO_IN_PROGRESS | {"task": "DEMO_FAIL_MOVE_LOCKED_2026-02-28_04-37-58.md", "to": "D:\\Shoaib Project\\Personal-AI-Employee\\AI_Employee_Vault\\In_Progress\\gold\\DEMO_FAIL_MOVE_LOCKED_2026-02-28_04-37-58.md"}
+- 2026-02-28T04:38:21+05:00 | CYCLE_IDLE | {"note": "scan/claim/move completed; no execution"}
+- 2026-02-28T04:43:31+05:00 | SCAN_RESULT | {"count": 0, "tasks": []}
+- 2026-02-28T04:43:31+05:00 | CYCLE_IDLE | {"note": "scan/claim/move completed; no execution"}
+- 2026-02-28T05:15:33+05:00 | SCAN_RESULT | {"count": 0, "tasks": []}
+- 2026-02-28T05:15:33+05:00 | CYCLE_IDLE | {"note": "scan/claim/move completed; no execution"}
+- 2026-02-28T05:19:07+05:00 | SCAN_RESULT | {"count": 1, "tasks": ["DEMO_FAIL_ALREADY_IN_PROGRESS_RACE_2026-02-28_05-19-06.md"]}
+- 2026-02-28T05:19:07+05:00 | CLAIM_ATTEMPT | {"task": "DEMO_FAIL_ALREADY_IN_PROGRESS_RACE_2026-02-28_05-19-06.md"}
+- 2026-02-28T05:19:07+05:00 | CLAIM_RESULT | {"task": "DEMO_FAIL_ALREADY_IN_PROGRESS_RACE_2026-02-28_05-19-06.md", "acquired": true, "reason": "LOCK_ACQUIRED", "lock_path": "D:\\Shoaib Project\\Personal-AI-Employee\\AI_Employee_Vault\\In_Progress\\gold\\DEMO_FAIL_ALREADY_IN_PROGRESS_RACE_2026-02-28_05-19-06.md.lock.json"}
+- 2026-02-28T05:19:07+05:00 | TASK_MOVE_ATTEMPT | {"task": "DEMO_FAIL_ALREADY_IN_PROGRESS_RACE_2026-02-28_05-19-06.md", "from": "D:\\Shoaib Project\\Personal-AI-Employee\\AI_Employee_Vault\\Needs_Action\\DEMO_FAIL_ALREADY_IN_PROGRESS_RACE_2026-02-28_05-19-06.md", "to": "D:\\Shoaib Project\\Personal-AI-Employee\\AI_Employee_Vault\\In_Progress\\gold\\DEMO_FAIL_ALREADY_IN_PROGRESS_RACE_2026-02-28_05-19-06.md"}
+- 2026-02-28T05:19:07+05:00 | TASK_MOVED_TO_IN_PROGRESS | {"task": "DEMO_FAIL_ALREADY_IN_PROGRESS_RACE_2026-02-28_05-19-06.md", "to": "D:\\Shoaib Project\\Personal-AI-Employee\\AI_Employee_Vault\\In_Progress\\gold\\DEMO_FAIL_ALREADY_IN_PROGRESS_RACE_2026-02-28_05-19-06.md"}
+- 2026-02-28T05:19:07+05:00 | CYCLE_IDLE | {"note": "scan/claim/move completed; no execution"}
+- 2026-02-28T05:21:56+05:00 | SCAN_RESULT | {"count": 0, "tasks": []}
+- 2026-02-28T05:21:56+05:00 | CYCLE_IDLE | {"note": "scan/claim/move completed; no execution"}
+- 2026-02-28T05:24:23+05:00 | SCAN_RESULT | {"count": 1, "tasks": ["DEMO_SKIP_ALREADY_IN_PROGRESS_2026-02-28_05-24-23.md"]}
+- 2026-02-28T05:24:23+05:00 | CLAIM_ATTEMPT | {"task": "DEMO_SKIP_ALREADY_IN_PROGRESS_2026-02-28_05-24-23.md"}
+- 2026-02-28T05:24:23+05:00 | CLAIM_RESULT | {"task": "DEMO_SKIP_ALREADY_IN_PROGRESS_2026-02-28_05-24-23.md", "acquired": true, "reason": "LOCK_ACQUIRED", "lock_path": "D:\\Shoaib Project\\Personal-AI-Employee\\AI_Employee_Vault\\In_Progress\\gold\\DEMO_SKIP_ALREADY_IN_PROGRESS_2026-02-28_05-24-23.md.lock.json"}
+- 2026-02-28T05:24:23+05:00 | TASK_MOVE_ATTEMPT | {"task": "DEMO_SKIP_ALREADY_IN_PROGRESS_2026-02-28_05-24-23.md", "from": "D:\\Shoaib Project\\Personal-AI-Employee\\AI_Employee_Vault\\Needs_Action\\DEMO_SKIP_ALREADY_IN_PROGRESS_2026-02-28_05-24-23.md", "to": "D:\\Shoaib Project\\Personal-AI-Employee\\AI_Employee_Vault\\In_Progress\\gold\\DEMO_SKIP_ALREADY_IN_PROGRESS_2026-02-28_05-24-23.md"}
+- 2026-02-28T05:24:23+05:00 | TASK_MOVED_TO_IN_PROGRESS | {"task": "DEMO_SKIP_ALREADY_IN_PROGRESS_2026-02-28_05-24-23.md", "to": "D:\\Shoaib Project\\Personal-AI-Employee\\AI_Employee_Vault\\In_Progress\\gold\\DEMO_SKIP_ALREADY_IN_PROGRESS_2026-02-28_05-24-23.md"}
+- 2026-02-28T05:24:24+05:00 | CYCLE_IDLE | {"note": "scan/claim/move completed; no execution"}
+- 2026-02-28T05:28:38+05:00 | SCAN_RESULT | {"count": 1, "tasks": ["DEMO_SKIP_ALREADY_IN_PROGRESS_ATOMIC_2026-02-28_05-28-38.md"]}
+- 2026-02-28T05:28:38+05:00 | CLAIM_ATTEMPT | {"task": "DEMO_SKIP_ALREADY_IN_PROGRESS_ATOMIC_2026-02-28_05-28-38.md"}
+- 2026-02-28T05:28:38+05:00 | CLAIM_RESULT | {"task": "DEMO_SKIP_ALREADY_IN_PROGRESS_ATOMIC_2026-02-28_05-28-38.md", "acquired": true, "reason": "LOCK_ACQUIRED", "lock_path": "D:\\Shoaib Project\\Personal-AI-Employee\\AI_Employee_Vault\\In_Progress\\gold\\DEMO_SKIP_ALREADY_IN_PROGRESS_ATOMIC_2026-02-28_05-28-38.md.lock.json"}
+- 2026-02-28T05:28:38+05:00 | TASK_MOVE_ATTEMPT | {"task": "DEMO_SKIP_ALREADY_IN_PROGRESS_ATOMIC_2026-02-28_05-28-38.md", "from": "D:\\Shoaib Project\\Personal-AI-Employee\\AI_Employee_Vault\\Needs_Action\\DEMO_SKIP_ALREADY_IN_PROGRESS_ATOMIC_2026-02-28_05-28-38.md", "to": "D:\\Shoaib Project\\Personal-AI-Employee\\AI_Employee_Vault\\In_Progress\\gold\\DEMO_SKIP_ALREADY_IN_PROGRESS_ATOMIC_2026-02-28_05-28-38.md"}
+- 2026-02-28T05:28:38+05:00 | TASK_MOVED_TO_IN_PROGRESS | {"task": "DEMO_SKIP_ALREADY_IN_PROGRESS_ATOMIC_2026-02-28_05-28-38.md", "to": "D:\\Shoaib Project\\Personal-AI-Employee\\AI_Employee_Vault\\In_Progress\\gold\\DEMO_SKIP_ALREADY_IN_PROGRESS_ATOMIC_2026-02-28_05-28-38.md"}
+- 2026-02-28T05:28:38+05:00 | CYCLE_IDLE | {"note": "scan/claim/move completed; no execution"}
+- 2026-02-28T05:33:38+05:00 | SCAN_RESULT | {"count": 0, "tasks": []}
+- 2026-02-28T05:33:38+05:00 | CYCLE_IDLE | {"note": "scan/claim/move completed; no execution"}

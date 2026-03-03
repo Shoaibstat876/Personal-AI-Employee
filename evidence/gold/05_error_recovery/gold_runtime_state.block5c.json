@@ -1,0 +1,14 @@
+{
+  "run_id": "2026-03-04T03:44:48+05:00|26020",
+  "inflight_task_id": "DEMO_RETRY_LOCK_2026-03-04_03-44-48.md",
+  "inflight_step": "MOVED_TO_IN_PROGRESS",
+  "inflight_lock_id": "D:\\Shoaib Project\\Personal-AI-Employee\\AI_Employee_Vault\\In_Progress\\gold\\DEMO_RETRY_LOCK_2026-03-04_03-44-48.md.lock.json",
+  "last_scan_time": "2026-03-04T03:44:48+05:00",
+  "updated_at": "2026-03-04T03:44:49+05:00",
+  "last_run_ts": "2026-03-04T03:44:48+05:00",
+  "last_status": "moved_to_in_progress",
+  "last_checkpoint": "MOVED_TO_IN_PROGRESS",
+  "last_output_paths": [
+    "D:\\Shoaib Project\\Personal-AI-Employee\\AI_Employee_Vault\\In_Progress\\gold\\DEMO_RETRY_LOCK_2026-03-04_03-44-48.md"
+  ]
+}

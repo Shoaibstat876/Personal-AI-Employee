@@ -1,0 +1,10 @@
+﻿- 2026-03-04T03:44:48+05:00 | SCAN_RESULT | {"count": 1, "tasks": ["DEMO_RETRY_LOCK_2026-03-04_03-44-48.md"]}
+- 2026-03-04T03:44:48+05:00 | CLAIM_ATTEMPT | {"task": "DEMO_RETRY_LOCK_2026-03-04_03-44-48.md"}
+- 2026-03-04T03:44:48+05:00 | RETRY_ATTEMPT | {"task": "DEMO_RETRY_LOCK_2026-03-04_03-44-48.md", "attempt": 1, "max": 3}
+- 2026-03-04T03:44:48+05:00 | RETRY_TRANSIENT_ERROR | {"task": "DEMO_RETRY_LOCK_2026-03-04_03-44-48.md", "attempt": 1, "error": "SIMULATED_TRANSIENT_LOCK_ERROR_ONCE"}
+- 2026-03-04T03:44:48+05:00 | RETRY_BACKOFF_SLEEP | {"task": "DEMO_RETRY_LOCK_2026-03-04_03-44-48.md", "seconds": 0.2, "attempt": 1}
+- 2026-03-04T03:44:49+05:00 | RETRY_ATTEMPT | {"task": "DEMO_RETRY_LOCK_2026-03-04_03-44-48.md", "attempt": 2, "max": 3}
+- 2026-03-04T03:44:49+05:00 | RETRY_SUCCESS | {"task": "DEMO_RETRY_LOCK_2026-03-04_03-44-48.md", "attempt": 2}
+- 2026-03-04T03:44:49+05:00 | CLAIM_RESULT | {"task": "DEMO_RETRY_LOCK_2026-03-04_03-44-48.md", "acquired": true, "reason": "LOCK_ACQUIRED", "lock_path": "D:\\Shoaib Project\\Personal-AI-Employee\\AI_Employee_Vault\\In_Progress\\gold\\DEMO_RETRY_LOCK_2026-03-04_03-44-48.md.lock.json"}
+- 2026-03-04T03:44:49+05:00 | TASK_MOVE_ATTEMPT | {"task": "DEMO_RETRY_LOCK_2026-03-04_03-44-48.md", "from": "D:\\Shoaib Project\\Personal-AI-Employee\\AI_Employee_Vault\\Needs_Action\\DEMO_RETRY_LOCK_2026-03-04_03-44-48.md", "to": "D:\\Shoaib Project\\Personal-AI-Employee\\AI_Employee_Vault\\In_Progress\\gold\\DEMO_RETRY_LOCK_2026-03-04_03-44-48.md"}
+- 2026-03-04T03:44:49+05:00 | TASK_MOVED_TO_IN_PROGRESS | {"task": "DEMO_RETRY_LOCK_2026-03-04_03-44-48.md", "to": "D:\\Shoaib Project\\Personal-AI-Employee\\AI_Employee_Vault\\In_Progress\\gold\\DEMO_RETRY_LOCK_2026-03-04_03-44-48.md"}

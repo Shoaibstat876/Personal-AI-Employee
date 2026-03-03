@@ -1,0 +1,11 @@
+{
+  "run_id": "2026-03-03T21:49:02+05:00|25604",
+  "inflight_task_id": "DEMO_EXEC_FILESYSTEM_2026-03-03_21-49-01.md",
+  "inflight_step": "EXECUTED_AND_MOVED_TO_COMPLETED",
+  "inflight_lock_id": "D:\\Shoaib Project\\Personal-AI-Employee\\AI_Employee_Vault\\In_Progress\\gold\\DEMO_EXEC_FILESYSTEM_2026-03-03_21-49-01.md.lock.json",
+  "last_scan_time": "2026-03-03T21:49:02+05:00",
+  "updated_at": "2026-03-03T21:49:02+05:00",
+  "tier": "gold",
+  "created_at": "2026-02-26T22:54:49+05:00",
+  "note": "Initial gold runtime state (judge-safe placeholder)."
+}

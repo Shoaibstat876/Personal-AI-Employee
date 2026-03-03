@@ -112,3 +112,11 @@ AI_Employee_Vault/Logs/*.bak.*
 # Ignore daily runtime action logs (commit snapshots in evidence/)
 AI_Employee_Vault/Logs/action_log_*.jsonl
 
+
+# --- Gold runtime (do not version) ---
+AI_Employee_Vault/Artifacts/
+AI_Employee_Vault/Completed/
+AI_Employee_Vault/In_Progress/
+AI_Employee_Vault/Needs_Action/
+AI_Employee_Vault/Logs/
+

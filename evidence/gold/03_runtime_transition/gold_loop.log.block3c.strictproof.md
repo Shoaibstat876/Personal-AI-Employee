@@ -1,0 +1,2 @@
+﻿- 2026-03-04T02:19:05+05:00 | SCAN_RESULT | {"count": 0, "tasks": []}
+- 2026-03-04T02:19:05+05:00 | CYCLE_IDLE | {"note": "scan/claim/move completed; no execution"}

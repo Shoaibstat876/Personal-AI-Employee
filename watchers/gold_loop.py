@@ -119,10 +119,7 @@ def run_once() -> int:
 
     tasks = list_needs_action_tasks()
 
-    filtered = [
-        t for t in tasks
-        if not (VAULT_ROOT / "In_Progress" / "gold" / t).exists()
-    ]
+    filtered = [t for t in tasks if not (VAULT_ROOT / "In_Progress" / "gold" / t).exists()]
 
     tasks = filtered
 
@@ -234,6 +231,80 @@ def run_once() -> int:
                     state["inflight_task_id"] = task0
                     state["inflight_step"] = "MOVED_TO_IN_PROGRESS"
                     save_state(state)
+
+                    # ---- Phase 6: SAFE local-only execution (DEMO tasks only) ----
+                    if str(task0).startswith("DEMO_EXEC_"):
+                        try:
+                            inprog_path = VAULT_ROOT / "In_Progress" / "gold" / task0
+                            completed_dir = VAULT_ROOT / "Completed" / "gold"
+                            artifacts_dir = VAULT_ROOT / "Artifacts" / "gold"
+
+                            completed_dir.mkdir(parents=True, exist_ok=True)
+                            artifacts_dir.mkdir(parents=True, exist_ok=True)
+
+                            append_log(
+                                "EXECUTION_ATTEMPT",
+                                {"task": task0, "mode": "local_filesystem"},
+                            )
+
+                            # Read task content (local only)
+                            try:
+                                task_text = inprog_path.read_text(encoding="utf-8")
+                            except Exception:
+                                task_text = (
+                                    "(could not read task content as utf-8; continuing safely)"
+                                )
+
+                            # Create a real artifact file
+                            safe_name = Path(task0).stem  # remove .md
+                            artifact_path = artifacts_dir / f"artifact.{safe_name}.result.md"
+
+                            artifact_body = (
+                                f"# Gold Phase 6 Artifact\n\n"
+                                f"- task: {task0}\n"
+                                f"- created_at: {now_iso()}\n"
+                                f"- mode: local_filesystem\n\n"
+                                f"## Task content snapshot\n\n"
+                                f"{task_text}\n"
+                            )
+
+                            artifact_path.write_text(artifact_body, encoding="utf-8")
+
+                            append_log(
+                                "EXECUTION_RESULT",
+                                {
+                                    "task": task0,
+                                    "artifact": str(artifact_path),
+                                    "result": "ok",
+                                },
+                            )
+
+                            # Move task to Completed (still local only)
+                            completed_path = completed_dir / task0
+                            inprog_path.replace(completed_path)
+
+                            state = load_state()
+                            state["run_id"] = RUN_ID
+                            state["inflight_task_id"] = task0
+                            state["inflight_step"] = "EXECUTED_AND_MOVED_TO_COMPLETED"
+                            save_state(state)
+
+                            append_log(
+                                "TASK_MOVED_TO_COMPLETED",
+                                {"task": task0, "to": str(completed_path)},
+                            )
+
+                        except Exception as e:
+                            append_log(
+                                "EXECUTION_FAILED_EXCEPTION",
+                                {"task": task0, "error": str(e)},
+                            )
+                            state = load_state()
+                            state["run_id"] = RUN_ID
+                            state["inflight_task_id"] = task0
+                            state["inflight_step"] = "EXECUTION_FAILED_EXCEPTION"
+                            save_state(state)
+                    # ---- end Phase 6 block ----
 
                 except Exception as e:
                     append_log(

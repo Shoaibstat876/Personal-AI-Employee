@@ -1,0 +1,45 @@
+PS D:\Shoaib Project\Personal-AI-Employee> claude
+ ▐▛███▜▌   Claude Code v2.1.74
+▝▜█████▛▘  Sonnet 4.6 · API Usage Billing
+  ▘▘ ▝▝    D:\Shoaib Project\Personal-AI-Employee
+
+❯ Use the gmail MCP only.                                                                                                                                               List all available gmail MCP tools and tell me which of these exist:                                                                                                    1. read emails                                                                      2. create draft                                                                     3. send email                                                                       4. send draft                                                                       
+                
+● Here are all Gmail MCP tools available, and the status of your 4 requested        
+  capabilities:
+                                                                                      ---                                                                                 Your 4 requested capabilities — all exist:                                                                                                                            
+  ┌─────┬──────────────┬─────────────────────────────────────────────────────┐
+  │  #  │  Capability  │                      MCP Tool                       │      
+  ├─────┼──────────────┼─────────────────────────────────────────────────────┤        │ 1   │ Read emails  │ mcp__gmail__list_messages + mcp__gmail__get_message │      
+  ├─────┼──────────────┼─────────────────────────────────────────────────────┤      
+  │ 2   │ Create draft │ mcp__gmail__create_draft                            │      
+  ├─────┼──────────────┼─────────────────────────────────────────────────────┤        │ 3   │ Send email   │ mcp__gmail__send_message                            │      
+  ├─────┼──────────────┼─────────────────────────────────────────────────────┤      
+  │ 4   │ Send draft   │ mcp__gmail__send_draft                              │
+  └─────┴──────────────┴─────────────────────────────────────────────────────┘         
+  ---                                                                               
+  Full list of all Gmail MCP tools (from the available deferred tools):             
+                                                                                    
+  Messages
+  - list_messages — list/search inbox                                                 - get_message — read a specific message                                             - send_message — send a new email                                                 
+  - delete_message — permanently delete                                             
+  - trash_message / untrash_message — move to/from trash                            
+  - modify_message — add/remove labels                                                - batch_delete_messages / batch_modify_messages — bulk operations
+  - get_attachment — fetch attachment                                               
+                                                                                      Drafts                                                                              - create_draft — create a draft                                                     - get_draft — read a draft                                                          - list_drafts — list all drafts
+  - send_draft — send an existing draft                                             
+  - delete_draft — delete a draft                                                                                                                                         Threads                                                                             - get_thread, list_threads, modify_thread, trash_thread, delete_thread,
+  untrash_thread                                                                                                                                                        
+  Labels                                                                            
+  - create_label, get_label, list_labels, update_label, patch_label, delete_label                                                                                         Filters                                                                           
+  - create_filter, get_filter, list_filters, delete_filter                          
+                                                                                      Account / Settings                                                                
+  - get_profile, update_language, get_language                                        - get_imap / update_imap, get_pop / update_pop                                      - get_vacation / update_vacation   
+  - get_auto_forwarding / update_auto_forwarding                                    
+  - list_forwarding_addresses, get_forwarding_address, create_forwarding_address,     delete_forwarding_address                                                         
+  - list_send_as, get_send_as, create_send_as, update_send_as, patch_send_as,         delete_send_as, verify_send_as
+  - list_delegates, get_delegate, add_delegate, remove_delegate                       - list_smime_info, get_smime_info, insert_smime_info, delete_smime_info,          
+  set_default_smime_info                                                            
+  - watch_mailbox, stop_mail_watch                                                                                                                                      ────────────────────────────────────────────────────────────────────────────────────❯  
+────────────────────────────────────────────────────────────────────────────────────
+  ? for shortcuts     

@@ -1,0 +1,9 @@
+﻿Policy Engine
+
+The system applies policy-based governance before executing any
+external action.
+
+Each execution target (email, odoo, slack, github) is mapped
+to a risk level and approval policy.
+
+This ensures the AI employee follows controlled automation rules.

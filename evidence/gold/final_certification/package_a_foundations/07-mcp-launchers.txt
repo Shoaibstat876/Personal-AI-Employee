@@ -1,0 +1,9 @@
+
+Launcher                Exists
+--------                ------
+github-mcp-launcher.cmd   True
+slack-mcp-launcher.cmd    True
+odoo-mcp-launcher.cmd     True
+
+
+

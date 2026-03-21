@@ -1,0 +1,13 @@
+
+Path                                 Exists
+----                                 ------
+.\AI_Employee_Vault\Needs_Action       True
+.\AI_Employee_Vault\Plans              True
+.\AI_Employee_Vault\Pending_Approval   True
+.\AI_Employee_Vault\Approved           True
+.\AI_Employee_Vault\Rejected           True
+.\AI_Employee_Vault\Artifacts          True
+.\AI_Employee_Vault\Logs               True
+
+
+

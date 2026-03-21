@@ -1,0 +1,22 @@
+PHASE 3: Odoo Business Environment Setup
+
+Inside Odoo the following objects were created:
+
+Customer:
+Test Customer Alpha
+Email: alpha@example.com
+
+Product:
+Consulting Service
+Price: 1000 PKR
+
+Invoice:
+INV/2026/00001
+Customer: Test Customer Alpha
+Product: Consulting Service
+Total: 1170 PKR (including tax)
+
+Invoice successfully posted.
+
+Decision:
+PASS

@@ -1,0 +1,20 @@
+﻿REAL GMAIL INTAKE — OPERATOR PROCEDURE
+
+1. Read one real Gmail message using Gmail MCP in Claude.
+2. Copy these 3 fields from the message:
+   - sender
+   - subject
+   - body
+3. Paste them into:
+   evidence\gold\gmail_real_reader\10-real-gmail-payload-template.json
+4. Save that file as:
+   evidence\gold\gmail_real_reader\11-real-gmail-payload.json
+5. Run:
+   python .\tools\gmail_json_to_task.py --json .\evidence\gold\gmail_real_reader\11-real-gmail-payload.json
+6. Verify newest file appears in:
+   AI_Employee_Vault\Needs_Action
+7. Keep proof files in:
+   evidence\gold\gmail_real_reader\
+
+Control principle:
+No external action occurs during intake. Intake only creates a task artifact for HITL review.

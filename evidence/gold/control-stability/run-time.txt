@@ -1,0 +1,9 @@
+  node -v
+>> npm -v
+>> python --version
+>> pip --version
+v22.14.0
+10.9.2
+Python 3.12.6
+pip 24.2 from C:\Python312\Lib\site-packages\pip (python 3.12)
+PS D:\Shoaib Project\Personal-AI-Employee>

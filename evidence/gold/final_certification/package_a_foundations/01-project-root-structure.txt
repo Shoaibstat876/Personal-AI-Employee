@@ -1,0 +1,39 @@
+
+Mode   Name                     
+----   ----                     
+d----- .claude                  
+d--h-- .git                     
+d----- .playwright-mcp          
+d----- AI_Employee_Vault        
+d----- Briefings                
+d----- docs                     
+d----- dropbox                  
+d----- evidence                 
+d----- infra                    
+d----- scripts                  
+d----- tools                    
+d----- ui                       
+d----- watchers                 
+-a---- .env                     
+-a---- .env.odoo                
+-a---- .gitignore               
+-a---- .mcp.json                
+-a---- .mcp.json.backup         
+-a---- .mcp.json.backup-odoo    
+-a---- ARCHITECTURE.md          
+-a---- AUDIT_LOG_SPEC.md        
+-a---- Business_Goals.md        
+-a---- github-mcp-launcher.cmd  
+-a---- Gold-Readme.md           
+-a---- GOLD_SCOPE.md            
+-a---- LESSONS_LEARNED.md       
+-a---- odoo-mcp-launcher.cmd    
+-a---- README.md                
+-a---- RETRY_LOGIC.md           
+-a---- silver_prompt_template.md
+-a---- silver_run_once.cmd      
+-a---- silver_run_once.ps1      
+-a---- slack-mcp-launcher.cmd   
+
+
+

@@ -1,0 +1,15 @@
+PHASE 7: Read Test
+
+Prompt:
+Use the odoo MCP server and list customers
+
+Returned records included:
+- Administrator
+- My Company
+- Test Customer Alpha (alpha@example.com)
+
+Decision:
+PASS
+
+Meaning:
+Claude successfully read real customer data from Odoo through the MCP server.

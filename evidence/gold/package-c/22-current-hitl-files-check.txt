@@ -1,0 +1,16 @@
+--- Pending_Approval ---
+
+
+--- Approved ---
+
+Name                                                          LastWriteTime        
+----                                                          -------------        
+APPROVAL_PLAN_TASK_EMAIL_20260319T070051Z_4ce5064398da8b2f.md 3/19/2026 3:16:02 PM 
+APPROVAL_PLAN_TASK_EMAIL_20260316T161256Z_e2b8c52de8772368.md 3/16/2026 10:11:45 PM
+EMAIL_DRAFT_demo_2026-02-27_03-17-59.md                       2/27/2026 3:17:59 AM 
+
+
+
+
+--- Rejected ---
+

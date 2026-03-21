@@ -1,0 +1,26 @@
+
+FullName                                                                              
+--------                                                                              
+D:\Shoaib Project\Personal-AI-Employee\tools\execute_odoo_action_artifact.py          
+D:\Shoaib Project\Personal-AI-Employee\tools\execute_slack_action_artifact.py         
+D:\Shoaib Project\Personal-AI-Employee\tools\generate_email_draft_from_action_artif...
+D:\Shoaib Project\Personal-AI-Employee\tools\generate_odoo_action_artifact.py         
+D:\Shoaib Project\Personal-AI-Employee\tools\generate_plan_from_email_task.py         
+D:\Shoaib Project\Personal-AI-Employee\tools\generate_slack_action_artifact.py        
+D:\Shoaib Project\Personal-AI-Employee\tools\gmail_intake_runner.py                   
+D:\Shoaib Project\Personal-AI-Employee\tools\gmail_json_to_task.py                    
+D:\Shoaib Project\Personal-AI-Employee\tools\list_slack_channels.py                   
+D:\Shoaib Project\Personal-AI-Employee\tools\post_facebook_update.py                  
+D:\Shoaib Project\Personal-AI-Employee\tools\post_instagram_update.py                 
+D:\Shoaib Project\Personal-AI-Employee\tools\post_linkedin_update.py                  
+D:\Shoaib Project\Personal-AI-Employee\tools\post_twitter_update.py                   
+D:\Shoaib Project\Personal-AI-Employee\tools\run_send_ceo_report.cmd                  
+D:\Shoaib Project\Personal-AI-Employee\tools\send_ceo_report.py                       
+D:\Shoaib Project\Personal-AI-Employee\tools\send_email.py                            
+D:\Shoaib Project\Personal-AI-Employee\tools\send_email_from_draft_artifact.py        
+D:\Shoaib Project\Personal-AI-Employee\tools\social_summary_generator.py              
+D:\Shoaib Project\Personal-AI-Employee\scripts\create_gmail_task.ps1                  
+D:\Shoaib Project\Personal-AI-Employee\watchers\gmail_task_bridge.py                  
+
+
+

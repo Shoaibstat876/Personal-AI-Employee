@@ -56,3 +56,99 @@ Supporting folders for Gold foundation contracts:
 - HITL required for sensitive actions (approval file flow)
 - Platinum autonomy is NOT enabled
 
+---
+
+## HITL Execution Layer (Gold Completion Upgrade)
+
+The system has been extended beyond orchestration safety to include **real-world execution under Human-In-The-Loop (HITL) control**.
+
+This introduces a controlled action pipeline:
+
+Approval → Action Artifact → Execution Bridge → External System → Log
+
+---
+
+## Execution bridges (implemented)
+
+### Email execution bridge
+- Source: approval → email action artifact
+- Execution: Python script using Resend API
+- Result: real email delivered to external inbox
+- Logging: execution output + audit trace
+
+### Odoo execution bridge
+- Source: approval → Odoo action artifact
+- Execution: Python JSON-RPC client
+- Action: customer creation (`res.partner`)
+- Result: real customer created in Odoo database
+- Safety:
+  - idempotency guard (no duplicate customers)
+  - approval required before execution
+- Logging:
+  - `Logs/odoo_execution_log.jsonl`
+
+### Slack execution bridge
+- Source: approval → Slack action artifact
+- Execution: Python Slack API client
+- Action: message sent to Slack channel
+- Result: real message delivered with timestamp
+- Safety:
+  - channel validation
+  - idempotency guard
+- Logging:
+  - `Logs/slack_execution_log.jsonl`
+
+---
+
+## Execution guarantees
+
+- No external action occurs without approval
+- All executions originate from artifacts
+- Each execution is:
+  - traceable
+  - logged
+  - reproducible
+- Duplicate execution is prevented (idempotency)
+
+---
+
+## Extended audit system
+
+In addition to orchestration logs:
+
+- Odoo execution logs (JSONL)
+- Slack execution logs (JSONL)
+- Email execution outputs
+
+Each record includes:
+- timestamp
+- event type
+- artifact reference
+- execution result
+
+---
+
+## Architecture evolution
+
+System progression:
+
+1. File-based task system  
+2. Deterministic orchestration loop  
+3. HITL approval layer  
+4. **Execution bridges (Gold completion)**  
+
+This final step transforms the system from:
+
+Passive agent → Controlled executor → **Digital employee capable of real actions**
+
+---
+
+## Final note
+
+Gold Tier is achieved when the system can:
+
+- safely request approval  
+- execute real actions  
+- maintain full audit trace  
+
+This repository satisfies all three.

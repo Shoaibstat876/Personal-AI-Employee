@@ -35,3 +35,99 @@ Gold must state clearly in logs that it does not execute external actions:
 
 This prevents accidental Platinum escalation.
 
+---
+
+## 7) Execution requires strict control, not autonomy
+
+Initial Gold design avoided all execution for safety.
+
+However, a complete system requires:
+- real-world interaction
+- business system integration
+- communication capability
+
+The solution is **HITL-controlled execution**, not autonomy.
+
+---
+
+## 8) MCP is access, not execution
+
+MCP servers provide:
+- tools
+- connectivity
+
+But they do NOT perform actions by themselves.
+
+Execution requires:
+- dedicated execution bridges
+- explicit scripts
+- controlled invocation after approval
+
+---
+
+## 9) Artifact-driven execution ensures auditability
+
+Every action follows:
+
+Approval → Action Artifact → Execution → Log
+
+This ensures:
+- traceability
+- reproducibility
+- verifiable proof
+
+Artifacts act as the contract between planning and execution.
+
+---
+
+## 10) Idempotency is critical for real systems
+
+Without idempotency:
+- duplicate customers (Odoo)
+- repeated messages (Slack)
+- repeated emails
+
+Solution:
+- check before execution
+- mark artifact as executed
+- prevent re-run
+
+---
+
+## 11) Logs are proof, not just debugging
+
+Logs serve three purposes:
+- debugging
+- auditing
+- judge verification
+
+Structured logs (JSONL) make the system:
+- inspectable
+- verifiable
+- reliable
+
+---
+
+## 12) Final system evolution
+
+System progression:
+
+Stage 1 → File-based task system  
+Stage 2 → Deterministic orchestration  
+Stage 3 → HITL approval layer  
+Stage 4 → Controlled execution (Gold completion)
+
+---
+
+## Final insight
+
+The system becomes a **true AI employee** only when it can:
+
+- plan work  
+- request approval  
+- execute real actions  
+- maintain full audit trace  
+
+Gold Tier represents the transition from:
+
+Safe system → Useful system → **Operational system**

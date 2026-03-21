@@ -1,0 +1,91 @@
+❯ Use the gcal MCP only.
+                                                                                    
+1. List all available calendars.                                                    
+2. Then list the next 5 events from my primary calendar.                            
+3. Tell me which MCP tools were used.                                               
+
+● Calling both in parallel:
+
+● gcal - list-calendars (MCP)
+  ⎿  {
+       "calendars": [
+         {
+     … +28 lines (ctrl+o to expand)
+
+● gcal - list-events (MCP)(calendarId: "primary", timeMin: "2026-03-15T00:00:00")   
+  ⎿  Error: result (321,649 characters) exceeds maximum allowed tokens. Output      
+     has been saved to C:\Users\Shoaib\.claude\projects\D--Shoaib-Project-Perso     
+     nal-AI-Employee\8a075074-155e-4434-97c6-6fbaef777fee\tool-results\mcp-gcal     
+     … +13 lines (ctrl+o to expand)
+
+● The events response was very large. Let me read just the first portion to extract 
+  the next 5 events.
+
+● Read 1 file (ctrl+o to expand)
+
+● I have enough data. Here are the results:
+
+  ---
+  1. Available Calendars (3 found)
+
+  ┌────────────────────┬────────────────────────────────────┬───────────┬──────┐    
+  │      Calendar      │                 ID                 │ Timezone  │ Role │    
+  ├────────────────────┼────────────────────────────────────┼───────────┼──────┤    
+  │ shoaibstar876@gmai │ shoaibstar876@gmail.com            │ Asia/Kara │ Owne │    
+  │ l.com (Primary)    │                                    │ chi       │ r    │    
+  ├────────────────────┼────────────────────────────────────┼───────────┼──────┤    
+  │ Web & Mobile       │ classroom112595...@group.calendar. │ UTC       │ Read │    
+  │ (Batch 11) G       │ google.com                         │           │ er   │    
+  ├────────────────────┼────────────────────────────────────┼───────────┼──────┤    
+  │ Holidays in        │ en.pk#holiday@group.v.calendar.goo │ Asia/Kara │ Read │    
+  │ Pakistan           │ gle.com                            │ chi       │ er   │    
+  └────────────────────┴────────────────────────────────────┴───────────┴──────┘    
+
+  ---
+  2. Next 5 Events from Primary Calendar
+
+  All 5 are instances of the same recurring event (every Friday, 8:00–9:00 AM PKT). 
+  The summary appears to be garbled/test data.
+
+  ┌─────┬─────────────┬────────┬─────────────┬─────────────────────────────────┐    
+  │  #  │    Date     │  Day   │ Time (PKT)  │             Summary             │    
+  ├─────┼─────────────┼────────┼─────────────┼─────────────────────────────────┤    
+  │ 1   │ Mar 20,     │ Friday │ 8:00–9:00   │ (recurring event — garbled      │    
+  │     │ 2026        │        │ AM          │ title)                          │    
+  ├─────┼─────────────┼────────┼─────────────┼─────────────────────────────────┤    
+  │ 2   │ Mar 27,     │ Friday │ 8:00–9:00   │ (recurring event — garbled      │    
+  │     │ 2026        │        │ AM          │ title)                          │    
+  ├─────┼─────────────┼────────┼─────────────┼─────────────────────────────────┤    
+  │ 3   │ Apr 03,     │ Friday │ 8:00–9:00   │ (recurring event — garbled      │    
+  │     │ 2026        │        │ AM          │ title)                          │    
+  ├─────┼─────────────┼────────┼─────────────┼─────────────────────────────────┤    
+  │ 4   │ Apr 10,     │ Friday │ 8:00–9:00   │ (recurring event — garbled      │    
+  │     │ 2026        │        │ AM          │ title)                          │    
+  ├─────┼─────────────┼────────┼─────────────┼─────────────────────────────────┤    
+  │ 5   │ Apr 17,     │ Friday │ 8:00–9:00   │ (recurring event — garbled      │    
+  │     │ 2026        │        │ AM          │ title)                          │    
+  └─────┴─────────────┴────────┴─────────────┴─────────────────────────────────┘    
+
+  ▎ Note: The event title contains garbled characters (looks like an old test/junk  
+  recurring event created in 2022). All 5 upcoming occurrences are from the same    
+  series.
+
+  ---
+  3. gcal MCP Tools Used
+
+  ┌───────────────────────────┬──────────────────────────────────────────────────┐  
+  │           Tool            │                     Purpose                      │  
+  ├───────────────────────────┼──────────────────────────────────────────────────┤  
+  │ mcp__gcal__list-calendars │ Listed all calendars on the account              │  
+  ├───────────────────────────┼──────────────────────────────────────────────────┤  
+  │ mcp__gcal__list-events    │ Fetched upcoming events from the primary         │  
+  │                           │ calendar                                         │  
+  └───────────────────────────┴──────────────────────────────────────────────────┘  
+
+  Both calls were made in parallel.
+
+✻ Crunched for 39s     
+                                                                                    
+────────────────────────────────────────────────────────────────────────────────────❯  
+────────────────────────────────────────────────────────────────────────────────────
+  ? for shortcuts

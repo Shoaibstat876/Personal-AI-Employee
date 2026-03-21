@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Personal AI Employee — Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/x-icon" href="./assets/icons/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/icons/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="./assets/icons/favicon-16x16.png" />
+  <link rel="apple-touch-icon" href="./assets/icons/apple-touch-icon.png" />
+  <style>
+    /* ══════════════════════════════════════════
+       TOKENS
+    ══════════════════════════════════════════ */
+    :root {
+      --primary:        #3B6EF8;
+      --primary-soft:   #EEF3FF;
+      --primary-deep:   #1D4ED8;
+      --success:        #10B981;
+      --success-soft:   #ECFDF5;
+      --warning:        #F59E0B;
+      --warning-soft:   #FFFBEB;
+      --violet:         #7C3AED;
+      --violet-soft:    #F5F3FF;
+      --neutral:        #64748B;
+      --bg:             #F0F4FF;
+      --card:           rgba(255,255,255,0.88);
+      --card-solid:     #FFFFFF;
+      --text:           #0B1020;
+      --muted:          #475569;
+      --border:         rgba(148,163,184,0.18);
+      --border-strong:  rgba(59,110,248,0.18);
+      --shadow-sm:      0 2px 8px  rgba(15,23,60,0.05), 0 1px 3px rgba(15,23,60,0.04);
+      --shadow-md:      0 8px 28px rgba(15,23,60,0.08), 0 2px 6px rgba(15,23,60,0.04);
+      --shadow-lg:      0 20px 52px rgba(15,23,60,0.10), 0 4px 12px rgba(15,23,60,0.05);
+      --shadow-hover:   0 24px 60px rgba(59,110,248,0.16), 0 6px 16px rgba(15,23,60,0.07);
+      --radius-xl:      28px;
+      --radius-lg:      22px;
+      --radius-md:      16px;
+      --radius-sm:      12px;
+      --max-width:      1280px;
+      --font-display:   'Bricolage Grotesque', system-ui, sans-serif;
+      --font-body:      'Plus Jakarta Sans', system-ui, sans-serif;
+    }
+
+    /* ══════════════════════════════════════════
+       RESET
+    ══════════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; min-width: 0; }
+    html { scroll-behavior: smooth; }
+    img, svg { max-width: 100%; height: auto; display: block; }
+
+    /* ══════════════════════════════════════════
+       BODY + BG
+    ══════════════════════════════════════════ */
+    body {
+      margin: 0;
+      font-family: var(--font-body);
+      background: var(--bg);
+      background-image:
+        radial-gradient(ellipse 70% 50% at 5%   0%,  rgba(59,110,248,0.13) 0%, transparent 55%),
+        radial-gradient(ellipse 55% 45% at 95% 100%, rgba(16,185,129,0.09)  0%, transparent 55%),
+        radial-gradient(ellipse 45% 40% at 60%  45%, rgba(124,58,237,0.05)  0%, transparent 60%);
+      color: var(--text);
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* dot-grid texture */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background-image: radial-gradient(circle, rgba(59,110,248,0.055) 1px, transparent 1px);
+      background-size: 38px 38px;
+      mask-image: radial-gradient(ellipse 85% 85% at 50% 40%, black 30%, transparent 100%);
+    }
+
+    /* ══════════════════════════════════════════
+       SHELL
+    ══════════════════════════════════════════ */
+    .shell {
+      position: relative;
+      z-index: 1;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 28px 22px 56px;
+    }
+
+    /* ══════════════════════════════════════════
+       TOPBAR
+    ══════════════════════════════════════════ */
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 20px;
+      animation: fadeDown .55s cubic-bezier(.34,1.56,.64,1) both;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      width: 50px; height: 50px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--primary), #818CF8);
+      box-shadow: 0 12px 28px rgba(59,110,248,0.30), inset 0 1px 0 rgba(255,255,255,0.25);
+      display: grid;
+      place-items: center;
+      color: white;
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 900;
+      flex: 0 0 auto;
+      letter-spacing: -.02em;
+    }
+
+    .brand-copy h2 {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -.02em;
+    }
+
+    .brand-copy p {
+      margin: 3px 0 0;
+      color: var(--neutral);
+      font-size: 12.5px;
+      font-weight: 500;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: rgba(255,255,255,0.85);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      color: var(--text);
+      padding: 11px 18px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      backdrop-filter: blur(12px);
+      flex-wrap: wrap;
+      max-width: 100%;
+    }
+
+    .status-dot {
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 0 4px rgba(16,185,129,0.18);
+      flex: 0 0 auto;
+      animation: livepulse 2.2s ease infinite;
+    }
+
+    @keyframes livepulse {
+      0%,100% { box-shadow: 0 0 0 4px rgba(16,185,129,0.18); }
+      50%      { box-shadow: 0 0 0 8px rgba(16,185,129,0.06); }
+    }
+
+    /* ══════════════════════════════════════════
+       HERO
+    ══════════════════════════════════════════ */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(145deg, rgba(255,255,255,0.96) 0%, rgba(238,243,255,0.94) 100%);
+      border: 1px solid rgba(148,163,184,0.16);
+      border-radius: var(--radius-xl);
+      padding: 28px 30px;
+      box-shadow: var(--shadow-lg);
+      margin-bottom: 22px;
+      isolation: isolate;
+      animation: slideUp .6s cubic-bezier(.34,1.56,.64,1) .05s both;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent 5%, var(--primary) 35%, #818CF8 65%, transparent 95%);
+      border-radius: 999px;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      width: 320px; height: 320px;
+      right: -80px; top: -110px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(59,110,248,0.10) 0%, transparent 65%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hero > * { position: relative; z-index: 1; }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .09em;
+      color: var(--primary-deep);
+      background: var(--primary-soft);
+      border: 1px solid rgba(59,110,248,0.16);
+      padding: 7px 14px;
+      border-radius: 999px;
+      margin-bottom: 14px;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--primary);
+      box-shadow: 0 0 0 3px rgba(59,110,248,.18);
+      animation: livepulse 2.2s ease infinite;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.6fr) minmax(260px, 0.9fr);
+      gap: 20px;
+      align-items: end;
+    }
+
+    .hero h1 {
+      margin: 0 0 10px;
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4.5vw, 2.6rem);
+      line-height: 1.03;
+      font-weight: 900;
+      letter-spacing: -.04em;
+      background: linear-gradient(135deg, #0B1020 10%, var(--primary) 55%, #818CF8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(13.5px, 1.4vw, 15px);
+      line-height: 1.7;
+      font-weight: 400;
+    }
+
+    .hero-side { display: grid; gap: 12px; }
+
+    .hero-stat {
+      background: rgba(255,255,255,0.75);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 17px 20px;
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(8px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-stat::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 15%; bottom: 15%;
+      width: 3px;
+      border-radius: 0 3px 3px 0;
+      background: var(--primary);
+    }
+
+    .hero-stat-label {
+      color: var(--neutral);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      margin-bottom: 6px;
+    }
+
+    .hero-stat-value {
+      font-family: var(--font-display);
+      font-size: clamp(1.3rem, 2.8vw, 1.55rem);
+      font-weight: 900;
+      letter-spacing: -.03em;
+      margin-bottom: 5px;
+      line-height: 1.1;
+      color: var(--primary-deep);
+    }
+
+    .hero-stat-note {
+      color: var(--muted);
+      font-size: 12.5px;
+      line-height: 1.55;
+    }
+
+    /* ══════════════════════════════════════════
+       GRID
+    ══════════════════════════════════════════ */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    /* ── CARD ── */
+    .card {
+      position: relative;
+      overflow: hidden;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-md);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      transition: transform .28s cubic-bezier(.34,1.56,.64,1), box-shadow .28s ease, border-color .28s ease;
+      animation: slideUp .55s cubic-bezier(.34,1.56,.64,1) both;
+    }
+
+    .card:hover {
+      transform: translateY(-5px) scale(1.008);
+      box-shadow: var(--shadow-hover);
+      border-color: var(--border-strong);
+    }
+
+    /* top shimmer line */
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 12%; right: 12%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.95), transparent);
+    }
+
+    /* bottom accent glow */
+    .card::after {
+      content: '';
+      position: absolute;
+      bottom: -20px; left: 50%;
+      transform: translateX(-50%);
+      width: 70%; height: 40px;
+      background: radial-gradient(ellipse, rgba(59,110,248,0.07) 0%, transparent 70%);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity .3s ease;
+    }
+    .card:hover::after { opacity: 1; }
+
+    .span-3  { grid-column: span 3;  animation-delay: .08s; }
+    .span-4  { grid-column: span 4;  animation-delay: .14s; }
+    .span-5  { grid-column: span 5;  animation-delay: .18s; }
+    .span-7  { grid-column: span 7;  animation-delay: .10s; }
+    .span-8  { grid-column: span 8;  animation-delay: .10s; }
+
+    /* ── CARD INTERNALS ── */
+    .card-label {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .card-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 13.5px;
+      font-weight: 700;
+      min-width: 0;
+    }
+
+    .icon-badge {
+      width: 36px; height: 36px;
+      border-radius: 11px;
+      display: grid;
+      place-items: center;
+      font-size: 16px;
+      background: var(--primary-soft);
+      flex: 0 0 auto;
+      box-shadow: 0 2px 8px rgba(59,110,248,0.12);
+    }
+
+    .metric-value {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 2.75rem);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -.04em;
+      margin-bottom: 10px;
+      background: linear-gradient(135deg, var(--text), var(--primary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .metric-note {
+      color: var(--muted);
+      font-size: 13.5px;
+      line-height: 1.6;
+    }
+
+    .metric-trend {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 13px;
+      padding: 6px 11px;
+      border-radius: 999px;
+      font-size: 11.5px;
+      font-weight: 700;
+      background: var(--primary-soft);
+      color: var(--primary-deep);
+      border: 1px solid rgba(59,110,248,0.12);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: .01em;
+    }
+
+    .badge-success {
+      color: var(--success);
+      background: var(--success-soft);
+      border: 1px solid rgba(16,185,129,0.18);
+    }
+
+    .badge-soft {
+      color: var(--primary-deep);
+      background: var(--primary-soft);
+      border: 1px solid rgba(59,110,248,0.14);
+    }
+
+    /* ══════════════════════════════════════════
+       WORKFLOW PANEL
+    ══════════════════════════════════════════ */
+    .workflow-panel { display: grid; gap: 20px; }
+
+    .workflow-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .workflow-head p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13.5px;
+      max-width: 580px;
+      line-height: 1.65;
+    }
+
+    .flow-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .flow-step {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 13px 18px;
+      border-radius: 14px;
+      font-weight: 700;
+      font-size: 13.5px;
+      border: 1px solid transparent;
+      min-height: 50px;
+      text-align: center;
+      transition: transform .2s cubic-bezier(.34,1.56,.64,1), box-shadow .2s ease;
+      cursor: default;
+    }
+
+    .flow-step:hover {
+      transform: translateY(-3px) scale(1.04);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.10);
+    }
+
+    .step-input    { background: #EEF3FF; color: #1D4ED8; border-color: rgba(59,110,248,0.18); }
+    .step-task     { background: #EEF2FF; color: #4338CA; border-color: rgba(67,56,202,0.16); }
+    .step-plan     { background: var(--violet-soft); color: var(--violet); border-color: rgba(124,58,237,0.15); }
+    .step-approval { background: var(--warning-soft); color: #C2410C; border-color: rgba(245,158,11,0.18); }
+    .step-execution{ background: var(--success-soft); color: #065F46; border-color: rgba(16,185,129,0.18); }
+    .step-logs     { background: #F1F5F9; color: #334155; border-color: rgba(100,116,139,0.18); }
+
+    .flow-arrow {
+      font-size: 18px;
+      font-weight: 900;
+      color: rgba(148,163,184,0.7);
+      line-height: 1;
+    }
+
+    /* ══════════════════════════════════════════
+       SNAPSHOT
+    ══════════════════════════════════════════ */
+    .snapshot-box  { display: grid; gap: 16px; }
+
+    .snapshot-copy {
+      color: var(--muted);
+      font-size: 13.5px;
+      line-height: 1.7;
+    }
+
+    .snapshot-stats {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 10px;
+    }
+
+    .mini-stat {
+      border-radius: var(--radius-sm);
+      background: rgba(240,244,255,0.7);
+      border: 1px solid rgba(148,163,184,0.16);
+      padding: 14px 13px;
+      transition: background .2s ease;
+    }
+    .mini-stat:hover { background: rgba(238,243,255,0.9); }
+
+    .mini-stat-label {
+      color: var(--neutral);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      margin-bottom: 7px;
+    }
+
+    .mini-stat-value {
+      font-family: var(--font-display);
+      font-size: clamp(1.1rem, 2.8vw, 1.35rem);
+      font-weight: 900;
+      letter-spacing: -.03em;
+      color: var(--primary-deep);
+    }
+
+    /* ══════════════════════════════════════════
+       TIMELINE
+    ══════════════════════════════════════════ */
+    .timeline {
+      list-style: none;
+      padding: 0; margin: 0;
+      display: grid;
+      gap: 10px;
+    }
+
+    .timeline li {
+      display: grid;
+      grid-template-columns: auto minmax(0,1fr) auto;
+      gap: 14px;
+      align-items: start;
+      padding: 16px 16px;
+      border-radius: 16px;
+      background: rgba(248,250,255,0.8);
+      border: 1px solid var(--border);
+      transition: background .2s ease, border-color .2s ease, transform .2s ease;
+    }
+
+    .timeline li:hover {
+      background: rgba(238,243,255,0.9);
+      border-color: var(--border-strong);
+      transform: translateX(4px);
+    }
+
+    .timeline-dot {
+      width: 11px; height: 11px;
+      border-radius: 50%;
+      margin-top: 5px;
+      background: linear-gradient(135deg, var(--primary), #818CF8);
+      box-shadow: 0 0 0 5px rgba(59,110,248,0.10);
+      flex: 0 0 auto;
+    }
+
+    .timeline strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      line-height: 1.35;
+    }
+
+    .timeline span {
+      color: var(--muted);
+      font-size: 12.5px;
+      line-height: 1.6;
+    }
+
+    .timeline-time {
+      color: var(--neutral);
+      font-size: 11.5px;
+      font-weight: 700;
+      background: var(--primary-soft);
+      color: var(--primary-deep);
+      border-radius: 999px;
+      padding: 5px 10px;
+      white-space: nowrap;
+      align-self: start;
+      border: 1px solid rgba(59,110,248,0.12);
+    }
+
+    /* ══════════════════════════════════════════
+       FILE LIST
+    ══════════════════════════════════════════ */
+    .file-list {
+      list-style: none;
+      padding: 0; margin: 0;
+      display: grid;
+      gap: 10px;
+    }
+
+    .file-list li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 15px 16px;
+      border-radius: 16px;
+      background: rgba(248,250,255,0.8);
+      border: 1px solid var(--border);
+      transition: background .2s ease, border-color .2s ease, transform .22s cubic-bezier(.34,1.56,.64,1);
+    }
+
+    .file-list li:hover {
+      background: rgba(238,243,255,0.9);
+      border-color: var(--border-strong);
+      transform: translateY(-3px);
+    }
+
+    .file-name {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 600;
+      font-size: 13.5px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .file-icon {
+      width: 40px; height: 40px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: var(--primary-soft);
+      font-size: 17px;
+      flex: 0 0 auto;
+      box-shadow: 0 2px 8px rgba(59,110,248,0.10);
+    }
+
+    .file-meta { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+    .file-meta > div:first-child { font-weight: 700; }
+    .file-sub { color: var(--muted); font-size: 12px; font-weight: 500; }
+
+    .file-type {
+      color: var(--primary-deep);
+      font-size: 11.5px;
+      background: var(--primary-soft);
+      border: 1px solid rgba(59,110,248,0.14);
+      padding: 5px 11px;
+      border-radius: 999px;
+      font-weight: 700;
+      white-space: nowrap;
+      flex: 0 0 auto;
+    }
+
+    /* ══════════════════════════════════════════
+       ANIMATIONS
+    ══════════════════════════════════════════ */
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(26px) scale(.97); }
+      to   { opacity: 1; transform: translateY(0)   scale(1); }
+    }
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ══════════════════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════════════════ */
+    @media (max-width: 1080px) {
+      .hero-grid { grid-template-columns: 1fr; }
+      .span-3, .span-4, .span-5, .span-7, .span-8 { grid-column: span 12; }
+    }
+
+    @media (max-width: 760px) {
+      .shell { padding: 18px 14px 44px; }
+      .topbar { flex-direction: column; align-items: flex-start; }
+      .hero { padding: 22px 20px; }
+      .hero-side { grid-template-columns: 1fr; }
+      .workflow-head { align-items: flex-start; }
+      .flow-wrap { flex-direction: column; align-items: stretch; }
+      .flow-step { width: 100%; }
+      .flow-arrow { display: none; }
+      .timeline li { grid-template-columns: auto 1fr; }
+      .timeline-time { grid-column: 2; justify-self: start; }
+      .snapshot-stats { grid-template-columns: 1fr; }
+      .file-list li { flex-direction: column; align-items: flex-start; }
+      .file-type { align-self: flex-start; }
+    }
+
+    @media (max-width: 480px) {
+      .shell { padding: 14px 10px 32px; }
+      .brand-mark { width: 44px; height: 44px; font-size: 16px; }
+      .hero { padding: 18px; border-radius: 22px; }
+      .card { padding: 18px; border-radius: 18px; }
+      .status-pill { width: 100%; justify-content: center; }
+      .hero p, .workflow-head p, .snapshot-copy, .metric-note, .timeline span { font-size: 13px; }
+      .timeline li, .file-list li, .mini-stat, .hero-stat { padding: 12px; }
+    }
+
+    @media (max-width: 360px) {
+      .hero h1 { font-size: 1.75rem; }
+      .metric-value { font-size: 1.9rem; }
+      .flow-step { font-size: 12.5px; padding: 11px 13px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="shell">
+
+    <!-- ── TOPBAR ── -->
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">AI</div>
+        <div class="brand-copy">
+          <h2>Personal AI Employee</h2>
+          <p>Operational intelligence dashboard</p>
+        </div>
+      </div>
+      <div class="status-pill">
+        <span class="status-dot"></span>
+        System Healthy &nbsp;·&nbsp; MCP Connected &nbsp;·&nbsp; Ready
+      </div>
+    </header>
+
+    <!-- ── HERO ── -->
+    <section class="hero">
+      <div class="eyebrow">Gold System Dashboard</div>
+
+      <div class="hero-grid">
+        <div>
+          <h1>Personal AI Employee</h1>
+          <p>
+            A premium operational command view for structured task intake, AI planning,
+            human approvals, controlled execution, and full audit clarity.
+          </p>
+        </div>
+
+        <div class="hero-side">
+          <div class="hero-stat">
+            <div class="hero-stat-label">System Status</div>
+            <div class="hero-stat-value">Healthy</div>
+            <div class="hero-stat-note">All critical workflow stages are active and stable.</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-label">Execution Mode</div>
+            <div class="hero-stat-value">HITL Secured</div>
+            <div class="hero-stat-note">Every important action remains human-reviewed before execution.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── METRIC CARDS ── -->
+    <section class="grid">
+
+      <div class="card span-3">
+        <div class="card-label">
+          <div class="card-title"><div class="icon-badge">🔌</div>MCP Status</div>
+          <span class="badge badge-success">Connected</span>
+        </div>
+        <div class="metric-value">3</div>
+        <div class="metric-note">Active integrations with stable connectivity across Filesystem, Email, and Browser channels.</div>
+        <div class="metric-trend">All integrations operational</div>
+      </div>
+
+      <div class="card span-3">
+        <div class="card-label">
+          <div class="card-title"><div class="icon-badge">📋</div>Tasks</div>
+          <span class="badge badge-soft">3 received today</span>
+        </div>
+        <div class="metric-value">12</div>
+        <div class="metric-note">Structured tasks currently visible across the workflow.</div>
+        <div class="metric-trend">Workflow progressing normally</div>
+      </div>
+
+      <div class="card span-3">
+        <div class="card-label">
+          <div class="card-title"><div class="icon-badge">🧠</div>Plans</div>
+          <span class="badge badge-soft">AI-generated</span>
+        </div>
+        <div class="metric-value">10</div>
+        <div class="metric-note">Execution plans prepared by the AI reasoning engine for review.</div>
+        <div class="metric-trend">Planning pipeline active</div>
+      </div>
+
+      <div class="card span-3">
+        <div class="card-label">
+          <div class="card-title"><div class="icon-badge">✅</div>Approvals</div>
+          <span class="badge badge-success">Human verified</span>
+        </div>
+        <div class="metric-value">8</div>
+        <div class="metric-note">Operator-confirmed actions cleared for controlled execution.</div>
+        <div class="metric-trend">Approval loop healthy</div>
+      </div>
+
+      <!-- ── WORKFLOW OVERVIEW ── -->
+      <div class="card span-8">
+        <div class="workflow-panel">
+          <div class="workflow-head">
+            <div class="card-title"><div class="icon-badge">🔄</div>Workflow Overview</div>
+            <p>End-to-end visibility from incoming intake to audited completion, designed for clarity, control, and executive-level review.</p>
+          </div>
+
+          <div class="flow-wrap">
+            <div class="flow-step step-input">📥 Input</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step step-task">🗂️ Task</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step step-plan">🧠 AI Planning</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step step-approval">✅ Human Review</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step step-execution">⚙️ Completed</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step step-logs">📝 Audit Logs</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SNAPSHOT ── -->
+      <div class="card span-4">
+        <div class="snapshot-box">
+          <div class="card-title"><div class="icon-badge">📈</div>Activity Snapshot</div>
+          <div class="snapshot-copy">
+            The system is operating with stable intake, active planning,
+            human review control, and complete post-execution visibility.
+          </div>
+          <div class="snapshot-stats">
+            <div class="mini-stat">
+              <div class="mini-stat-label">Automation Rate</div>
+              <div class="mini-stat-value">83%</div>
+            </div>
+            <div class="mini-stat">
+              <div class="mini-stat-label">Risk Level</div>
+              <div class="mini-stat-value">Low</div>
+            </div>
+            <div class="mini-stat">
+             <div class="mini-stat-label">Awaiting Human Review</div>
+              <div class="mini-stat-value">2</div>
+            </div>
+            <div class="mini-stat">
+              <div class="mini-stat-label">Audit Coverage</div>
+              <div class="mini-stat-value">Full</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── LOGS TIMELINE ── -->
+      <div class="card span-7">
+        <div class="card-label">
+          <div class="card-title"><div class="icon-badge">🕒</div>Logs Summary</div>
+        </div>
+
+        <ul class="timeline">
+          <li>
+            <div class="timeline-dot"></div>
+            <div>
+              <strong>Filesystem MCP detected new task → task_001.json</strong>
+              <span>Incoming work was captured and normalized into a structured task artifact.</span>
+            </div>
+            <div class="timeline-time">09:12</div>
+          </li>
+          <li>
+            <div class="timeline-dot"></div>
+            <div>
+              <strong>AI Engine generated execution plan → plan_001.md</strong>
+              <span>The AI reasoning engine prepared a reviewable plan for the operator.</span>
+            </div>
+            <div class="timeline-time">09:14</div>
+          </li>
+          <li>
+            <div class="timeline-dot"></div>
+            <div>
+              <strong>Human approval recorded → reviewed action cleared</strong>
+              <span>The operator verified the proposed step and released it for controlled execution.</span>
+            </div>
+            <div class="timeline-time">09:16</div>
+          </li>
+          <li>
+            <div class="timeline-dot"></div>
+            <div>
+              <strong>Execution completed via MCP → action logged</strong>
+              <span>The approved operation completed successfully and was written into the audit trail.</span>
+            </div>
+            <div class="timeline-time">09:17</div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- ── FILES ── -->
+      <div class="card span-5">
+        <div class="card-label">
+          <div class="card-title"><div class="icon-badge">📂</div>Latest Files</div>
+        </div>
+
+        <ul class="file-list">
+          <li>
+            <div class="file-name">
+              <div class="file-icon">📄</div>
+              <div class="file-meta">
+                <div>task_001.json</div>
+                <div class="file-sub">Structured incoming task artifact</div>
+              </div>
+            </div>
+            <div class="file-type">Task</div>
+          </li>
+          <li>
+            <div class="file-name">
+              <div class="file-icon">🧠</div>
+              <div class="file-meta">
+                <div>plan_001.md</div>
+                <div class="file-sub">AI-generated execution plan</div>
+              </div>
+            </div>
+            <div class="file-type">Plan</div>
+          </li>
+          <li>
+            <div class="file-name">
+              <div class="file-icon">📝</div>
+              <div class="file-meta">
+                <div>log_001.txt</div>
+                <div class="file-sub">Execution and audit log output</div>
+              </div>
+            </div>
+            <div class="file-type">Log</div>
+          </li>
+        </ul>
+      </div>
+
+    </section>
+  </div>
+</body>
+</html>

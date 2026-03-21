@@ -1,0 +1,43 @@
+PHASE 8B: Invoice Automation Test
+
+Objective:
+Verify that Claude can automatically create an invoice in Odoo using the MCP server.
+
+Prompt Used:
+Use the odoo MCP server and create an invoice for customer "Test Customer Alpha" for product "Consulting Service" with quantity 1
+
+System Action:
+Claude used the MCP tool:
+odoo.create_invoice
+
+Result Returned by MCP:
+Invoice created successfully.
+
+Invoice Details:
+Customer: Test Customer Alpha
+Product: Consulting Service
+Quantity: 1
+Price: 1000 PKR
+Tax: 17%
+Total: 1170 PKR
+
+Verification in Odoo:
+A new invoice appeared in the Odoo Invoicing module.
+
+Location:
+Odoo → Invoicing → Customers → Invoices
+
+Invoice Status:
+Draft
+
+Customer:
+Test Customer Alpha
+
+Product:
+Consulting Service
+
+Conclusion:
+Claude successfully created a real invoice in Odoo through the MCP server using the Odoo JSON-RPC API.
+
+Decision:
+PASS

@@ -1,0 +1,22 @@
+PHASE 5B: MCP Configuration
+
+The Odoo MCP server was registered in the project configuration.
+
+File:
+.mcp.json
+
+Entry added:
+
+"odoo": {
+ "command": "cmd",
+ "args": [
+  "/c",
+  "D:\\Shoaib Project\\Personal-AI-Employee\\odoo-mcp-launcher.cmd"
+ ]
+}
+
+Result:
+Claude Code successfully discovered the MCP server.
+
+Decision:
+PASS

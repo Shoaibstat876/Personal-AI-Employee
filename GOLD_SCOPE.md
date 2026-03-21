@@ -37,3 +37,84 @@ Tags are the canonical freeze checkpoints:
 
 Further tags may be added for documentation completion and retry logic proof.
 
+---
+
+## Gold Completion Upgrade (Execution Layer Added)
+
+The system has been extended beyond orchestration safety to include **controlled real-world execution under HITL**.
+
+This does NOT introduce autonomy.  
+All actions remain strictly approval-driven.
+
+---
+
+## Newly included in Gold (final state)
+
+### HITL-controlled execution systems
+
+#### Email (Resend)
+- Draft → Approval → Send
+- Real email delivery confirmed
+- Execution recorded via logs/output
+
+#### Odoo (Business system)
+- Action: customer creation
+- Triggered only after approval
+- Uses JSON-RPC API
+- Safety:
+  - idempotency guard (no duplicate records)
+- Logs:
+  - `Logs/odoo_execution_log.jsonl`
+
+#### Slack (Communication system)
+- Action: message send
+- Triggered only after approval
+- Uses Slack API
+- Safety:
+  - channel validation
+  - idempotency guard
+- Logs:
+  - `Logs/slack_execution_log.jsonl`
+
+---
+
+## Execution model (Gold)
+
+Approval → Action Artifact → Execution Bridge → External System → Log
+
+Properties:
+- No execution without approval
+- All executions are artifact-driven
+- All actions are logged and traceable
+- Duplicate execution prevented
+
+---
+
+## Updated scope clarification
+
+Gold **now includes**:
+
+- Controlled external execution (HITL only)
+- Business system interaction (Odoo)
+- Communication systems (Email, Slack)
+- Execution bridges with logging
+
+Gold still **does NOT include**:
+
+- Autonomous execution (no approval)
+- Always-on cloud runtime
+- Multi-agent systems
+- Financial/banking automation
+
+---
+
+## Final scope statement
+
+Gold Tier is achieved when the system:
+
+- Plans tasks
+- Requests approval
+- Executes real-world actions safely
+- Maintains full audit logs
+
+This repository now satisfies all Gold requirements.

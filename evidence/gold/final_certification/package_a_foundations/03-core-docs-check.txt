@@ -1,0 +1,9 @@
+
+Document           Exists
+--------           ------
+ARCHITECTURE.md      True
+GOLD_SCOPE.md        True
+LESSONS_LEARNED.md   True
+
+
+

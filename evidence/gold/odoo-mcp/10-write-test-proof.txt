@@ -1,0 +1,16 @@
+PHASE 8: Write Test
+
+Prompt:
+Use the odoo MCP server and create a customer named MCP Test Customer with email mcp@test.com
+
+Result:
+Customer created successfully
+ID: 8
+Name: MCP Test Customer
+Email: mcp@test.com
+
+Decision:
+PASS
+
+Meaning:
+Claude successfully created a real customer record in Odoo through the MCP server.

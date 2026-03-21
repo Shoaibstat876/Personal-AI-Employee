@@ -1,0 +1,14 @@
+﻿REAL READER STATUS
+
+Infrastructure:
+- gmail-mcp command exists
+- GmailMCP scheduled task exists and succeeds
+- localhost:3010 is listening
+- /mcp endpoint requires MCP session and is not a plain HTTP scraping endpoint
+
+Operational design:
+- Real Gmail message is read through Gmail MCP
+- sender/subject/body are extracted
+- JSON payload is created
+- tools\gmail_json_to_task.py converts JSON into a Needs_Action task
+- HITL remains enforced before any external action

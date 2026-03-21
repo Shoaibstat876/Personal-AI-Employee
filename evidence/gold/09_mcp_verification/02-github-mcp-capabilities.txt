@@ -1,0 +1,84 @@
+PS D:\Shoaib Project\Personal-AI-Employee> claude
+ ▐▛███▜▌   Claude Code v2.1.76
+▝▜█████▛▘  Sonnet 4.6 · API Usage Billing
+  ▘▘ ▝▝    D:\Shoaib Project\Personal-AI-Employee
+
+❯ Use the github MCP only.                                                                                                                                              List all available GitHub MCP tools.                                                                                                                                    Then confirm whether the following capabilities exist:                                                                                                                  1. read repository files                                                            2. create commits                                                                   3. open issues                                                                      4. create pull requests                                                             5. list repositories                                                                
+         
+● Here are all available GitHub MCP tools:                                          
+
+  ┌────────────────────────────────────────────────┬─────────────────────────────┐    │                      Tool                      │         Description         │
+  ├────────────────────────────────────────────────┼─────────────────────────────┤  
+  │ mcp__github__add_comment_to_pending_review     │ Add comment to a pending PR │
+  │                                                │  review                     │
+  ├────────────────────────────────────────────────┼─────────────────────────────┤    │ mcp__github__add_issue_comment                 │ Add comment to an issue     │
+  ├────────────────────────────────────────────────┼─────────────────────────────┤    │ mcp__github__add_reply_to_pull_request_comment │ Reply to a PR comment       │
+  ├────────────────────────────────────────────────┼─────────────────────────────┤    │ mcp__github__assign_copilot_to_issue           │ Assign Copilot to an issue  │
+  ├────────────────────────────────────────────────┼─────────────────────────────┤    │ mcp__github__create_branch                     │ Create a new branch         │
+  ├────────────────────────────────────────────────┼─────────────────────────────┤    │ mcp__github__create_or_update_file             │ Create or update a file in  │  
+  │                                                │ a repo                      │    ├────────────────────────────────────────────────┼─────────────────────────────┤  
+  │ mcp__github__create_pull_request               │ Create a pull request       │  
+  ├────────────────────────────────────────────────┼─────────────────────────────┤  
+  │ mcp__github__create_repository                 │ Create a new repository     │
+  ├────────────────────────────────────────────────┼─────────────────────────────┤    │ mcp__github__delete_file                       │ Delete a file from a repo   │
+  ├────────────────────────────────────────────────┼─────────────────────────────┤    │ mcp__github__fork_repository                   │ Fork a repository           │  
+  ├────────────────────────────────────────────────┼─────────────────────────────┤  
+  │ mcp__github__get_commit                        │ Get commit details          │  
+  ├────────────────────────────────────────────────┼─────────────────────────────┤    │ mcp__github__get_file_contents                 │ Read file contents from a   │
+  │                                                │ repo                        │    ├────────────────────────────────────────────────┼─────────────────────────────┤  
+  │ mcp__github__get_label                         │ Get a label                 │  
+  ├────────────────────────────────────────────────┼─────────────────────────────┤    │ mcp__github__get_latest_release                │ Get latest release          │
+  ├────────────────────────────────────────────────┼─────────────────────────────┤    │ mcp__github__get_release_by_tag                │ Get release by tag          │  
+  ├────────────────────────────────────────────────┼─────────────────────────────┤    │ mcp__github__get_tag                           │ Get a tag                   │  
+  ├────────────────────────────────────────────────┼─────────────────────────────┤    │ mcp__github__get_team_members                  │ Get team members            │  
+  ├────────────────────────────────────────────────┼─────────────────────────────┤    │ mcp__github__get_teams                         │ Get teams in an org         │  
+  ├────────────────────────────────────────────────┼─────────────────────────────┤    │ mcp__github__get_me                            │ Get current authenticated   │  
+  │                                                │ user                        │    ├────────────────────────────────────────────────┼─────────────────────────────┤  
+  │ mcp__github__issue_read                        │ Read issue details          │  
+  ├────────────────────────────────────────────────┼─────────────────────────────┤  
+  │ mcp__github__issue_write                       │ Create or update an issue   │
+  ├────────────────────────────────────────────────┼─────────────────────────────┤    │ mcp__github__list_branches                     │ List branches               │
+  ├────────────────────────────────────────────────┼─────────────────────────────┤    │ mcp__github__list_commits                      │ List commits                │  
+  ├────────────────────────────────────────────────┼─────────────────────────────┤    │ mcp__github__list_issue_types                  │ List issue types            │  
+  ├────────────────────────────────────────────────┼─────────────────────────────┤  
+  │ mcp__github__list_issues                       │ List issues                 │  
+  ├────────────────────────────────────────────────┼─────────────────────────────┤    │ mcp__github__list_pull_requests                │ List pull requests          │
+  ├────────────────────────────────────────────────┼─────────────────────────────┤    │ mcp__github__list_releases                     │ List releases               │  
+  ├────────────────────────────────────────────────┼─────────────────────────────┤    │ mcp__github__list_tags                         │ List tags                   │  
+  ├────────────────────────────────────────────────┼─────────────────────────────┤    │ mcp__github__merge_pull_request                │ Merge a pull request        │  
+  ├────────────────────────────────────────────────┼─────────────────────────────┤    │ mcp__github__pull_request_read                 │ Read PR details             │  
+  ├────────────────────────────────────────────────┼─────────────────────────────┤    │ mcp__github__pull_request_review_write         │ Create/submit PR reviews    │  
+  ├────────────────────────────────────────────────┼─────────────────────────────┤    │ mcp__github__push_files                        │ Push multiple files (create │  
+  │                                                │  commits)                   │    ├────────────────────────────────────────────────┼─────────────────────────────┤  
+  │ mcp__github__request_copilot_review            │ Request Copilot review      │  
+  ├────────────────────────────────────────────────┼─────────────────────────────┤    │ mcp__github__search_code                       │ Search code                 │
+  ├────────────────────────────────────────────────┼─────────────────────────────┤    │ mcp__github__search_issues                     │ Search issues               │  
+  ├────────────────────────────────────────────────┼─────────────────────────────┤    │ mcp__github__search_pull_requests              │ Search pull requests        │  
+  ├────────────────────────────────────────────────┼─────────────────────────────┤    │ mcp__github__search_repositories               │ Search repositories         │  
+  ├────────────────────────────────────────────────┼─────────────────────────────┤    │ mcp__github__search_users                      │ Search users                │  
+  ├────────────────────────────────────────────────┼─────────────────────────────┤    │ mcp__github__sub_issue_write                   │ Create/update sub-issues    │  
+  ├────────────────────────────────────────────────┼─────────────────────────────┤    │ mcp__github__update_pull_request               │ Update a pull request       │  
+  ├────────────────────────────────────────────────┼─────────────────────────────┤    │ mcp__github__update_pull_request_branch        │ Update PR branch            │  
+  └────────────────────────────────────────────────┴─────────────────────────────┘                                                                                      
+  ---                                                                                 Capability Confirmation:                                                          
+                                                                                    
+  ┌─────┬─────────────────┬───────────┬─────────────────────────────────────────┐   
+  │  #  │   Capability    │ Supported │                 Tool(s)                 │   
+  ├─────┼─────────────────┼───────────┼─────────────────────────────────────────┤     │ 1   │ Read repository │ Yes       │ get_file_contents                       │   
+  │     │  files          │           │                                         │   
+  ├─────┼─────────────────┼───────────┼─────────────────────────────────────────┤   
+  │ 2   │ Create commits  │ Yes       │ push_files (pushes files = creates      │     │     │                 │           │ commits)                                │   
+  ├─────┼─────────────────┼───────────┼─────────────────────────────────────────┤   
+  │ 3   │ Open issues     │ Yes       │ issue_write                             │
+  ├─────┼─────────────────┼───────────┼─────────────────────────────────────────┤     │ 4   │ Create pull     │ Yes       │ create_pull_request                     │
+  │     │ requests        │           │                                         │     ├─────┼─────────────────┼───────────┼─────────────────────────────────────────┤   
+  │     │ List            │           │ search_repositories (no dedicated       │   
+  │ 5   │ repositories    │ Yes       │ list_repositories, but search covers    │     │     │                 │           │ it)                                     │
+  └─────┴─────────────────┴───────────┴─────────────────────────────────────────┘   
+                                                                                    
+  All 5 capabilities are supported. Note that #5 uses search_repositories rather      than a dedicated list tool — it can enumerate repos but requires a query
+  parameter.                                                                        
+                                                                                    
+────────────────────────────────────────────────────────────────────────────────────❯  
+────────────────────────────────────────────────────────────────────────────────────
+  ? for shortcuts

@@ -1,0 +1,24 @@
+PHASE 4: Odoo API Enablement
+
+An API key was generated for secure integration.
+
+Navigation:
+User Menu → Preferences → Account Security → New API Key
+
+Key Name:
+PAE-MCP
+
+Authentication Method:
+Odoo JSON-RPC
+
+Connection parameters saved in:
+.env.odoo
+
+Variables:
+ODOO_URL=http://localhost:8069
+ODOO_DB=pae_odoo
+ODOO_USER=admin
+ODOO_API_KEY=[hidden]
+
+Decision:
+PASS

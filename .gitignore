@@ -1,75 +1,9 @@
-﻿# Secrets
-.env
-*.env
-**/.env
-**/*.env
-
-# OS / Editor
-.DS_Store
-Thumbs.db
-.vscode/
-.idea/
-
-# Python
-__pycache__/
-*.pyc
-
-# Demo artifacts (keep structure, ignore noise)
-dropbox/*.txt
-dropbox/_processed/*
-AI_Employee_Vault/Inbox/*
-AI_Employee_Vault/Needs_Action/TASK_FILE_*
-AI_Employee_Vault/Done/SUMMARY_*
-# Gold runtime artifacts (mutable per run)
-AI_Employee_Vault/Logs/gold_loop.log.md
-AI_Employee_Vault/Logs/gold_runtime_state.json
-# Gold/Silver runtime vault flow folders (do not track)
-AI_Employee_Vault/Needs_Action/
-AI_Employee_Vault/In_Progress/
-AI_Employee_Vault/Pending_Approval/
-AI_Employee_Vault/Approved/
-AI_Employee_Vault/Rejected/
-AI_Employee_Vault/Done/
-AI_Employee_Vault/Logs/
-
-# Local evidence packs (judge artifacts / logs) — do not commit
-AI_Employee_Vault/Heckathon 0 evidence/
-AI_Employee_Vault/**/freeze/
-AI_Employee_Vault/**/evidence/
-
-
-# Vault operational folders (local runtime + templates)  do not commit
-AI_Employee_Vault/Briefings/
-AI_Employee_Vault/Plans/
-AI_Employee_Vault/Pending_Approval/
-AI_Employee_Vault/Approved/
-AI_Employee_Vault/Rejected/
-AI_Employee_Vault/Logs/
-
-
-# Vault local accounting mock/runtime (do not commit)
-AI_Employee_Vault/Accounting/
-
-
-# Playwright MCP local cache (do not commit)
-.playwright-mcp/
-# Tools MCP folders (do not commit node_modules)
-tools/**/node_modules/
-tools/**/.cache/
-tools/**/.npm/
-tools/**/npm-debug.log*
-# Calendar MCP secrets (never commit)
-tools/mcp-calendar/gcp-oauth.keys.json
-tools/mcp-calendar/*.keys.json
-tools/mcp-calendar/*.token.json
-tools/mcp-calendar/.env
-tools/mcp-calendar/.env.*
-
+﻿# ==============================
+# SECRETS (NEVER COMMIT)
 # ==============================
-# GOLD SAFE POLICY (DO NOT EDIT)
-# ==============================
-
-# Secrets / tokens (never commit)
+.env*
+.mcp.json*
+*.backup
 **/*token*
 **/*tokens*
 **/*oauth*
@@ -77,46 +11,83 @@ tools/mcp-calendar/.env.*
 **/*.key
 **/*.keys.json
 
-# Noisy runtime (never commit)
-.playwright-mcp/
-tools/**/node_modules/
-tools/
+# ==============================
+# OS / EDITOR
+# ==============================
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
 
-# Vault runtime folders (never commit)
-AI_Employee_Vault/Inbox/*
+# ==============================
+# PYTHON
+# ==============================
+__pycache__/
+*.pyc
+
+# ==============================
+# NODE / MCP TOOLS
+# ==============================
+tools/**/node_modules/
+tools/**/.cache/
+tools/**/.npm/
+tools/**/npm-debug.log*
+
+# ==============================
+# PLAYWRIGHT CACHE
+# ==============================
+.playwright-mcp/
+
+# ==============================
+# DROPBOX / DEMO NOISE
+# ==============================
+dropbox/
+dropbox/_processed/
+
+# ==============================
+# VAULT RUNTIME (DO NOT COMMIT LIVE DATA)
+# ==============================
+AI_Employee_Vault/Inbox/
 AI_Employee_Vault/In_Progress/
 AI_Employee_Vault/Needs_Action/
 AI_Employee_Vault/Done/
 AI_Employee_Vault/Accounting/
+
+# Ignore live logs (we commit snapshots in evidence/)
+AI_Employee_Vault/Logs/
+
+# Ignore temp artifacts
+AI_Employee_Vault/Artifacts/
+AI_Employee_Vault/Completed/
+
+# ==============================
+# LOCAL / TEMP BACKUPS
+# ==============================
+AI_Employee_Vault/*.bak.*
+AI_Employee_Vault/Logs/*.bak.*
+
+# Ignore runtime action logs (we store proof in evidence/)
+AI_Employee_Vault/Logs/action_log_*.jsonl
+
+# ==============================
+# SPECIAL LOCAL FOLDERS (DO NOT COMMIT)
+# ==============================
 AI_Employee_Vault/Heckathon 0 evidence/
 AI_Employee_Vault/**/freeze/
 AI_Employee_Vault/**/evidence/
 
-# BUT allow judge-safe proof folders (ONLY committed content you write manually)
-!AI_Employee_Vault/Logs/
-!AI_Employee_Vault/Briefings/
+# ==============================
+# ALLOW SAFE STRUCTURE (IMPORTANT)
+# ==============================
+!AI_Employee_Vault/
 !AI_Employee_Vault/Plans/
-!AI_Employee_Vault/Pending_Approval/
 !AI_Employee_Vault/Approved/
+!AI_Employee_Vault/Pending_Approval/
 !AI_Employee_Vault/Rejected/
+!AI_Employee_Vault/Briefings/
 
-
-# Ignore vault backups (local safety)
-AI_Employee_Vault/*.bak.*
-
-
-# Ignore log/state backups (local safety)
-AI_Employee_Vault/Logs/*.bak.*
-
-
-# Ignore daily runtime action logs (commit snapshots in evidence/)
-AI_Employee_Vault/Logs/action_log_*.jsonl
-
-
-# --- Gold runtime (do not version) ---
-AI_Employee_Vault/Artifacts/
-AI_Employee_Vault/Completed/
-AI_Employee_Vault/In_Progress/
-AI_Employee_Vault/Needs_Action/
-AI_Employee_Vault/Logs/
-
+# ==============================
+# KEEP GOLD EVIDENCE (CRITICAL)
+# ==============================
+!evidence/
+!evidence/**

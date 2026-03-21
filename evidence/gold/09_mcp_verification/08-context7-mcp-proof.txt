@@ -1,0 +1,81 @@
+❯ Use the context7 MCP only.                                                                                                                                            1. Search for documentation about "FastAPI dependency injection".                   2. Return the top 3 relevant results.                                               3. Tell me which MCP tool was used.                                                                                                                                     
+● First, resolving the FastAPI library ID:                                          
+
+● context7 - resolve-library-id (MCP)(libraryName: "FastAPI", query: "FastAPI                                            dependency injection")
+  ⎿  Available Libraries:                                                                                                                                               
+     - Title: FastAPI                                                                    … +21 lines (ctrl+o to expand)
+                                                                                    ● Best match is /websites/fastapi_tiangolo — highest benchmark score (83.67) and
+  most snippets (17,409). Now querying docs:                                        
+                                                                                    ● context7 - query-docs (MCP)(libraryId: "/websites/fastapi_tiangolo", query:       
+                             "FastAPI dependency injection how to use Depends")     
+  ⎿  ### FastAPI Depends Function                                                                                                                                       
+     Source: https://fastapi.tiangolo.com/reference/dependencies                         … +163 lines (ctrl+o to expand)                                                
+                                                                                    ● Here are the results:                                                             
+                                                                                      ---                                                                                 Top 3 Results — FastAPI Dependency Injection                                      
+                                                                                      ---                                                                                 Result 1 — Depends() Full Reference                                                 Source: fastapi.tiangolo.com/reference/dependencies                                                                                                                   
+  The core Depends() function with full parameter breakdown:                        
+                                                                                      from typing import Annotated                                                      
+  from fastapi import Depends, FastAPI                                              
+                                                                                      app = FastAPI()                                                                   
+                                                                                      async def common_parameters(q: str | None = None, skip: int = 0, limit: int =       100):
+      return {"q": q, "skip": skip, "limit": limit}                                 
+                                                                                    
+  @app.get("/items/")
+  async def read_items(commons: Annotated[dict, Depends(common_parameters)]):
+      return commons                                                                   
+  Key parameters:                                                                                                                                                       
+  ┌────────────┬────────────────────┬─────────┬─────────────────────────────────┐   
+  │ Parameter  │        Type        │ Default │             Purpose             │   
+  ├────────────┼────────────────────┼─────────┼─────────────────────────────────┤
+  │ dependency │ Callable           │ None    │ The function FastAPI will call  │
+  │            │                    │         │ and inject                      │
+  ├────────────┼────────────────────┼─────────┼─────────────────────────────────┤   
+  │ use_cache  │ bool               │ True    │ Reuse result within same        │     │            │                    │         │ request                         │   
+  ├────────────┼────────────────────┼─────────┼─────────────────────────────────┤     │ scope      │ 'function' |       │ None    │ Lifecycle for yield-based deps  │
+  │            │ 'request'          │         │                                 │   
+  └────────────┴────────────────────┴─────────┴─────────────────────────────────┘   
+
+  ---                                                                                 Result 2 — Depends() Key Features & Use Cases
+  Source: fastapi.tiangolo.com/pt/reference/dependencies                                                                                                                
+  from fastapi import Depends, FastAPI                                              
+                                                                                      app = FastAPI()                                                                   
+                                                                                      def get_query(q: str = None):                                                           return q
+                                                                                      @app.get("/items/")                                                                 async def read_items(q: str = Depends(get_query)):
+      return {"q": q}                                                                                                                                                   
+  Common use cases:                                                                 
+  - Query parameter validation                                                      
+  - Database session management
+  - Authentication & authorization
+  - Shared business logic
+  - Request preprocessing                                                           
+                                                                                      ---                                                                               
+  Result 3 — scope Parameter (Lifecycle Management)                                   Source: fastapi.tiangolo.com/ko/reference/dependencies                                     
+  For yield-based dependencies, scope controls when cleanup runs:                   
+                                                                                      ┌────────────┬───────────────────────────────────────────────┐                      │   Scope    │                Cleanup runs...                │                    
+  ├────────────┼───────────────────────────────────────────────┤                      │ 'function' │ After path operation, before response is sent │
+  ├────────────┼───────────────────────────────────────────────┤                    
+  │ 'request'  │ After response is sent to the client          │                    
+  └────────────┴───────────────────────────────────────────────┘                       
+  async def db_session():                                                           
+      db = SessionLocal()                                                                 try:                                                                          
+          yield db                                                                  
+      finally:    
+          db.close()
+
+  @app.get("/items/")                                                                 async def read_items(db: Annotated[Session, Depends(db_session)]):
+      ...                                                                                                                                                               
+  ---                                                                               
+  MCP Tools Used                                                                    
+                                                                                      ┌──────┬───────────────────────────────────┬───────────────────────────────────┐
+  │ Step │               Tool                │              Purpose              │  
+  ├──────┼───────────────────────────────────┼───────────────────────────────────┤    │      │                                   │ Resolved "FastAPI" →              │
+  │ 1    │ mcp__context7__resolve-library-id │ /websites/fastapi_tiangolo (best  │  
+  │      │                                   │ match: score 83.67, 17,409        │    │      │                                   │ snippets)                         │
+  ├──────┼───────────────────────────────────┼───────────────────────────────────┤  
+  │ 2    │ mcp__context7__query-docs         │ Queried dependency injection docs │  
+  │      │                                   │  using the resolved library ID    │    └──────┴───────────────────────────────────┴───────────────────────────────────┘
+                                                                                    ✻ Crunched for 31s                                                                  
+   
+────────────────────────────────────────────────────────────────────────────────────❯  
+────────────────────────────────────────────────────────────────────────────────────
+  ? for shortcuts

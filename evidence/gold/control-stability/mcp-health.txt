@@ -1,0 +1,12 @@
+PS D:\Shoaib Project\Personal-AI-Employee> claude mcp list
+Checking MCP server health...
+
+context7: cmd /c npx -y @upstash/context7-mcp@latest - ✓ Connected
+filesystem: D:\Shoaib Project\Personal-AI-Employee\tools\mcp-filesystem\node_modules\.bin\mcp-server-filesystem.cmd D:\Shoaib Project\Personal-AI-Employee D:\Shoaib Project\Personal-AI-Employee\AI_Employee_Vault - ✓ Connected
+gcal: cmd /c C:\mcp\gcal\run-gcal.cmd - ✓ Connected
+slack: cmd /c D:\Shoaib Project\Personal-AI-Employee\slack-mcp-launcher.cmd - ✓ Connected
+github: cmd /c D:\Shoaib Project\Personal-AI-Employee\github-mcp-launcher.cmd - ✓ Connected
+odoo: cmd /c D:\Shoaib Project\Personal-AI-Employee\odoo-mcp-launcher.cmd - ✓ Connected
+playwright: cmd /c C:\Users\Shoaib\AppData\Roaming\npm\npx.cmd @playwright/mcp@latest - ✓ Connected
+gmail: http://localhost:3010/mcp (HTTP) - ✓ Connected
+PS D:\Shoaib Project\Personal-AI-Employee>

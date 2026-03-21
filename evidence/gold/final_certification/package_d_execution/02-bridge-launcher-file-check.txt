@@ -1,0 +1,11 @@
+
+File                            Exists
+----                            ------
+.\tools\send_email.py             True
+.\watchers\gmail_task_bridge.py   True
+.\slack-mcp-launcher.cmd          True
+.\odoo-mcp-launcher.cmd           True
+.\github-mcp-launcher.cmd         True
+
+
+

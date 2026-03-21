@@ -1,0 +1,9 @@
+
+File                  Exists
+----                  ------
+.mcp.json               True
+.mcp.json.backup        True
+.mcp.json.backup-odoo   True
+
+
+

@@ -1,0 +1,31 @@
+
+Mode   Name                                     
+----   ----                                     
+d----- Approved                                 
+d----- Artifacts                                
+d----- Briefings                                
+d----- Completed                                
+d----- Decisions                                
+d----- Done                                     
+d----- Inbox                                    
+d----- In_Progress                              
+d----- Logs                                     
+d----- Needs_Action                             
+d----- Pending_Approval                         
+d----- Plans                                    
+d----- Policies                                 
+d----- Rejected                                 
+d----- skills                                   
+-a---- Bronze Video script - 90 Seconds.md      
+-a---- Bronze Video script.md                   
+-a---- Business_Goals.md                        
+-a---- Business_Goals.md.bak.2026-02-27_02-38-13
+-a---- Company_Handbook.md                      
+-a---- Dashboard.md                             
+-a---- Final Audit List for Silver.md           
+-a---- gold connection to gmail.md              
+-a---- INDEX.md                                 
+-a---- Readme.md                                
+
+
+

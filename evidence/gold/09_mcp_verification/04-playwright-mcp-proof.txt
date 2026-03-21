@@ -1,0 +1,22 @@
+❯ Use the playwright MCP only.                                                                                                                                          1. Open https://example.com                                                         2. Read the page title                                                              3. Read the main heading on the page                                                4. Tell me which Playwright MCP tools were used                                     5. Do not click anything unnecessary                                                
+                           
+● playwright - Navigate to a URL (MCP)(url: "https://example.com")                  
+  ⎿  ### Ran Playwright code                                                      
+     ```js
+     await page.goto('https://example.com');                                             … +14 lines (ctrl+o to expand)
+                                                                                    ● No snapshot needed — all the info is in the navigation result.                                                                                                        
+  ---                                                                                 Results                                                                           
+                                                                                      Page Title: Example Domain                                                        
+                                                                                      Main Heading (H1): Example Domain                                                                                                                                     
+  ---                                                                               
+  Playwright MCP Tools Used
+
+  ┌───────────────────────────────────┬──────────────────────────────────────────┐
+  │               Tool                │                 Purpose                  │
+  ├───────────────────────────────────┼──────────────────────────────────────────┤
+  │                                   │ Navigated to https://example.com and     │
+  │ mcp__playwright__browser_navigate │ returned the page title, URL, and        │
+  │                                   │ accessibility snapshot in one call       │    └───────────────────────────────────┴──────────────────────────────────────────┘
+                                                                                      Only one tool was needed — browser_navigate returns the page title and an           accessibility snapshot automatically, so browser_snapshot was not required.
+                                                                                    ────────────────────────────────────────────────────────────────────────────────────❯  
+────────────────────────────────────────────────────────────────────────────────────  ? for shortcuts

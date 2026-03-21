@@ -1,0 +1,34 @@
+﻿# Personal AI Employee Policy Engine
+
+policies:
+
+  email:
+    risk_level: medium
+    approval_policy: standard_hitl
+    description: External communication requires approval.
+
+  odoo:
+    risk_level: high
+    approval_policy: strict_hitl
+    description: Financial/business actions require strict approval.
+
+  slack:
+    risk_level: medium
+    approval_policy: standard_hitl
+    description: External team communication.
+
+  github:
+    risk_level: medium
+    approval_policy: standard_hitl
+    description: Repository modification requires approval.
+
+  internal_note:
+    risk_level: low
+    approval_policy: no_external_effect
+    description: Internal documentation only.
+
+control_rules:
+
+  no_external_action_without_approval: true
+  idempotency_required: true
+  audit_logging_required: true

@@ -1,0 +1,60 @@
+❯ Use the odoo MCP only.                                                                                                                                                1. List available models.                                                           2. Show the first 3 models.                                                         3. Tell which MCP tools were used.                                                                                                                                      
+● odoo - list_customers (MCP)                                                       
+  ⎿  [                                                                            
+       {
+         "id": 3,
+     … +23 lines (ctrl+o to expand)                                                 
+  
+● odoo - list_invoices (MCP)                                                        
+  ⎿  [                                                                                     {                                                                            
+         "id": 2,                                                                        … +13 lines (ctrl+o to expand)
+                                                                                    
+● Important Note        
+                                                                                    
+  The Odoo MCP does not expose a "list models" tool. It only surfaces two data        models. I called both to show all available data.                                 
+                                                                                    
+  ---                                                                               
+  1. Available Models (via this MCP)                                                
+                                                                                      ┌───────────┬─────────────────┐                                                   
+  │   Model   │ Odoo Equivalent │                                                   
+  ├───────────┼─────────────────┤                                                     │ Customers │ res.partner     │
+  ├───────────┼─────────────────┤                                                   
+  │ Invoices  │ account.move    │                                                     └───────────┴─────────────────┘
+                                                                                    
+  ---                                                                               
+  2. First 3 Records per Model
+                                                                                    
+  Customers (first 3):
+                                                                                      ┌─────┬───────────────────┬───────────────────┐                                   
+  │ ID  │       Name        │       Email       │                                   
+  ├─────┼───────────────────┼───────────────────┤                                   
+  │ 3   │ Administrator     │ admin@example.com │
+  ├─────┼───────────────────┼───────────────────┤
+  │ 8   │ MCP Test Customer │ mcp@test.com      │                                   
+  ├─────┼───────────────────┼───────────────────┤                                     │ 1   │ My Company        │ —                 │                                   
+  └─────┴───────────────────┴───────────────────┘                                   
+
+  Invoices (first 2 — only 2 exist):                                                   
+  ┌─────┬────────────────┬────────┬────────┬────────────┐                             │ ID  │   Invoice #    │ State  │ Amount │    Date    │                           
+  ├─────┼────────────────┼────────┼────────┼────────────┤                             │ 2   │ INV/2026/00002 │ posted │ 1,170  │ 2026-03-13 │                           
+  ├─────┼────────────────┼────────┼────────┼────────────┤                           
+  │ 1   │ INV/2026/00001 │ posted │ 1,170  │ 2026-03-13 │                             └─────┴────────────────┴────────┴────────┴────────────┘
+                                                                                      ---                                                                                 3. Odoo MCP Tools Used
+                                                                                      ┌───────────────────────────┬────────────────────────────────┐                    
+  │           Tool            │            Purpose             │                    
+  ├───────────────────────────┼────────────────────────────────┤                    
+  │ mcp__odoo__list_customers │ Retrieved all customer records │
+  ├───────────────────────────┼────────────────────────────────┤
+  │ mcp__odoo__list_invoices  │ Retrieved all invoice records  │                    
+  └───────────────────────────┴────────────────────────────────┘                                                                                                        
+  Available but not used:                                                           
+
+  ┌────────────────────────────┬────────────────────────┐
+  │            Tool            │        Purpose         │
+  ├────────────────────────────┼────────────────────────┤                             │ mcp__odoo__create_customer │ Creates a new customer │
+  ├────────────────────────────┼────────────────────────┤                           
+  │ mcp__odoo__create_invoice  │ Creates a new invoice  │                           
+  └────────────────────────────┴────────────────────────┘                                                                                                               
+────────────────────────────────────────────────────────────────────────────────────❯                                                                                 
+────────────────────────────────────────────────────────────────────────────────────
+  ? for shortcuts  

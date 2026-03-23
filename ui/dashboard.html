@@ -98,6 +98,7 @@
       justify-content: space-between;
       align-items: center;
       gap: 18px;
+      flex-wrap: wrap;
       margin-bottom: 20px;
       animation: fadeDown .55s cubic-bezier(.34,1.56,.64,1) both;
     }
@@ -164,6 +165,41 @@
       box-shadow: 0 0 0 4px rgba(16,185,129,0.18);
       flex: 0 0 auto;
       animation: livepulse 2.2s ease infinite;
+    }
+
+      .top-nav {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .nav-link {
+      text-decoration: none;
+      color: var(--muted);
+      background: rgba(255,255,255,0.78);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      transition: all 0.22s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .nav-link:hover {
+      color: var(--primary-deep);
+      border-color: rgba(59,110,248,0.18);
+      background: var(--primary-soft);
+      transform: translateY(-2px);
+    }
+
+    .nav-link.active {
+      color: white;
+      background: linear-gradient(135deg, var(--primary), #818CF8);
+      border-color: transparent;
+      box-shadow: 0 10px 24px rgba(59,110,248,0.24);
     }
 
     @keyframes livepulse {
@@ -715,6 +751,11 @@
     @media (max-width: 760px) {
       .shell { padding: 18px 14px 44px; }
       .topbar { flex-direction: column; align-items: flex-start; }
+      .top-nav {
+        width: 100%;
+        justify-content: flex-start;
+        order: 3;
+      }
       .hero { padding: 22px 20px; }
       .hero-side { grid-template-columns: 1fr; }
       .workflow-head { align-items: flex-start; }
@@ -751,19 +792,26 @@
 
     <!-- ── TOPBAR ── -->
     <header class="topbar">
-      <div class="brand">
-        <div class="brand-mark">AI</div>
-        <div class="brand-copy">
-          <h2>Personal AI Employee</h2>
-          <p>Operational intelligence dashboard</p>
-        </div>
-      </div>
-      <div class="status-pill">
-        <span class="status-dot"></span>
-        System Healthy &nbsp;·&nbsp; MCP Connected &nbsp;·&nbsp; Ready
-      </div>
-    </header>
+  <div class="brand">
+    <div class="brand-mark">AI</div>
+    <div class="brand-copy">
+      <h2>Personal AI Employee</h2>
+      <p>Operational intelligence dashboard</p>
+    </div>
+  </div>
 
+  <!-- 🔥 Navigation (NEW) -->
+  <nav class="top-nav" aria-label="Primary navigation">
+    <a href="dashboard.html" class="nav-link active">Dashboard</a>
+    <a href="hitl_flow.html" class="nav-link">HITL Flow</a>
+    <a href="ceo_report_view.html" class="nav-link">CEO Briefing</a>
+  </nav>
+
+  <div class="status-pill">
+    <span class="status-dot"></span>
+    System Healthy &nbsp;·&nbsp; MCP Connected &nbsp;·&nbsp; Ready
+  </div>
+</header>
     <!-- ── HERO ── -->
     <section class="hero">
       <div class="eyebrow">Gold System Dashboard</div>

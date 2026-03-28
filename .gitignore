@@ -1,9 +1,10 @@
 ﻿# ==============================
-# SECRETS (NEVER COMMIT)
+# SECRETS / LOCAL CONFIG (NEVER COMMIT)
 # ==============================
-.env*
-.mcp.json*
-*.backup
+.env
+.env.*
+.mcp.json
+.mcp.json.*
 **/*token*
 **/*tokens*
 **/*oauth*
@@ -52,21 +53,21 @@ AI_Employee_Vault/In_Progress/
 AI_Employee_Vault/Needs_Action/
 AI_Employee_Vault/Done/
 AI_Employee_Vault/Accounting/
-
-# Ignore live logs (we commit snapshots in evidence/)
 AI_Employee_Vault/Logs/
-
-# Ignore temp artifacts
 AI_Employee_Vault/Artifacts/
 AI_Employee_Vault/Completed/
 
 # ==============================
 # LOCAL / TEMP BACKUPS
 # ==============================
+*.backup
 AI_Employee_Vault/*.bak.*
 AI_Employee_Vault/Logs/*.bak.*
+infra/odoo/docker-compose.backup.yml
 
-# Ignore runtime action logs (we store proof in evidence/)
+# ==============================
+# RUNTIME LOGS (PROOF LIVES IN evidence/)
+# ==============================
 AI_Employee_Vault/Logs/action_log_*.jsonl
 
 # ==============================
@@ -85,9 +86,10 @@ AI_Employee_Vault/**/evidence/
 !AI_Employee_Vault/Pending_Approval/
 !AI_Employee_Vault/Rejected/
 !AI_Employee_Vault/Briefings/
+!AI_Employee_Vault/Updates/
 
 # ==============================
-# KEEP GOLD EVIDENCE (CRITICAL)
+# KEEP GOLD / PLATINUM EVIDENCE
 # ==============================
 !evidence/
 !evidence/**

@@ -93,3 +93,10 @@ AI_Employee_Vault/**/evidence/
 # ==============================
 !evidence/
 !evidence/**
+
+# ==============================
+# LOCAL PLATINUM DEMO NOISE
+# ==============================
+AI_Employee_Vault/Plans/PLAN_TASK_EMAIL_PLAT_DEMO_*.md
+AI_Employee_Vault/Approved/APPROVAL_PLAN_TASK_EMAIL_PLAT_DEMO_*.md
+AI_Employee_Vault/Templates/

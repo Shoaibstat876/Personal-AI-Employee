@@ -1,4 +1,70 @@
+# 🚀 Submission Overview
+
+## What This Project Is
+A local-first, Human-in-the-Loop (HITL) AI Employee system that converts unstructured inputs into controlled, auditable execution using real tools (Slack, Odoo, Email, Filesystem).
+
+---
+
+## What Is Implemented
+- Watcher-based task intake (filesystem + Gmail)
+- Task → Plan → Approval pipeline
+- Human-in-the-loop enforcement
+- Controlled execution via MCP integrations
+- Multi-system actions (Slack, Odoo, Email)
+- Audit logging (JSONL)
+- CEO reporting system
+- Deterministic orchestration
+
+---
+
+## What Gold Proves
+- Deterministic behavior
+- Full auditability
+- Strict HITL enforcement
+- Real integrations working
+- End-to-end execution pipeline
+
+---
+
+## What Platinum Adds (Preview)
+- Cloud ↔ Local system separation
+- Update lifecycle (/Updates)
+- Runtime visibility layer
+
+---
+
+## System Flow
+Input → Task → Plan → Approval → Execution → Logs → Reporting
+
+---
+
+## Repository Structure (High-Level)
+
+- AI_Employee_Vault/ → system state, workflow, logs
+- watchers/ → perception layer (filesystem, Gmail, health)
+- tools/ → orchestration and execution scripts
+- ui/ → dashboard, HITL view, CEO view
+- evidence/ → all proof for judges
+
+---
+
+## Quick Demo (Judge-Safe)
+
+1. Drop a file into `dropbox/`
+2. Watch task appear in `AI_Employee_Vault/Needs_Action/`
+3. System generates a plan → moves to `Pending_Approval/`
+4. Manually approve → move to `Approved/`
+5. System executes via MCP integrations
+6. Check outputs in:
+   - `Artifacts/`
+   - `Logs/`
+   - `Briefings/`
+
+---
+
 # 🧠 Personal AI Employee — Gold Tier System
+
+> A controlled, auditable AI operations system with human-in-the-loop governance and real-world execution capabilities.
 
 ## 🏆 Status: ELITE GOLD COMPLETE
 

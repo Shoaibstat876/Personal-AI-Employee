@@ -37,14 +37,45 @@ this is a **state-driven AI operations system**.
 
 ---
 
-## ☁️ What Platinum Adds (Preview)
+## ☁️ What Platinum Adds
 
-* Cloud ↔ Local system separation
+* Cloud vs Local execution separation
 * Asynchronous update lifecycle (`/Updates`)
-* Runtime visibility layer
-* Ownership and state tracking
+* Runtime visibility dashboard
+* Non-executing cloud draft system
+* Deterministic orchestration preserved
 
 ⚠️ Platinum does NOT modify Gold logic — it enhances observability only.
+
+---
+
+## 🔄 Demo Flow
+
+MCP → Runtime → Watcher → Task → Plan → Approval → Artifact → Logs
+
+This demonstrates:
+
+* controlled execution
+* human-in-the-loop enforcement
+* full auditability
+
+---
+
+## ▶️ How to Run Demo
+
+1. Check MCP:
+   `claude mcp list`
+
+2. Trigger watcher:
+   `"DEMO" | Set-Content dropbox\test.txt`
+
+3. Observe system flow:
+
+   * Needs_Action
+   * Plans
+   * Approval
+   * Artifacts
+   * Logs
 
 ---
 

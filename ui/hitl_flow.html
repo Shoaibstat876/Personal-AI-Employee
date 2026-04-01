@@ -570,7 +570,7 @@
         <div class="brand-mark">AI</div>
         <div class="brand-copy">
           <h2>Personal AI Employee</h2>
-          <p>Human-in-the-loop workflow</p>
+          <p>Approval-controlled workflow</p>
         </div>
       </div>
 
@@ -581,13 +581,13 @@
       </nav>
     </header>
 
-    <div class="eyebrow">HITL Workflow</div>
+    <div class="eyebrow">Approval-Controlled Flow</div>
 
-    <h1>Human-in-the-Loop Workflow</h1>
+    <h1>Human-in-the-Loop Control Flow</h1>
 
     <p class="subtitle">
-      A premium visualization of how the AI system processes incoming work,
-      generates plans, enforces human approval, and executes safely with full auditability.
+      A structured visualization of how watcher intake becomes task creation,
+      plan review, human approval, controlled execution, and audit logging.
     </p>
 
     <!-- ── FLOW (same structure, new soul) ── -->
@@ -596,8 +596,8 @@
       <div class="step incoming">
         <span class="step-num">01</span>
         <div class="icon-box">📥</div>
-        <h2>Incoming Work</h2>
-        <p>Filesystem MCP detects and converts raw input into structured tasks.</p>
+        <h2>Watcher Intake</h2>
+        <p>Watcher intake captures incoming input and creates a structured task file in the workflow.</p>
       </div>
 
       <div class="connector" aria-hidden="true"><span></span></div>
@@ -605,8 +605,8 @@
       <div class="step planning">
         <span class="step-num">02</span>
         <div class="icon-box">🧠</div>
-        <h2>AI Planning</h2>
-        <p>AI Engine generates a clear execution plan for operator review.</p>
+        <h2>Task + AI Plan</h2>
+        <p>The AI reasoning layer prepares a reviewable plan artifact linked to the task and traceable via file chain.</p>
       </div>
 
       <div class="connector" aria-hidden="true"><span></span></div>
@@ -614,8 +614,8 @@
       <div class="step awaiting">
         <span class="step-num">03</span>
         <div class="icon-box">⏳</div>
-        <h2>Awaiting Approval</h2>
-        <p>The system pauses until the operator validates the proposed action.</p>
+        <h2>Pending Approval</h2>
+        <p>The workflow remains paused until human approval is recorded for the proposed action.</p>
       </div>
 
       <div class="connector" aria-hidden="true"><span></span></div>
@@ -623,8 +623,8 @@
       <div class="step approved">
         <span class="step-num">04</span>
         <div class="icon-box">✅</div>
-        <h2>Approved</h2>
-        <p>The plan is confirmed and cleared for controlled execution.</p>
+        <h2>Approved by Human</h2>
+        <p>The approved plan is cleared for controlled execution under the HITL process.</p>
       </div>
 
       <div class="connector" aria-hidden="true"><span></span></div>
@@ -632,8 +632,8 @@
       <div class="step completed">
         <span class="step-num">05</span>
         <div class="icon-box">⚙️</div>
-        <h2>Completed</h2>
-        <p>Execution runs via MCP and is fully logged for audit and reporting.</p>
+        <h2>Artifact + Audit Logged</h2>
+        <p>Approved action is processed through controlled MCP stage after human approval, generates an artifact, and records the audit trail.</p>
       </div>
 
     </div>
@@ -641,23 +641,23 @@
     <!-- ── STATS STRIP ── -->
     <div class="stats">
       <div class="stat">
-        <span class="stat-val" style="color:#1d4ed8">5</span>
-        <span class="stat-label">Pipeline Stages</span>
+        <span class="stat-val" style="color:#1d4ed8">Active</span>
+        <span class="stat-label">Workflow Status</span>
       </div>
       <div class="stat-sep"></div>
       <div class="stat">
-        <span class="stat-val" style="color:#15803d">100%</span>
-        <span class="stat-label">Human Gated</span>
+        <span class="stat-val" style="color:#15803d">Enforced</span>
+        <span class="stat-label">Human Review</span>
       </div>
       <div class="stat-sep"></div>
       <div class="stat">
-        <span class="stat-val" style="color:#c2410c">MCP</span>
-        <span class="stat-label">Powered By</span>
+        <span class="stat-val" style="color:#c2410c">Connected</span>
+        <span class="stat-label">MCP Status</span>
       </div>
       <div class="stat-sep"></div>
       <div class="stat">
-        <span class="stat-val" style="color:#6d28d9">Full</span>
-        <span class="stat-label">Audit Log</span>
+        <span class="stat-val" style="color:#6d28d9">Logged</span>
+        <span class="stat-label">Audit Trail</span>
       </div>
     </div>
 

@@ -19,7 +19,7 @@ This system ensures:
 * deterministic behavior
 * full auditability
 
-This is not a chatbot.
+This is not a chatbot.  
 This is a **state-driven AI operations system**.
 
 ---
@@ -66,16 +66,20 @@ It adds:
 * Non-executing cloud draft system
 * Clear ownership and state tracking
 
-⚠️ Platinum does NOT execute actions
-⚠️ Platinum does NOT modify Gold logic
+⚠️ Platinum does NOT execute actions  
+⚠️ Platinum does NOT modify Gold logic  
 
-👉 Platinum = **observability + control clarity**
+👉 Platinum = **observability + control clarity**  
+👉 Gold handles execution  
+👉 Platinum explains and tracks the system  
 
 ---
 
 ## 🔄 Demo Flow
 
 MCP → Runtime → Watcher → Task → Plan → Approval → Artifact → Logs
+
+(Each step produces verifiable files and logs inside the Vault)
 
 This demonstrates:
 
@@ -89,22 +93,17 @@ This demonstrates:
 ## ▶️ How to Run Demo
 
 1. Check MCP:
-
-   ```
-   claude mcp list
-   ```
+   `claude mcp list`
 
 2. Trigger watcher:
+   `"DEMO" | Set-Content dropbox\test.txt`
 
-   ```
-   "DEMO" | Set-Content dropbox\test.txt
-   ```
-
-3. Observe system flow:
+3. Observe the full system lifecycle in real-time:
 
 * Needs_Action
 * Plans
-* Approval
+* Pending_Approval
+* Approved
 * Artifacts
 * Logs
 
@@ -128,6 +127,7 @@ MCP → Runtime → Watcher → Task → Plan → Approval → Artifact → Logs
 * `watchers/` → perception layer (filesystem, Gmail, health)
 * `tools/` → orchestration and execution scripts
 * `ui/` → dashboard, HITL view, CEO view
+* `docs/` → architecture and demo scripts
 * `evidence/` → proof for judges
 
 ---
@@ -262,15 +262,16 @@ All integrations are:
 
 All proof stored in:
 
-`/evidence/gold/`
+`/evidence/`
 
 Includes:
 
-* logs
-* artifacts
+* Gold execution proof
+* Platinum runtime proof
 * MCP verification
 * watcher outputs
-* execution traces
+* logs and artifacts
+* full lifecycle trace (task → plan → approval → execution)
 
 ---
 
@@ -295,7 +296,7 @@ This is NOT:
 This IS:
 
 > A **Controlled AI Operations System**
-> with human governance and production-grade architecture
+> with human governance and production-style architecture
 
 ---
 
@@ -303,15 +304,17 @@ This IS:
 
 **ELITE GOLD + PLATINUM — COMPLETE ✅**
 
-* Gold proves execution
-* Platinum proves visibility
-* System is safe, real, and production-ready
+* Gold proves execution  
+* Platinum proves visibility  
+* System is safe, controlled, auditable, and fully verifiable
+
+👉 Demonstrated with real execution, real logs, and verifiable outputs  
 
 Ready for:
 
-* Submission
-* Demonstration
-* Evaluation
+* Submission  
+* Demonstration  
+* Evaluation  
 
 ---
 
@@ -331,7 +334,7 @@ Gold is locked.
 
 Proceed to:
 
-👉 Platinum extensions and scaling
+👉 Platinum validation, testing, and presentation
 
 ---
 

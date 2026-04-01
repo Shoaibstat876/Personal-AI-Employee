@@ -1,0 +1,6 @@
+{"timestamp":"2026-03-27T10:00:00Z","action":"social_post_draft","platform":"twitter","status":"generated","approval_required":true}
+{"timestamp":"2026-03-27T10:03:00Z","action":"social_post_draft","platform":"facebook","status":"generated","approval_required":true}
+{"timestamp":"2026-03-27T10:05:00Z","action":"social_post_draft","platform":"instagram","status":"generated","approval_required":true}
+{"timestamp":"2026-03-27T10:07:00Z","action":"social_post_execution","platform":"twitter","status":"approved","result":"logged_only"}
+{"timestamp":"2026-03-27T10:09:00Z","action":"social_post_execution","platform":"facebook","status":"approved","result":"logged_only"}
+{"timestamp":"2026-03-27T10:11:00Z","action":"social_post_execution","platform":"instagram","status":"approved","result":"logged_only"}

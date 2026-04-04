@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import json
 import os
-import subprocess
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict
@@ -329,8 +328,6 @@ def run_once() -> int:
                     state["last_checkpoint"] = "MOVED_TO_IN_PROGRESS"
                     state["last_output_paths"] = [str(dst_path)]
                     save_state(state)
-                    if not str(task0).startswith("TASK_EMAIL_"):
-                     subprocess.run(["python", "tools/bridge_inprogress_to_plan.py", task0], cwd=str(REPO_ROOT))
 
                     # ---- Phase 6: SAFE local-only execution (DEMO tasks only) ----
                     if str(task0).startswith("DEMO_EXEC_"):

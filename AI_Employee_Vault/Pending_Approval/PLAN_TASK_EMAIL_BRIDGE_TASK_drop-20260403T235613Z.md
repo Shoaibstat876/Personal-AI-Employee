@@ -25,6 +25,16 @@ This ensures that the SAME task instance is traceable across the full governed l
 - Done
 - Execution Logs
 
+## Approval Stage Traceability (Final Demo Evidence)
+
+This same plan file is now in the Pending_Approval stage.
+
+Approval state is represented by controlled folder transition:
+- Plans/PLAN_TASK_EMAIL_BRIDGE_TASK_drop-20260403T235613Z.md
+- Pending_Approval/PLAN_TASK_EMAIL_BRIDGE_TASK_drop-20260403T235613Z.md
+
+The shared task_id confirms that the SAME task instance has moved from planning into human review before any external execution.
+
 # Plan.md
 
 ## Source Task

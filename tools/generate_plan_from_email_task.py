@@ -27,6 +27,7 @@ def extract(pattern: str, text: str) -> str:
 
 def main():
     PLANS.mkdir(parents=True, exist_ok=True)
+    (VAULT / "Pending_Approval").mkdir(parents=True, exist_ok=True)
     LOGS.mkdir(parents=True, exist_ok=True)
 
     task_path = latest_email_task()
@@ -78,6 +79,8 @@ No external side effect is allowed before human approval.
 """
 
     plan_path.write_text(plan, encoding="utf-8")
+    pending_path = (VAULT / "Pending_Approval") / plan_name
+    pending_path.write_text(plan, encoding="utf-8")
 
     log_path = LOGS / "gmail_plan_generator_log.jsonl"
     with log_path.open("a", encoding="utf-8") as f:

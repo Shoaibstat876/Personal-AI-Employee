@@ -6,25 +6,6 @@ created_at: "2026-04-04T22:50:08Z"
 source: "gmail_plan_generator"
 ---
 
-## Traceability Link (Final Demo Evidence)
-
-Primary task_id: drop-20260403T235613Z
-
-This plan is linked to the original watcher-created task:
-- TASK_drop-20260403T235613Z.md
-
-An intermediate bridge task may be introduced by the pipeline:
-- TASK_EMAIL_BRIDGE_TASK_drop-20260403T235613Z.md
-
-The lifecycle identity remains the same through the shared task_id.
-
-This ensures that the SAME task instance is traceable across the full governed lifecycle:
-- Needs_Action
-- Plans
-- Approval
-- Done
-- Execution Logs
-
 # Plan.md
 
 ## Source Task

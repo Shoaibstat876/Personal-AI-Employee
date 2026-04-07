@@ -1,0 +1,17 @@
+REAL GIT CREATION ORDER
+main
+-> silver-dev
+-> gold-dev
+-> gold-gap-fix
+-> platinum-start
+-> pipeline-repair-safe
+-> platinum-final-demo
+
+BEST PROJECT EVOLUTION ORDER
+silver-dev
+-> gold-dev
+-> gold-gap-fix
+-> platinum-start
+-> pipeline-repair-safe
+-> platinum-final-demo
+-> main

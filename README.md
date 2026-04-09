@@ -1,12 +1,10 @@
-﻿# 🚀 Personal AI Employee — Hackathon 0
+﻿🚀 Personal AI Employee — Hackathon 0
 
-> A controlled, auditable AI operations system with human-in-the-loop governance and real-world execution capabilities.
+A controlled, auditable AI operations system with human-in-the-loop governance and real-world execution capabilities.
 
----
+🧠 What This Project Is
 
-## 🧠 What This Project Is
-
-A **local-first, Human-in-the-Loop (HITL) AI Employee system** that converts unstructured inputs into **controlled, auditable execution workflows** across real tools (Slack, Odoo, Email, Filesystem).
+A local-first, Human-in-the-Loop (HITL) AI Employee system that converts unstructured inputs into controlled, auditable execution workflows across real tools (Slack, Odoo, Email, Filesystem).
 
 It is built to solve a critical problem:
 
@@ -14,68 +12,58 @@ It is built to solve a critical problem:
 
 This system ensures:
 
-* structured execution
-* human approval at critical steps
-* deterministic behavior
-* full auditability
+structured execution
+human approval at critical steps
+deterministic behavior
+full auditability
 
-This is not a chatbot.  
-This is a **state-driven AI operations system**.
+This is not a chatbot.
+This is a state-driven AI operations system.
 
----
+⚙️ What Is Implemented
+Watcher-based task intake (filesystem + Gmail)
+Structured pipeline: Task → Plan → Approval → Execution
+Human-in-the-loop enforcement (no approval → no execution)
+Controlled execution via MCP integrations
+Multi-system actions (Slack, Odoo, Email, Filesystem)
+Append-only audit logging (JSONL)
+CEO reporting and summaries
+Deterministic orchestration with retry safety
+🏆 What Gold Proves (Execution System)
 
-## ⚙️ What Is Implemented
-
-* Watcher-based task intake (filesystem + Gmail)
-* Structured pipeline: Task → Plan → Approval → Execution
-* Human-in-the-loop enforcement (no approval → no execution)
-* Controlled execution via MCP integrations
-* Multi-system actions (Slack, Odoo, Email, Filesystem)
-* Append-only audit logging (JSONL)
-* CEO reporting and summaries
-* Deterministic orchestration with retry safety
-
----
-
-## 🏆 What Gold Proves (Execution System)
-
-The **Gold layer** is the core execution engine.
+The Gold layer is the core execution engine.
 
 It proves that the system is:
 
-* Deterministic (no randomness)
-* Fully auditable and traceable
-* Strictly controlled via HITL
-* Capable of real multi-system execution
-* End-to-end functional (input → execution → logs)
-* Resume-safe and crash-safe
+Deterministic (no randomness)
+Fully auditable and traceable
+Strictly controlled via HITL
+Capable of real multi-system execution
+End-to-end functional (input → execution → logs)
+Resume-safe and crash-safe
 
-👉 Gold = **actual execution system**
+👉 Gold = actual execution system
 
----
+☁️ What Platinum Adds (Observability Layer)
 
-## ☁️ What Platinum Adds (Observability Layer)
-
-The **Platinum layer** enhances visibility and system clarity **without modifying execution logic**.
+The Platinum layer enhances visibility and system clarity without modifying execution logic.
 
 It adds:
 
-* Cloud vs Local execution separation
-* Asynchronous update lifecycle (`Incoming → Claimed → Processed → Gold`)
-* Runtime visibility dashboard
-* Non-executing cloud draft system
-* Clear ownership and state tracking
+Cloud vs Local execution separation
+Asynchronous update lifecycle (Incoming → Claimed → Processed → Gold)
+Runtime visibility dashboard
+Non-executing cloud draft system
+Clear ownership and state tracking
 
-⚠️ Platinum does NOT execute actions  
-⚠️ Platinum does NOT modify Gold logic  
+⚠️ Platinum does NOT execute actions
+⚠️ Platinum does NOT modify Gold logic
 
-👉 Platinum = **observability + control clarity**  
-👉 Gold handles execution  
-👉 Platinum explains and tracks the system  
+👉 Platinum = observability + control clarity
+👉 Gold handles execution
+👉 Platinum explains and tracks the system
 
----
-
-## 🔄 Demo Flow
+🔄 Demo Flow
 
 MCP → Runtime → Watcher → Task → Plan → Approval → Artifact → Logs
 
@@ -83,268 +71,197 @@ MCP → Runtime → Watcher → Task → Plan → Approval → Artifact → Logs
 
 This demonstrates:
 
-* controlled execution
-* human-in-the-loop enforcement
-* full auditability
-* deterministic system behavior
-
----
-
-## ▶️ How to Run Demo
-
-1. Check MCP:
-   `claude mcp list`
-
-2. Trigger watcher:
-   `"DEMO" | Set-Content dropbox\test.txt`
-
-3. Observe the full system lifecycle in real-time:
-
-* Needs_Action
-* Plans
-* Pending_Approval
-* Approved
-* Artifacts
-* Logs
-
----
-
-## 🔄 System Flow
-
-### Simplified Flow
+controlled execution
+human-in-the-loop enforcement
+full auditability
+deterministic system behavior
+▶️ How to Run Demo
+Check MCP:
+claude mcp list
+Trigger watcher:
+"DEMO" | Set-Content dropbox\test.txt
+Observe lifecycle:
+Needs_Action
+Plans
+Pending_Approval
+Approved
+Artifacts
+Logs
+🔄 System Flow
+Simplified Flow
 
 Input → Task → Plan → Approval → Execution → Logs → Reporting
 
-### Full Flow
+Full Flow
 
 MCP → Runtime → Watcher → Task → Plan → Approval → Artifact → Logs
 
----
+🗂 Repository Structure (High-Level)
+AI_Employee_Vault/ → system state, workflow, logs
+watchers/ → perception layer
+tools/ → orchestration + execution
+ui/ → dashboard + HITL + CEO view
+docs/ → architecture + demo scripts
+evidence/ → structured proof layer
+🧪 Evidence Structure (IMPORTANT)
 
-## 🗂 Repository Structure (High-Level)
+This project maintains two complementary evidence layers:
 
-* `AI_Employee_Vault/` → system state, workflow, logs
-* `watchers/` → perception layer (filesystem, Gmail, health)
-* `tools/` → orchestration and execution scripts
-* `ui/` → dashboard, HITL view, CEO view
-* `docs/` → architecture and demo scripts
-* `evidence/` → proof for judges
+1. Repository Evidence (/evidence/)
 
----
+Contains:
 
-## 🎬 Quick Demo (Judge-Safe)
+structured verification files
+logs and snapshots
+MCP validation
+Gold execution proof
+deterministic workflow evidence
 
-1. Drop a file into `dropbox/`
-2. Task appears in `AI_Employee_Vault/Needs_Action/`
-3. System generates a plan → moves to `Pending_Approval/`
-4. Manually approve → move to `Approved/`
-5. System executes via MCP integrations
-6. Outputs appear in:
+👉 This is the core judge-verifiable proof layer
 
-   * `Artifacts/`
-   * `Logs/`
-   * `Briefings/`
+2. Platinum Evidence Pack
 
----
+AI_Employee_Vault/Artifacts/PLATINUM_EVIDENCE_PACK/
 
-# 🧩 Core Architecture
+Contains:
 
-## 1. Input Layer (Watchers)
+grouped screenshot-based validation
+A → J structured proof packs
+end-to-end lifecycle visual evidence
+UI and execution screenshots
 
-* Filesystem watcher
-* Gmail intake bridge
-* Manual task creation
+👉 This is the final presentation-ready evidence pack
 
-➡ Converts raw input into structured tasks
+✅ Why Two Layers?
+evidence/ → technical proof (deep validation)
+PLATINUM_EVIDENCE_PACK/ → visual proof (easy judging)
 
----
+Together they provide:
 
-## 2. Vault System (State Machine)
+✔ full traceability
+✔ visual clarity
+✔ judge-friendly validation
+
+🎬 Quick Demo (Judge-Safe)
+Drop file into dropbox/
+Task appears in Needs_Action/
+Plan generated → Pending_Approval/
+Approve → move to Approved/
+Execution via MCP
+Output appears in:
+Artifacts/
+Logs/
+Briefings/
+🧩 Core Architecture
+1. Input Layer (Watchers)
+
+Filesystem + Gmail → structured tasks
+
+2. Vault System (State Machine)
 
 Needs_Action → Plans → Pending_Approval → Approved → Done
 
 Acts as:
 
-* system memory
-* workflow engine
-* single source of truth
+system memory
+workflow engine
+single source of truth
+3. AI Reasoning Layer
 
----
+Generates structured plans (non-executing)
 
-## 3. AI Reasoning Layer
+4. Human-in-the-Loop (HITL)
 
-* Generates structured plans
-* Explains intent
-* Produces human-readable outputs
+Mandatory approval before execution
 
-⚠️ Plans are advisory only
+5. Controlled Execution Layer
 
----
+MCP-based execution:
 
-## 4. Human-in-the-Loop (HITL)
+Slack
+Odoo
+Email
+Files
+6. Audit & Logging Layer
 
-* Mandatory approval step
-* No execution without approval
-* Full decision trace
+Append-only JSONL logs → full traceability
 
----
+7. Reporting Layer
 
-## 5. Controlled Execution Layer
+CEO Briefings + insights
 
-* Executes only approved actions
-* Uses MCP integrations
-* Produces deterministic outputs
+🔌 MCP Integrations
+Gmail
+GitHub
+Slack
+Google Calendar
+Filesystem
+Playwright
+Odoo
+Context7
 
-Examples:
+✔ controlled
+✔ verified
+✔ logged
 
-* Slack actions
-* Odoo operations
-* Email sending
-* File generation
-
----
-
-## 6. Audit & Logging Layer
-
-* JSONL append-only logs
-* Full traceability
-* Runtime logs
-
----
-
-## 7. Reporting Layer
-
-* CEO Briefings
-* Scheduled reports
-* Business insights
-
----
-
-# 🔌 MCP Integrations
-
-* Gmail
-* GitHub
-* Slack
-* Google Calendar
-* Filesystem
-* Playwright
-* Odoo
-* Context7
-
-All integrations are:
-
-* controlled
-* verified
-* logged
-
----
-
-# 🔒 System Guarantees
-
-* No execution without approval
-* No uncontrolled external actions
-* Full audit trail
-* Deterministic behavior
-* Reproducible execution
-
----
-
-# 🔁 Reliability
-
-* Retry logic
-* Crash-safe loop
-* Lock-based execution
-* Resume-safe system
-
----
-
-# 🧪 Evidence & Verification
-
-All proof stored in:
-
-`/evidence/`
-
-Includes:
-
-* Gold execution proof
-* Platinum runtime proof
-* MCP verification
-* watcher outputs
-* logs and artifacts
-* full lifecycle trace (task → plan → approval → execution)
-
----
-
-# 📊 System Capabilities
-
-* Autonomous task intake
-* AI reasoning with human oversight
-* Controlled execution
-* Multi-system integration
-* Scheduled automation
-* Full traceability
-
----
-
-# 🧠 What Makes This Different
+🔒 System Guarantees
+No execution without approval
+No uncontrolled actions
+Full audit trail
+Deterministic behavior
+Reproducibility
+🔁 Reliability
+Retry logic
+Crash-safe loop
+Lock-based execution
+Resume-safe system
+📊 System Capabilities
+Autonomous intake
+AI reasoning + HITL
+Controlled execution
+Multi-system integration
+Scheduling
+Full traceability
+🧠 What Makes This Different
 
 This is NOT:
 
-* a chatbot
-* a simple automation script
+a chatbot
+a simple automation script
 
 This IS:
 
-> A **Controlled AI Operations System**
-> with human governance and production-style architecture
+A Controlled AI Operations System
+with human governance and production-style architecture
 
----
+🏁 Final Verdict
 
-# 🏁 Final Verdict
+ELITE GOLD + PLATINUM — COMPLETE ✅
 
-**ELITE GOLD + PLATINUM — COMPLETE ✅**
+Gold → execution
+Platinum → visibility
+System → safe, controlled, auditable
 
-* Gold proves execution  
-* Platinum proves visibility  
-* System is safe, controlled, auditable, and fully verifiable
+👉 Proven with real logs, real execution, real artifacts
 
-👉 Demonstrated with real execution, real logs, and verifiable outputs  
-
-Ready for:
-
-* Submission  
-* Demonstration  
-* Evaluation  
-
----
-
-# 🚫 Gold Freeze Rule
+🚫 Gold Freeze Rule
 
 Do NOT:
 
-* modify core system
-* restructure architecture
-* introduce new features
+modify core system
+restructure architecture
+introduce new features
+▶️ Next Step
 
-Gold is locked.
+👉 Platinum validation + demo presentation
 
----
+❤️ Closing Note
 
-# ▶️ Next Step
+This system proves AI can be:
 
-Proceed to:
-
-👉 Platinum validation, testing, and presentation
-
----
-
-# ❤️ Closing Note
-
-This system proves that AI can be:
-
-* controlled
-* safe
-* auditable
-* reliable
+controlled
+safe
+auditable
+reliable
 
 —not just automated.

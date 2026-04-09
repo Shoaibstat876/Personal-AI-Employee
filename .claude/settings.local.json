@@ -1,0 +1,37 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__odoo__list_customers",
+      "mcp__odoo__create_customer",
+      "mcp__odoo__create_invoice",
+      "mcp__filesystem__list_directory",
+      "mcp__gcal__list-calendars",
+      "mcp__gcal__list-events",
+      "mcp__context7__resolve-library-id",
+      "mcp__context7__query-docs",
+      "mcp__slack__channels_list",
+      "mcp__slack__conversations_history",
+      "mcp__playwright__browser_navigate",
+      "mcp__odoo__list_invoices"
+    ]
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "slack"
+  ],
+  "mcpServers": {
+    "slack": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "slack-mcp-server@latest",
+        "--transport",
+        "stdio"
+      ],
+      "env": {
+        "SLACK_MCP_XOXB_TOKEN": "${SLACK_MCP_XOXB_TOKEN}",
+        "SLACK_MCP_ADD_MESSAGE_TOOL": "${SLACK_MCP_ADD_MESSAGE_TOOL}"
+      }
+    }
+  }
+}

@@ -1,4 +1,18 @@
-﻿from pathlib import Path
+﻿"""
+Personal AI Employee — Hackathon 0
+
+This file implements the Approval → Action Artifact stage of the governed workflow.
+
+Relevant `.specify` alignment:
+- workflow definition
+- HITL governance
+- execution boundaries
+- evidence traceability
+
+This stage prepares an execution-ready artifact after approval and must not perform execution directly.
+"""
+
+from pathlib import Path
 from datetime import datetime, timezone
 import re
 
@@ -29,9 +43,11 @@ def main():
     ARTIFACTS.mkdir(parents=True, exist_ok=True)
     LOGS.mkdir(parents=True, exist_ok=True)
 
+    # Select the latest approved request so artifact preparation remains explicitly post-approval.
     approval_path = latest_approved()
     approval_text = approval_path.read_text(encoding="utf-8")
 
+    # Preserve task_id continuity so the approved workflow item remains traceable into the artifact stage.
     task_id = extract(r'^task_id:\s*"([^"]+)"', approval_text)
     plan_file = extract(r'^approval_for_plan:\s*"([^"]+)"', approval_text)
 
@@ -69,8 +85,10 @@ External execution must follow the approved plan and remain auditable.
 This artifact proves the system reached the post-approval stage safely.
 """
 
+    # Write the post-approval action artifact without performing any external side effect.
     artifact_path.write_text(content, encoding="utf-8")
 
+    # Append-only logging preserves audit trace from approval into artifact preparation.
     log_path = LOGS / "approved_action_generator_log.jsonl"
     with log_path.open("a", encoding="utf-8") as f:
         f.write(

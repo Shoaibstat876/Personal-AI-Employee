@@ -4,61 +4,114 @@
 
 Hello, this is **Personal AI Employee** — a **human-in-the-loop, state-driven AI operations system**.
 
-It transforms raw, unstructured input into a **controlled, auditable execution pipeline**.
+It transforms raw, unstructured input into a **controlled, auditable execution pipeline**, with strict governance defined by the system’s `.specify` layer.
 
 Let me walk you through it.
 
+---
+
 We start with an input — for example, an email or a file.
 
-The system immediately converts this into a **structured task**, turning messy data into a clear unit of work.
+The system immediately converts this into a **structured task**, turning unstructured data into a **traceable unit of work** stored in the system vault.
 
-Next, Claude analyzes the task and generates a **structured execution plan**, explaining what should be done, why it should be done, and the expected outcome.
+---
 
-This plan is then sent to the **Human-in-the-Loop control gate**.
+Next, the system generates a **structured execution plan**.
+
+This plan defines:
+
+- what should be done  
+- why it should be done  
+- expected outcomes  
+
+Importantly:
+
+👉 **This step does NOT execute anything**  
+👉 It only prepares a controlled plan  
+
+---
+
+This plan is then sent to the **Human-in-the-Loop (HITL) control gate**.
 
 At this stage, nothing executes automatically.
-The operator reviews the plan and decides:
 
-* **Approve** → continue
-* **Reject or revise** → stop or adjust
+The operator decides:
 
-This ensures **full human control over every critical action**.
+* **Approve** → allow execution  
+* **Reject or revise** → stop or adjust  
 
-Once approved, the system executes the action through a **controlled and deterministic execution layer**.
+👉 This enforces **strict human governance over all critical actions**
 
-Examples include sending emails, generating files, or completing defined workflow steps.
+---
+
+Once approved, the system executes through a **controlled execution layer**.
+
+Execution is:
+
+- artifact-driven  
+- deterministic  
+- fully logged  
+
+Examples include:
+
+- sending emails  
+- interacting with business systems (Odoo)  
+- sending Slack messages  
+- generating files  
+
+---
 
 After execution, everything is recorded:
 
-* task data
-* generated plans
-* approval decisions
-* execution results
-* logs and summaries
+* task data  
+* generated plans  
+* approval decisions  
+* execution results  
+* audit logs  
 
-This creates a **complete, end-to-end audit trail**.
+👉 This creates a **complete, end-to-end traceability chain**
 
-On the dashboard, we can see real-time visibility into:
+---
 
-* system status
-* tasks
-* plans
-* approvals
-* logs
+On the dashboard, we see **real-time system visibility**:
+
+* system status  
+* tasks  
+* plans  
+* approvals  
+* logs  
 
 We also provide:
 
-* a **CEO Briefing view** for business-level insights
-* a **HITL workflow visualization** showing the full lifecycle
+* a **CEO Briefing view** for high-level insights  
+* a **HITL workflow visualization** showing lifecycle progression  
 
-From **Needs_Action → Executed**
+From:
+
+**Needs_Action → Plans → Pending → Approved → Done**
+
+---
 
 So the full system flow is:
 
 **Input → Task → Plan → Approval → Execution → Logs**
 
-This is not just automation.
+---
 
-This is a **controlled AI operations system with human oversight, full traceability, and production-ready workflow design**.
+This is NOT a chatbot.  
+This is NOT simple automation.
+
+👉 This is a **controlled AI operations system** with:
+
+- human governance (HITL)  
+- deterministic execution  
+- full auditability  
+- production-style architecture  
+
+---
+
+## Final Line (Judge Impact)
+
+A Human-in-the-Loop AI Employee where every action is approved, traceable, and audit-logged end-to-end.
 
 Thank you.

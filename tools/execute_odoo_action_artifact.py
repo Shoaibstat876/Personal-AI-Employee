@@ -1,4 +1,18 @@
-﻿import json
+﻿"""
+Personal AI Employee — Hackathon 0
+
+This file implements controlled Odoo execution from an approved action artifact.
+
+Relevant `.specify` alignment:
+- workflow definition
+- HITL governance
+- execution boundaries
+- evidence traceability
+
+This stage performs real external execution only after prior approval and must preserve auditability and idempotency.
+"""
+
+import json
 import re
 from pathlib import Path
 from datetime import datetime, timezone
@@ -124,6 +138,7 @@ def main():
         if not env.get(key):
             raise SystemExit(f"STOP: missing {key} in .env.odoo")
 
+    # Select the latest prepared Odoo action artifact from the post-approval execution stage.
     artifact_path = latest_odoo_action_artifact()
     artifact_text = artifact_path.read_text(encoding="utf-8")
 
@@ -134,6 +149,7 @@ def main():
     if not customer_name:
         raise SystemExit("STOP: customer_name not found in Odoo action artifact")
 
+    # Idempotency guard prevents duplicate external execution for the same approved artifact.
     if already_executed(artifact_text):
         msg = "already_executed_idempotency_guard"
         log_event("SKIP_ALREADY_EXECUTED", artifact_path.name, msg)
@@ -148,6 +164,7 @@ def main():
         {"fields": ["id", "name", "email", "phone"], "limit": 1}
     )
 
+    # Existing-record detection preserves safe execution boundaries and avoids duplicate customer creation.
     if existing:
         existing_id = existing[0]["id"]
         updated = replace_status(artifact_text, "executed")
@@ -170,6 +187,7 @@ def main():
     updated = append_execution_record(updated, str(customer_id), customer_name)
     artifact_path.write_text(updated, encoding="utf-8")
 
+    # Append-only execution logging preserves external action traceability for audit and review.
     log_event("ODOO_CUSTOMER_CREATED", artifact_path.name, f"customer_id={customer_id};name={customer_name}")
 
     print(f"[OK] source artifact: {artifact_path}")

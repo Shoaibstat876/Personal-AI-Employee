@@ -1,4 +1,18 @@
-﻿import os
+﻿"""
+Personal AI Employee — Hackathon 0
+
+This file implements controlled email sending from an approved draft artifact.
+
+Relevant `.specify` alignment:
+- workflow definition
+- HITL governance
+- execution boundaries
+- evidence traceability
+
+This stage performs real external email delivery only after prior approval and must preserve auditability and idempotency.
+"""
+
+import os
 import re
 from pathlib import Path
 from datetime import datetime, timezone
@@ -79,6 +93,7 @@ def main():
 
     LOGS.mkdir(parents=True, exist_ok=True)
 
+    # Select the latest prepared email draft artifact from the post-approval execution stage.
     draft_path = latest_email_draft_artifact()
     draft_text = draft_path.read_text(encoding="utf-8")
 
@@ -89,6 +104,7 @@ def main():
     if not to_email or not subject or not body:
         raise SystemExit("STOP: could not extract to/subject/body from draft artifact")
 
+    # Idempotency guard prevents duplicate email sending for the same approved draft artifact.
     if already_sent(draft_text):
         msg = "already_sent_idempotency_guard"
         log_event("SKIP_ALREADY_SENT", draft_path.name, to_email, subject, msg)
@@ -99,6 +115,7 @@ def main():
 
     html = "<br>".join(body.splitlines())
 
+    # Construct a controlled send payload from the approved draft artifact without changing its intent.
     params = {
         "from": from_email,
         "to": [to_email],
@@ -113,6 +130,7 @@ def main():
     updated = append_send_record(updated, to_email, subject, result_text)
     draft_path.write_text(updated, encoding="utf-8")
 
+    # Append-only execution logging preserves delivery traceability for audit and review.
     log_event("EMAIL_DRAFT_SENT", draft_path.name, to_email, subject, result_text)
 
     print(f"[OK] source draft artifact: {draft_path}")

@@ -1,4 +1,18 @@
-﻿import json
+﻿"""
+Personal AI Employee — Hackathon 0
+
+This file implements controlled Slack execution from an approved action artifact.
+
+Relevant `.specify` alignment:
+- workflow definition
+- HITL governance
+- execution boundaries
+- evidence traceability
+
+This stage performs real external communication only after approval and must preserve auditability and idempotency.
+"""
+
+import json
 import re
 from pathlib import Path
 from datetime import datetime, timezone
@@ -114,6 +128,7 @@ def main():
     if not token:
         raise SystemExit("STOP: SLACK_MCP_XOXB_TOKEN missing in .env")
 
+    # Select the latest prepared Slack action artifact from the post-approval execution stage.
     artifact_path = latest_slack_action_artifact()
     artifact_text = artifact_path.read_text(encoding="utf-8")
 
@@ -123,12 +138,14 @@ def main():
     if not channel_value or not message:
         raise SystemExit("STOP: channel or message not found in Slack action artifact")
 
+    # Idempotency guard prevents duplicate message sending for the same approved artifact.
     if already_executed(artifact_text):
         msg = "already_executed_idempotency_guard"
         log_event("SKIP_ALREADY_EXECUTED", artifact_path.name, msg)
         print(f"[SKIP] Slack artifact already executed: {artifact_path}")
         return
 
+    # Channel resolution ensures controlled targeting and avoids unintended message delivery.
     channel_id, channel_name = resolve_channel_id(token, channel_value)
 
     result = slack_api(token, "chat.postMessage", {
@@ -142,6 +159,7 @@ def main():
     updated = append_execution_record(updated, channel_id, channel_name, ts)
     artifact_path.write_text(updated, encoding="utf-8")
 
+    # Append-only execution logging preserves communication traceability for audit and review.
     log_event("SLACK_MESSAGE_SENT", artifact_path.name, f"channel_id={channel_id};channel_name={channel_name};ts={ts}")
 
     print(f"[OK] source artifact: {artifact_path}")

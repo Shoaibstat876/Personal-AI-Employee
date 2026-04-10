@@ -19,6 +19,8 @@ The system is designed around:
 
 The implementation prioritizes safety, reproducibility, and clear tier boundaries.
 
+The behavior described in this document aligns with the system rules defined in the `.specify` layer, including workflow structure, HITL governance, execution boundaries, and evidence traceability.
+
 ---
 
 ## 2. Tier Declaration
@@ -27,6 +29,8 @@ The implementation prioritizes safety, reproducibility, and clear tier boundarie
 **Status:** Complete  
 
 Gold includes deterministic orchestration, resume safety, STOP checkpoints, HITL enforcement, and structured audit logging.
+
+These guarantees reflect the governed execution model formalized in `.specify`.
 
 ---
 
@@ -96,6 +100,8 @@ Key guarantees:
 - No guessing after interruption
 - Forensic continuity via persisted lock path
 
+Workflow behavior remains bounded by explicit state transitions and approval-gated execution rules.
+
 Runtime state:
 AI_Employee_Vault/Logs/gold_runtime_state.json
 
@@ -112,6 +118,8 @@ Pending_Approval/ → Approved/ → Execution → Done/
 All approval events are logged.
 
 Gold operates in draft-only mode for external actions.
+
+This directly enforces the HITL governance model defined in `.specify`.
 
 ---
 
@@ -133,6 +141,8 @@ Example events:
 - APPROVAL_APPROVED
 - MCP_DRAFT_EXECUTED
 - CEO_BRIEFING_GENERATED
+
+This aligns with the evidence and traceability guarantees defined in `.specify`.
 
 ---
 
@@ -169,6 +179,8 @@ Gold explicitly excludes:
 - Multi-agent delegation
 
 Those belong to Platinum tier.
+
+Execution behavior is constrained by workflow, approval, and execution boundary rules defined in `.specify`.
 
 ---
 
@@ -220,3 +232,5 @@ This implementation emphasizes:
 - Clear Gold vs Platinum boundaries
 
 Gold tier is complete, reproducible, and audit-safe.
+
+All guarantees described here are consistent with the `.specify` governance layer and backed by real system execution.

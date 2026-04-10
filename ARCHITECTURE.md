@@ -3,13 +3,15 @@
 ## What this project is
 **Personal AI Employee (Hackathon 0)** is a local-first, file-driven agent system using an Obsidian vault as the control surface.
 
-This repository currently focuses on **Gold Tier orchestration safety**:
+This repository currently focuses on a governed Gold execution architecture formalized in the `.specify` layer, with emphasis on orchestration safety, HITL control, execution boundaries, and auditability:
 - deterministic scan/claim/move loop
 - stop-hook checkpoints (manual kill switch)
 - resume-safe behavior (no guessing)
 - forensic state tracking (run_id + inflight_* pointers)
 - human-in-the-loop (HITL) approval artifacts
 - audit logs (append-only)
+
+The architecture described in this document aligns with the system rules defined in `.specify`, especially workflow control, Human-in-the-Loop governance, execution boundaries, and evidence traceability.
 
 ## Core components
 
@@ -44,6 +46,7 @@ Supporting folders for Gold foundation contracts:
 - Manual stoppability via STOP file checkpoints
 - Resume-safe behavior using runtime state + safe exits
 - Forensic continuity by persisting real lock path after claim
+- Workflow behavior remains bounded by explicit state transitions and does not bypass approval-gated execution rules
 
 ### Runtime state + logs
 - `AI_Employee_Vault/Logs/gold_runtime_state.json` — single JSON state snapshot (updated each run)
@@ -55,6 +58,7 @@ Supporting folders for Gold foundation contracts:
 - Watchers disabled during proof/freeze checkpoints
 - HITL required for sensitive actions (approval file flow)
 - Platinum autonomy is NOT enabled
+- Execution behavior remains governed by explicit workflow, approval, and traceability constraints defined in `.specify`
 
 ---
 
@@ -110,6 +114,8 @@ Approval → Action Artifact → Execution Bridge → External System → Log
   - reproducible
 - Duplicate execution is prevented (idempotency)
 
+These guarantees reflect the same control model formalized in the `.specify` workflow, HITL governance, execution boundaries, and evidence specifications.
+
 ---
 
 ## Extended audit system
@@ -152,3 +158,5 @@ Gold Tier is achieved when the system can:
 - maintain full audit trace  
 
 This repository satisfies all three.
+
+Its architectural behavior is now also explicitly documented through the `.specify` governance layer, improving clarity without changing runtime behavior.

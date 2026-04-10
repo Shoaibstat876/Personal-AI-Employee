@@ -1,3 +1,17 @@
+"""
+Personal AI Employee — Hackathon 0
+
+This file generates Platinum runtime visibility from current vault state.
+
+Relevant `.specify` alignment:
+- workflow definition
+- Gold vs Platinum separation
+- execution boundaries
+- evidence traceability
+
+This stage reports live system state and does not perform task execution.
+"""
+
 from pathlib import Path
 from datetime import datetime, timezone
 
@@ -99,6 +113,8 @@ def count_gold_bridged() -> int:
 
 def main() -> None:
     # Counts
+
+        # Read current filesystem state so Platinum visibility reflects actual runtime conditions.
     incoming = count_md_files(INCOMING)
     claimed = count_md_files(CLAIMED)
     processed = count_md_files(PROCESSED)
@@ -106,6 +122,8 @@ def main() -> None:
     done = count_all_files(DONE)
 
     # Latest activity
+
+        # Latest-activity lookup preserves traceability into recent Platinum and Gold-adjacent workflow changes.
     latest_processed_name, latest_processed_time = get_latest_file(PROCESSED, "*.md")
     latest_done_name, latest_done_time = get_latest_file(DONE, "*")
 
@@ -113,6 +131,8 @@ def main() -> None:
     last_updated = utc_now_iso()
 
     # FINAL OUTPUT (STRICT FORMAT — DO NOT CHANGE)
+
+        # Build a reporting-only snapshot without altering workflow state or execution behavior.
     content = f"""# PLATINUM RUNTIME STATUS (LIVE)
 
 Last Updated: {last_updated}
@@ -133,6 +153,7 @@ Latest Done: {latest_done_name} | {latest_done_time}
 Status: LIVE_SYNCED
 """
 
+    # Write the runtime status file as an observability artifact, not as an execution control mechanism.
     OUTPUT.write_text(content, encoding="utf-8")
     print("UPDATED:", OUTPUT)
 

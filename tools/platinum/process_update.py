@@ -1,3 +1,17 @@
+"""
+Personal AI Employee — Hackathon 0
+
+This file implements Platinum update handling before Gold execution.
+
+Relevant `.specify` alignment:
+- workflow definition
+- HITL governance
+- execution boundaries
+- Gold vs Platinum separation
+
+This stage claims, reviews, and bridges updates into Gold without performing execution directly.
+"""
+
 import sys
 import re
 from pathlib import Path
@@ -40,6 +54,9 @@ def replace_field(content, field, new_value):
     return "\n".join(lines)
 
 def claim(name):
+
+    # Claim-by-move establishes explicit local ownership before any review work begins.
+
     src = INCOMING / name
     dst = CLAIMED / name
     if not src.exists():
@@ -68,7 +85,10 @@ def review(name, decision):
     def replace_status(content, new_status):
         return replace_field(content, "status", new_status)
 
+    # Review decision is the control point that determines whether a Gold bridge is created.
     if decision.upper() == "APPROVE":
+
+        # Bridge creation passes reviewed work into the Gold workflow without executing from Platinum.
         legacy_gold_file = NEEDS / f"TASK_{update_id}.md"
         legacy_gold_text = f'''---
 source: platinum_update
@@ -116,9 +136,13 @@ task -> plan -> approval -> execution -> logs
             bridge_file_name = gold_file.name
             bridge_created = True
             print(f"GOLD_ITEM: {gold_file}")
+
+        # Append-only logging preserves traceability from Platinum review into Gold intake.
             log(f"{now()} | APPROVE | {name} | created {gold_file.name}")
         else:
             print(f"GOLD_ITEM: {legacy_gold_file}")
+
+            # Append-only logging preserves traceability from Platinum review into Gold intake.
             log(f"{now()} | APPROVE | {name} | created {legacy_gold_file.name}")
 
         text = replace_status(text, "APPROVED_TO_GOLD")

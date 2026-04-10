@@ -1,4 +1,19 @@
-﻿from pathlib import Path
+﻿"""
+Personal AI Employee — Hackathon 0
+
+This file implements the Task → Plan stage of the governed workflow.
+
+Relevant `.specify` alignment:
+- workflow definition
+- HITL governance
+- execution boundaries
+- evidence traceability
+
+This stage prepares a reviewable plan and must not execute actions directly.
+"""
+
+
+from pathlib import Path
 from datetime import datetime, timezone
 import re
 
@@ -30,9 +45,11 @@ def main():
     (VAULT / "Pending_Approval").mkdir(parents=True, exist_ok=True)
     LOGS.mkdir(parents=True, exist_ok=True)
 
+# Select the latest structured task from Needs_Action for non-executing plan generation.
     task_path = latest_email_task()
     task_text = task_path.read_text(encoding="utf-8")
 
+# Preserve task_id continuity so the same workflow item remains traceable across stages.
     task_id = extract(r'^task_id:\s*"([^"]+)"', task_text)
     subject = extract(r'^subject:\s*"([^"]+)"', task_text)
     sender = extract(r'^sender:\s*"([^"]+)"', task_text)
@@ -78,10 +95,12 @@ No external side effect is allowed before human approval.
 - Request clarification
 """
 
+# Write plan artifacts to visible workflow locations without triggering execution.
     plan_path.write_text(plan, encoding="utf-8")
     pending_path = (VAULT / "Pending_Approval") / plan_name
     pending_path.write_text(plan, encoding="utf-8")
 
+# Append-only logging preserves evidence for review, audit, and traceability.
     log_path = LOGS / "gmail_plan_generator_log.jsonl"
     with log_path.open("a", encoding="utf-8") as f:
         f.write(

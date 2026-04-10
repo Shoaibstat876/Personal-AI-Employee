@@ -3,6 +3,8 @@
 ## What Gold includes (THIS repo state)
 Gold is a **safety-first orchestration tier**.
 
+The scope defined here aligns with the governed system behavior formalized in the `.specify` layer, including workflow control, HITL governance, execution boundaries, and evidence traceability.
+
 ✅ Included:
 - Deterministic scan/claim/move loop (`watchers/gold_loop.py`)
 - STOP hook checkpoints: START, AFTER_SCAN, BEFORE_CLAIM, BEFORE_LOCK, BEFORE_MOVE
@@ -29,6 +31,8 @@ Gold is a **safety-first orchestration tier**.
 - Odoo integration
 - Background watchdog/process manager
 
+These exclusions reflect the execution boundaries defined in `.specify`.
+
 ## Freeze markers
 Tags are the canonical freeze checkpoints:
 - `gold-v1` — core Gold loop forensics improvement
@@ -45,6 +49,8 @@ The system has been extended beyond orchestration safety to include **controlled
 
 This does NOT introduce autonomy.  
 All actions remain strictly approval-driven.
+
+This extension remains consistent with the `.specify` execution boundary and HITL governance rules.
 
 ---
 
@@ -88,6 +94,8 @@ Properties:
 - All actions are logged and traceable
 - Duplicate execution prevented
 
+This model directly reflects the workflow and execution constraints defined in `.specify`.
+
 ---
 
 ## Updated scope clarification
@@ -118,3 +126,5 @@ Gold Tier is achieved when the system:
 - Maintains full audit logs
 
 This repository now satisfies all Gold requirements.
+
+All guarantees and boundaries described here are consistent with the `.specify` governance layer and backed by real system behavior.

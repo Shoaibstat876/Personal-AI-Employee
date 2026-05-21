@@ -9,7 +9,7 @@ It is a state-driven AI workflow system designed to convert unstructured inputs 
 
 ## Live / Demo Links
 
-- UI Demo: https://personal-ai-employee-ui.vercel.app/
+- UI Demo: https://personal-ai-employee-ui.vercel.app/dashboard.html
 - Final Proof Branch: `platinum-final-demo`
 
 > Note: The `main` branch is used as the public project overview. The final demo-ready implementation and evidence are available in the `platinum-final-demo` branch.
